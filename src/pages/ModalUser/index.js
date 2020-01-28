@@ -24,7 +24,7 @@ export default function ModalUser(props) {
   const [userCtrl, setUserCtrl] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
-  const [cellphone, setCellphone] = useState('');
+  const [phone, setPhone] = useState('');
   const [birth, setBirth] = useState(new Date());
   const [cep, setCep] = useState('');
   const [street, setStreet] = useState('');
@@ -34,28 +34,12 @@ export default function ModalUser(props) {
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [optState, setOptState] = useState([]);
-  const [permission, setPermission] = useState('');
   const [loading, setLoading] = useState(false);
   const [userId, setUserId] = useState(0);
   const [addressId, setAddressId] = useState(0);
 
   const token = localStorage.getItem('token');
-  const optCadPermission = [
-    { value: 'cuser', name: 'Usuário' },
-    { value: 'cagent', name: 'Representante' },
-    { value: 'cclient', name: 'Cliente' },
-    { value: 'csale', name: 'Venda' },
-    { value: 'caftsale', name: 'Pós Venda' },
-  ];
-  const optReadPermission = [
-    { value: 'user', name: 'Usuário' },
-    { value: 'agent', name: 'Representante' },
-    { value: 'client', name: 'Cliente' },
-    { value: 'sale', name: 'Venda' },
-    { value: 'aftsale', name: 'Pós Venda' },
-    { value: 'report', name: 'Relatório' },
-  ];
-
+  
   useEffect(() => {
     //recupera informações básicas para construir as opções nos inputs
     getInfo();
@@ -70,8 +54,9 @@ export default function ModalUser(props) {
 
   async function getInfo() {
     setLoading(true);
+
     try {
-      let resp = await api.get('/util/state', {
+      let resp = await api.get('/address/state', {
         headers: { token }
       });
 
@@ -80,7 +65,7 @@ export default function ModalUser(props) {
       (resp.response).forEach(el => {
         tmp.push({ value: el.code, label: el.name })
       });
-      setOptState(tmp)
+       setOptState(tmp)
 
     } catch (error) {
       console.log(error);
@@ -101,7 +86,6 @@ export default function ModalUser(props) {
 
       if (resp.status) {
         const { response } = resp;
-        const perm = (response.permission).split(',');
         const { Address } = response;
 
         setUserId(response.id);
@@ -109,18 +93,9 @@ export default function ModalUser(props) {
         setBirth(new Date(response.birth));
         setEmail(response.email);
         setEmailCtrl(response.email);
-        setCellphone(response.cellphone);
+        setPhone(response.phone);
         setUser(response.user);
         setUserCtrl(response.user);
-        setPermission(response.permission);
-        //ativa (check) as permissões que usuário possui atualmente
-        perm.forEach((el) => {
-          let divCad = document.getElementById(`cad${el}`);
-          let divRead = document.getElementById(`read${el}`);
-
-          if (divCad) divCad.checked = "checked";
-          if (divRead) divRead.checked = "checked";
-        })
 
         setAddressId(Address.id);
         setCep(Address.cep ? Address.cep : '');
@@ -129,7 +104,7 @@ export default function ModalUser(props) {
         setComplement(Address.complement ? Address.complement : '');
         setDistrict(Address.district ? Address.district : '');
         setCity(Address.city ? Address.city : '');
-        setState(Address.state ? Address.state : '');
+        setState(Address.state ? { value: Address.state, label: Address.state } : '');
       }
       else {
         Swal.swalInform('Usuário', 'Houve um problema ao carregar as ' +
@@ -148,7 +123,7 @@ export default function ModalUser(props) {
 
     const stateTmp = state.value;
     const data = {
-      'user': { name, email, user, password, cellphone, permission, birth },
+      'user': { name, email, user, password, phone, birth },
       'address': { cep, 'state': stateTmp, city, district, street, complement, number }
     }
 
@@ -182,44 +157,6 @@ export default function ModalUser(props) {
     }
 
     setLoading(false);
-  }
-
-  function handlePermission(event, opt = null) {
-    const target = event.target;
-    const { type, name } = target;
-    const value = (type === 'checkbox') ? target.checked : target.value;
-
-    let tmpPerm = name + ',';
-    //chamada vindo do checbox do tipo CADASTRO, também inclui permissão pra leitura da mesma ação
-    tmpPerm += opt ? name.substring(1, name.length) + ',' : '';
-
-    //incluide nova permissão na lista
-    if (value) tmpPerm += permission;
-    //remove permissão da lista
-    else tmpPerm = permission.replace(tmpPerm, '');
-
-    setPermission(tmpPerm);
-
-    //ativação/desativação do checbox do tipo LEITURA
-    if (opt) {
-      //tenta recuperar nome do elemento de checkbox de leitura
-      const tmpName = name.substring(1, name.length);
-      //armazena o elemento do checkbox para manipulação
-      let tmpDiv = document.getElementById('read' + tmpName);
-
-      //se o elemento com este id existir
-      if (tmpDiv) {
-        //desativa checkbox de leitura deste campo e seta como marcado
-        if (value) {
-          tmpDiv.checked = "checked";
-          tmpDiv.disabled = true;
-        }
-        else {
-          tmpDiv.checked = "";
-          tmpDiv.disabled = false;
-        }
-      }
-    }
   }
 
   async function handleCheckUser() {
@@ -326,15 +263,15 @@ export default function ModalUser(props) {
     <div className="content">
       <Load loading={loading} />
 
-      <form className="flex-col modal-form" autoComplete="off" onSubmit={handleSubmit}>
+      <form className="flex-col-h modal-form" autoComplete="off" onSubmit={handleSubmit}>
         <h1 className="title-modal">CADASTRO</h1>
 
-        <div className="flex-row">
+        <div className="flex-row-w">
           <img className="img-rad-large" src={ImageProfile} alt="Foto perfil" />
 
-          <div className="flex-col">
-            <div className="flex-row">
-              <div className="flex-col" style={{ flex: 3 }}>
+          <div className="flex-col-h">
+            <div className="flex-row-w">
+              <div className="flex-col-h" style={{ flex: 3 }}>
                 <label htmlFor="name">Nome *</label>
                 <input
                   required
@@ -344,7 +281,7 @@ export default function ModalUser(props) {
                   onChange={event => setName(event.target.value)}
                 />
               </div>
-              <div className="flex-col" style={{ flex: 1 }}>
+              <div className="flex-col-h" style={{ flex: 1 }}>
                 <label htmlFor="birth">Data de nascimento *</label>
                 <DatePicker
                   locale="pt"
@@ -358,8 +295,8 @@ export default function ModalUser(props) {
               </div>
             </div>
 
-            <div className="flex-row">
-              <div className="flex-col">
+            <div className="flex-row-w">
+              <div className="flex-col-h">
                 <label htmlFor="email">E-Mail *</label>
                 <input
                   required
@@ -372,28 +309,28 @@ export default function ModalUser(props) {
                   onBlur={handleCheckEmail}
                 />
               </div>
-              <div className="flex-col">
-                <label htmlFor="cellphone">Celular *</label>
+              <div className="flex-col-h">
+                <label htmlFor="phone">Celular *</label>
                 <input
                   required
                   type="text"
                   pattern="\d*"
                   minLength="9"
-                  id="cellphone"
+                  id="phone"
                   placeholder="Celular do usuário"
                   title="Telefone com no mínimo 9 dígitos."
-                  value={cellphone}
-                  onChange={event => setCellphone(event.target.value)}
+                  value={phone}
+                  onChange={event => setPhone(event.target.value)}
                 />
               </div>
             </div>
           </div>
         </div>
 
-        <div className="flex-row">
-          <div className="flex-col">
-            <div className="flex-row">
-              <div className="flex-col">
+        <div className="flex-row-w">
+          <div className="flex-col-h">
+            <div className="flex-row-w">
+              <div className="flex-col-h">
                 <label htmlFor="cep">CEP</label>
                 <input
                   type="text"
@@ -407,7 +344,7 @@ export default function ModalUser(props) {
                   onBlur={handleCep}
                 />
               </div>
-              <div className="flex-col">
+              <div className="flex-col-h">
                 <label htmlFor="street">Rua</label>
                 <input
                   id="street"
@@ -418,8 +355,8 @@ export default function ModalUser(props) {
               </div>
             </div>
 
-            <div className="flex-row">
-              <div className="flex-col">
+            <div className="flex-row-w">
+              <div className="flex-col-h">
                 <label htmlFor="number">Número</label>
                 <input
                   type="number"
@@ -429,7 +366,7 @@ export default function ModalUser(props) {
                   onChange={event => setNumber(event.target.value)}
                 />
               </div>
-              <div className="flex-col">
+              <div className="flex-col-h">
                 <label htmlFor="complement">Complemento</label>
                 <input
                   id="complement"
@@ -440,8 +377,8 @@ export default function ModalUser(props) {
               </div>
             </div>
 
-            <div className="flex-row">
-              <div className="flex-col">
+            <div className="flex-row-w">
+              <div className="flex-col-h">
                 <label htmlFor="district">Bairro</label>
                 <input
                   id="district"
@@ -451,7 +388,7 @@ export default function ModalUser(props) {
                 />
 
               </div>
-              <div className="flex-col">
+              <div className="flex-col-h">
                 <label htmlFor="city">Cidade</label>
                 <input
                   id="city"
@@ -460,7 +397,7 @@ export default function ModalUser(props) {
                   onChange={event => setCity(event.target.value)}
                 />
               </div>
-              <div className="flex-col">
+              <div className="flex-col-h">
                 <label htmlFor="state">Estado</label>
                 <Select
                   className="select-default"
@@ -474,8 +411,8 @@ export default function ModalUser(props) {
           </div>
         </div>
 
-        <div className="flex-row">
-          <div className="flex-col">
+        <div className="flex-row-w">
+          <div className="flex-col-h">
 
             <label htmlFor="user">Usuário *</label>
             <input
@@ -515,40 +452,7 @@ export default function ModalUser(props) {
 
         </div>
 
-        <div className="flex-row">
-          <div className="flex-col">
-            <label htmlFor="">Permissoes de Cadastro</label>
-            {optCadPermission.map((perm, index) => (
-              <label key={perm.value}>
-                <input
-                  name={perm.value}
-                  type="checkbox"
-                  onChange={(e) => { handlePermission(e, 1) }}
-                  id={'cad' + perm.value}
-                />
-                {perm.name}
-              </label>
-            ))}
-          </div>
-
-          <div className="flex-col">
-            <label htmlFor="">Permissões de Leitura</label>
-            {optReadPermission.map((perm, index) => (
-              <label key={perm.value}>
-                <input
-                  name={perm.value}
-                  type="checkbox"
-                  onChange={(e) => { handlePermission(e, null) }}
-                  id={'read' + perm.value}
-                />
-                {perm.name}
-              </label>
-            ))}
-          </div>
-
-        </div>
-
-        <div className="flex-row">
+        <div className="flex-row-w">
           <button type="button" onClick={closeModal} className="btn-cancel">CANCELAR</button>
           <button type="submit" className="btn-ok">SALVAR</button>
         </div>

@@ -65,6 +65,21 @@ body, input, button {
   // justify-content: center;
 }
 
+.flex-row-w{
+  @extend .flex-row;
+  width: 100%;
+}
+
+.flex-row-rev-w{
+  @extend .flex-row-rev;
+  width: 100%;
+}
+
+.flex-col-h{
+  @extend .flex-col;
+  width: 100%;
+}
+
 .img-rad-large {
   width: 150px;
   height: 150px;
