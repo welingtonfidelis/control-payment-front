@@ -1,0 +1,41 @@
+.menu-call{
+  align-self: center;
+  border-radius: 5px;
+  background: #efefef;
+  margin: 10px 10px 0 10px;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-call:hover{
+  cursor: pointer;
+  background-color: #c4c3c3;
+}
+
+.menu-list{
+  position: absolute;
+  background: #efefef;
+  right: 20px;
+  border: 1px solid #1278fa;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.menu-list > div{
+  margin-bottom: 2px;
+  padding: 3px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.menu-list > div > div{
+  padding-left: 5px;
+}
+
+.menu-list > div:hover{
+  cursor: pointer;
+  background-color: #c4c3c3;
+  border-radius: 5px;
+}

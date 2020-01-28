@@ -1,0 +1,43 @@
+.content-dashboard{
+    margin-top: 48px;
+    height: 100%;
+    overflow: auto;
+    flex-grow: 1;
+    z-index: 0;
+}
+
+.container > div{
+    margin: 10px 0 10px 0;
+}
+
+.bar-chart{
+    background: #fff;
+    border-radius: 15px;
+    margin-bottom: 10px;
+}
+
+.next-due{
+    background: #0e78fa;
+    color: #fff;
+    padding: 10px;
+    border-radius: 15px;
+    overflow: auto;
+
+}
+
+.col-left{
+    flex: 1;
+}
+
+.col-right{
+    align-items: flex-end;
+}
+
+ li:not(:last-child){
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgb(184, 184, 184);
+}
+
+li + li{
+    margin-top: 5px;
+}

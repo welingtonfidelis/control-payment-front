@@ -1,0 +1,82 @@
+/* footer{
+    border-top: 2px solid;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+} */
+
+.content-menu{
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  max-height: 100%;
+}
+
+#hdr {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+}
+
+.content-list{
+  flex: 6;
+  overflow-y: auto;
+}
+
+#logo img {
+  max-height: 100px;
+}
+
+#company-name {
+  padding: 0 5px 0 5px;
+}
+
+footer{
+  display: flex;
+  flex: 1;
+}
+
+.content-footer{
+  display: flex;
+    flex: 1;
+    align-items: flex-end;
+}
+#image-profile{
+    display: flex;
+}
+
+#image-profile img{
+    max-height: 80px;
+    border-radius: 100%;
+}
+
+#name-profile{
+    align-self: center;
+    margin: 8px;
+}
+
+#exit-profile{
+    float: right;
+}
+
+#exit-profile button {
+  border: 0;
+  border-radius: 2px;
+  width: 100%;
+  height: 25px;
+  padding: 0 12px;
+  font-size: 16px;
+  font-weight: bold;
+  background: #f05a5b;
+  color: #fff;
+  cursor: pointer;
+}
+
+#exit-profile button:hover {
+  background-color: #e14f50;
+} 
+
+.MuiAppBar-colorPrimary  {
+  background-color: #0e78fa !important;
+}
