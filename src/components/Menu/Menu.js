@@ -91,12 +91,14 @@ function Menu(props) {
 
             case 'Usuário':
             case 'user':
+            case 'modaluser':
                 setTitleToolbar('Usuário');
                 history.push('/main/user');
                 break;
 
             case 'Contribuinte':
             case 'taxpayer':
+            case 'modaltaxpayer':
                 setTitleToolbar('Contribuinte');
                 history.push('/main/taxpayer');
                 break;
@@ -115,10 +117,6 @@ function Menu(props) {
 
             case 'Relatório':
                 console.log('vamos pro relatorio');
-                break;
-
-            case 'modaluser':
-                setTitleToolbar('Usuário');
                 break;
 
             default:
