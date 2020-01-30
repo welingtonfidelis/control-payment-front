@@ -20,9 +20,11 @@ export default function ModalUser(props) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [emailCtrl, setEmailCtrl] = useState('');
-  const [cellphone, setCellphone] = useState('');
+  const [phone1, setPhone1] = useState('');
+  const [phone2, setPhone2] = useState('');
   const [birth, setBirth] = useState(new Date());
-  const [commission, setComission] = useState('');
+  const [value, setValue] = useState('');
+  const [expiration, setExpiration] = useState('');
   const [cep, setCep] = useState('');
   const [street, setStreet] = useState('');
   const [number, setNumber] = useState('');
@@ -32,45 +34,61 @@ export default function ModalUser(props) {
   const [state, setState] = useState('');
   const [optState, setOptState] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [agentId, setAgentId] = useState(0);
+  const [taxpayerId, setTaxpayerId] = useState(0);
   const [addressId, setAddressId] = useState(0);
-  let teste = [];
+  const [paymentId, setPaymentId] = useState(0);
   const token = localStorage.getItem('token');
-  
+  const optExpiration = [
+    {value: "01", label: "01"},{value: "02", label: "02"},{value: "03", label: "03"},
+    {value: "04", label: "04"},{value: "05", label: "05"},{value: "06", label: "06"},
+    {value: "07", label: "07"},{value: "08", label: "08"},{value: "09", label: "09"},
+    {value: "10", label: "10"},{value: "11", label: "11"},{value: "12", label: "12"},
+    {value: "13", label: "13"},{value: "14", label: "14"},{value: "15", label: "15"},
+    {value: "16", label: "16"},{value: "17", label: "17"},{value: "18", label: "18"},
+    {value: "19", label: "19"},{value: "20", label: "20"},{value: "21", label: "21"},
+    {value: "22", label: "22"},{value: "23", label: "23"},{value: "24", label: "24"},
+    {value: "25", label: "25"},{value: "26", label: "26"},{value: "27", label: "27"},
+    {value: "28", label: "28"},{value: "29", label: "29"},{value: "30", label: "30"},
+    {value: "31", label: "31"}
+  ];
+
   useEffect(() => {
     //recupera informações básicas para construir as opções nos inputs
     getInfo();
 
-    //atualizar/detalhar representante (chamada vem do dropmenu de detalhes)
-    if (props.location.state) getAgent();
+    //atualizar/detalhar contribuinte (chamada vem do dropmenu de detalhes)
+    if (props.location.state) getTaxpayer();
   }, [])
 
   async function getInfo() {
     setLoading(true);
+    //seta dia 01 como default
+    setExpiration(optExpiration[0]);
+
     try {
-      let resp = await api.get('/util/state', {
+      let resp = await api.get('/address/state', {
         headers: { token }
       });
 
       resp = resp.data
       let tmp = [];
       (resp.response).forEach(el => {
-        tmp.push({ value: el.code, label: el.name })
+        tmp.push({ value: el.code, label: el.name });
       });
-      setOptState(tmp)
-      teste = tmp;
+      setOptState(tmp);
+
     } catch (error) {
       console.log(error);
     }
     setLoading(false);
   }
 
-  async function getAgent() {
+  async function getTaxpayer() {
     const { id } = props.location.state;
 
     setLoading(true);
     try {
-      let resp = await api.get(`/agent/${id}`, {
+      let resp = await api.get(`/taxpayer/${id}`, {
         headers: { token }
       });
 
@@ -79,14 +97,15 @@ export default function ModalUser(props) {
       if (resp.status) {
         const { response } = resp;
         const { Address } = response;
+        const { Payment } = response;
         
-        setAgentId(response.id);
+        setTaxpayerId(response.id);
         setName(response.name);
         setBirth(new Date(response.birth));
         setEmail(response.email);
         setEmailCtrl(response.email);
-        setCellphone(response.cellphone);
-        setComission(response.commission);
+        setPhone1(response.phone1);
+        setPhone2(response.phone2);
 
         setAddressId(Address.id);
         setCep(Address.cep ? Address.cep : '');
@@ -95,14 +114,11 @@ export default function ModalUser(props) {
         setComplement(Address.complement ? Address.complement : '');
         setDistrict(Address.district ? Address.district : '');
         setCity(Address.city ? Address.city : '');
-        setState(Address.state ? Address.state : '');
+        setState(Address.state ? { value: Address.state, label: Address.state } : '');
 
-        console.log(teste.length);
-        
-        teste.forEach((el, index) => {
-          console.log(el);
-          
-        })
+        setPaymentId(Payment.id);
+        setValue(Payment.value);
+        setExpiration((Payment.expiration).padStart(2, '0'));
       }
       else {
         Swal.swalInform('Usuário', 'Houve um problema ao carregar as ' +
@@ -119,30 +135,32 @@ export default function ModalUser(props) {
     event.preventDefault();
     setLoading(true);
 
-    const stateTmp = state.value;
+    const stateTmp = state.value, expirationTmp = expiration.value, valueTmp = value.replace(',', '.');
     const data = {
-      'agent': { name, email, commission, cellphone, birth },
-      'address': { cep, 'state': stateTmp, city, district, street, complement, number }
+      'taxpayer': { name, email, phone1, phone2, birth },
+      'address': { cep, 'state': stateTmp, city, district, street, complement, number },
+      'payment': {value, expiration: expirationTmp}
     }
 
     try {
       let query = null;
 
-      if (agentId > 0) {
+      if (taxpayerId > 0) {
         data.address.id = addressId;
+        data.payment.id = paymentId;
 
-        query = await api.put('/agent/' + agentId, data, {
+        query = await api.put('/taxpayer/' + taxpayerId, data, {
           headers: { token },
         });
       }
       else {
-        query = await api.post('/agent', data, {
+        query = await api.post('/taxpayer', data, {
           headers: { token },
         });
       }
 
       if (query.data.status) {
-        Swal.swalInform('Representante', 'Salvo com sucesso.', 'success');
+        Swal.swalInform('Contribuinte', 'Salvo com sucesso.', 'success');
 
         closeModal();
       }
@@ -159,11 +177,11 @@ export default function ModalUser(props) {
   async function handleCheckEmail() {
     //se emailCtrl não estiver vazio, ele armazena o email da atualização 
     //verifica-se se o email na entrada atual é diferente do anterior, 
-    //para evitar validar um email existente que já pertence ao representante atual
+    //para evitar validar um email existente que já pertence ao contribuinte atual
     if (emailCtrl === '' || emailCtrl !== email) {
       setLoading(true);
       try {
-        const query = await api.get('/agent/byemail', {
+        const query = await api.get('/taxpayer/byemail', {
           data: {},
           params: { email },
           headers: { token }
@@ -195,8 +213,7 @@ export default function ModalUser(props) {
       setLoading(true);
       try {
         const resp = (await util.getCep(cepTmp)).data
-        console.log(resp);
-
+    
         if (resp) {
           setStreet(resp.logradouro);
           setComplement(resp.complemento);
@@ -211,7 +228,7 @@ export default function ModalUser(props) {
     }
   }
 
-  //avisa representante sobre um erro ocorrido
+  //avisa contribuinte sobre um erro ocorrido
   function errorDisplay() {
     Swal.swalInform('Usuário', 'Parece que algo deu errado. Por favor, ' +
       'revise os dados inseridos e tente novamente.', 'error');
@@ -221,25 +238,25 @@ export default function ModalUser(props) {
     <div className="content">
       <Load loading={loading} />
 
-      <form className="flex-col modal-form" autoComplete="off" onSubmit={handleSubmit}>
+      <form className="flex-col-h modal-form" autoComplete="off" onSubmit={handleSubmit}>
         <h1 className="title-modal">CADASTRO</h1>
 
-        <div className="flex-row">
+        <div className="flex-row-w">
           <img className="img-rad-large" src={ImageProfile} alt="Foto perfil" />
 
-          <div className="flex-col">
-            <div className="flex-row">
-              <div className="flex-col" style={{ flex: 3 }}>
+          <div className="flex-col-h">
+            <div className="flex-row-w">
+              <div className="flex-col-h" style={{ flex: 3 }}>
                 <label htmlFor="name">Nome *</label>
                 <input
                   required
                   id="name"
-                  placeholder="Nome do representante"
+                  placeholder="Nome do contribuinte"
                   value={name}
                   onChange={event => setName(event.target.value)}
                 />
               </div>
-              <div className="flex-col" style={{ flex: 1 }}>
+              <div className="flex-col-h" style={{ flex: 1 }}>
                 <label htmlFor="birth">Data de nascimento *</label>
                 <DatePicker
                   locale="pt"
@@ -253,42 +270,55 @@ export default function ModalUser(props) {
               </div>
             </div>
 
-            <div className="flex-row">
-              <div className="flex-col">
+            <div className="flex-row-w">
+              <div className="flex-col-h">
                 <label htmlFor="email">E-Mail *</label>
                 <input
                   required
                   type="email"
                   id="email"
-                  placeholder="E-mail do representante"
+                  placeholder="E-mail do contribuinte"
                   title="E-mail deve ser único no sistema."
                   value={email}
                   onChange={event => setEmail(event.target.value)}
                   onBlur={handleCheckEmail}
                 />
               </div>
-              <div className="flex-col">
-                <label htmlFor="cellphone">Celular *</label>
+              <div className="flex-col-h">
+                <label htmlFor="phone1">Telefone 1 *</label>
                 <input
                   required
                   type="text"
                   pattern="\d*"
                   minLength="9"
-                  id="cellphone"
-                  placeholder="Celular do representante"
+                  id="phone1"
+                  placeholder="Celular do contribuinte"
                   title="Telefone com no mínimo 9 dígitos."
-                  value={cellphone}
-                  onChange={event => setCellphone(event.target.value)}
+                  value={phone1}
+                  onChange={event => setPhone1(event.target.value)}
+                />
+              </div>
+              <div className="flex-col-h">
+                <label htmlFor="phone2">Telefone 2 *</label>
+                <input
+                  type="text"
+                  pattern="\d*"
+                  minLength="9"
+                  id="phone2"
+                  placeholder="Celular do contribuinte"
+                  title="Telefone com no mínimo 9 dígitos."
+                  value={phone2}
+                  onChange={event => setPhone2(event.target.value)}
                 />
               </div>
             </div>
           </div>
         </div>
 
-        <div className="flex-row">
-          <div className="flex-col">
-            <div className="flex-row">
-              <div className="flex-col">
+        <div className="flex-row-w">
+          <div className="flex-col-h">
+            <div className="flex-row-w">
+              <div className="flex-col-h">
                 <label htmlFor="cep">CEP</label>
                 <input
                   type="text"
@@ -302,7 +332,7 @@ export default function ModalUser(props) {
                   onBlur={handleCep}
                 />
               </div>
-              <div className="flex-col">
+              <div className="flex-col-h">
                 <label htmlFor="street">Rua</label>
                 <input
                   id="street"
@@ -313,8 +343,8 @@ export default function ModalUser(props) {
               </div>
             </div>
 
-            <div className="flex-row">
-              <div className="flex-col">
+            <div className="flex-row-w">
+              <div className="flex-col-h">
                 <label htmlFor="number">Número</label>
                 <input
                   type="number"
@@ -324,7 +354,7 @@ export default function ModalUser(props) {
                   onChange={event => setNumber(event.target.value)}
                 />
               </div>
-              <div className="flex-col">
+              <div className="flex-col-h">
                 <label htmlFor="complement">Complemento</label>
                 <input
                   id="complement"
@@ -335,8 +365,8 @@ export default function ModalUser(props) {
               </div>
             </div>
 
-            <div className="flex-row">
-              <div className="flex-col">
+            <div className="flex-row-w">
+              <div className="flex-col-h">
                 <label htmlFor="district">Bairro</label>
                 <input
                   id="district"
@@ -346,7 +376,7 @@ export default function ModalUser(props) {
                 />
 
               </div>
-              <div className="flex-col">
+              <div className="flex-col-h">
                 <label htmlFor="city">Cidade</label>
                 <input
                   id="city"
@@ -355,7 +385,7 @@ export default function ModalUser(props) {
                   onChange={event => setCity(event.target.value)}
                 />
               </div>
-              <div className="flex-col">
+              <div className="flex-col-h">
                 <label htmlFor="state">Estado</label>
                 <Select
                   className="select-default"
@@ -369,20 +399,31 @@ export default function ModalUser(props) {
           </div>
         </div>
 
-        <div className="flex-row">
-          <div className="flex-col">
-            <label htmlFor="commission">Comissão por venda</label>
+        <div className="flex-row-w">
+          <div className="flex-col-h">
+            <label htmlFor="value">Valor da contribuição</label>
             <input
-              type="commission"
-              id="commission"
-              placeholder="Comissão por venda"
-              value={commission}
-              onChange={event => setComission(event.target.value)}
+              required
+              type="number"
+              id="value"
+              placeholder="Valor da contribuição"
+              value={value}
+              onChange={event => setValue(event.target.value)}
+            />
+          </div>
+          <div className="flex-col-h">
+            <label htmlFor="value">Dia para recolhimento</label>
+            <Select
+              className="select-default"
+              placeholder="Escolha um dia"
+              value={expiration}
+              onChange={event => setExpiration(event)}
+              options={optExpiration}
             />
           </div>
         </div>
 
-        <div className="flex-row">
+        <div className="flex-row-w">
           <button type="button" onClick={closeModal} className="btn-cancel">CANCELAR</button>
           <button type="submit" className="btn-ok">SALVAR</button>
         </div>

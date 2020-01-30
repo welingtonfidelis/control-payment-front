@@ -95,10 +95,10 @@ function Menu(props) {
                 history.push('/main/user');
                 break;
 
-            case 'Representante':
-            case 'agent':
-                setTitleToolbar('Representante');
-                history.push('/main/agent');
+            case 'Contribuinte':
+            case 'taxpayer':
+                setTitleToolbar('Contribuinte');
+                history.push('/main/taxpayer');
                 break;
 
             case 'Cliente':
@@ -128,7 +128,7 @@ function Menu(props) {
 
     const options = [
         { text: 'Dashboard', icon: < Dashboard /> }, { text: 'Usuário', icon: <Person /> },
-        { text: 'Representante', icon: <Storefront /> }, { text: 'Cliente', icon: <People /> },
+        { text: 'Contribuinte', icon: <Storefront /> }, { text: 'Cliente', icon: <People /> },
         { text: 'Venda', icon: <MonetizationOn /> }, { text: 'Pós venda', icon: <AssignmentTurnedIn /> },
         { text: 'Relatório', icon: <TrendingUp /> },
     ]

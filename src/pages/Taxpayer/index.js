@@ -8,7 +8,7 @@ import api from '../../services/api';
 
 import ImageProfile from '../../assets/user.png';
 
-export default function Agent() {
+export default function Taxpayer() {
   const history = useHistory();
   const [list, setList] = useState([]); //lista de representantes variável (de acordo com busca no input de pesquisa)
   const [listFull, setListFull] = useState([]); //lista de representantes sempre completa
@@ -16,7 +16,7 @@ export default function Agent() {
 
   //carega lista de representantes cadastrados
   useEffect(() => {
-    getAgents();
+    getTaxpayers();
   }, [])
 
   //filtra representantes por nomes digitados na busca
@@ -40,15 +40,14 @@ export default function Agent() {
 
   }, [filter])
 
-  async function getAgents() {
+  async function getTaxpayers() {
     try {
       const token = localStorage.getItem('token');
-      let resp = await api.get('/agent', {
+      let resp = await api.get('/taxpayer', {
         headers: { token }
       });
 
       resp = resp.data;
-      console.log(resp.response);
 
       if (resp.status) {
         setListFull(resp.response);
@@ -62,12 +61,12 @@ export default function Agent() {
 
   //abre modal para cadastro de novo usuário
   function handleModal() {
-    history.push('/main/modalagent');
+    history.push('/main/modaltaxpayer');
   }
 
   //recarrega lista de representantes quando há exclusão
   function handleRefreshList() {
-    getAgents();
+    getTaxpayers();
   }
 
   return (
@@ -88,19 +87,19 @@ export default function Agent() {
       </div>
 
       <ul className="simple-list-1">
-        {list.map(agent =>
-          <li key={(agent.id).toString()} data-id={agent.id}>
+        {list.map(taxpayer =>
+          <li key={(taxpayer.id).toString()} data-id={taxpayer.id}>
             <div className="image-profile-mini">
               <img src={ImageProfile} alt="Foto perfil" />
             </div>
 
             <div className="simple-info-1">
-              <h2>{agent.name}</h2>
-              <span>{agent.cellphone}</span>
+              <h2>{taxpayer.name}</h2>
+              <span>{taxpayer.cellphone}</span>
             </div>
 
             <div>
-              <MenuDrop type="agent" id={agent.id} refresh={handleRefreshList} />
+              <MenuDrop type="taxpayer" id={taxpayer.id} refresh={handleRefreshList} />
             </div>
           </li>
         )}
