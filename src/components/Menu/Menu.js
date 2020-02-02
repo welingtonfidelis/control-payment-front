@@ -103,16 +103,14 @@ function Menu(props) {
                 history.push('/main/taxpayer');
                 break;
 
-            case 'Cliente':
+            case 'Doação':
                 console.log('vamos pro cliente');
                 break;
 
-            case 'Venda':
-                console.log('vamos pro venda');
-                break;
-
-            case 'Pós venda':
-                console.log('vamos pro pos venda');
+            case 'Recolhimento':
+            case 'receive':
+                setTitleToolbar('Recolhimento');
+                history.push('/main/receive');
                 break;
 
             case 'Relatório':
@@ -126,9 +124,8 @@ function Menu(props) {
 
     const options = [
         { text: 'Dashboard', icon: < Dashboard /> }, { text: 'Usuário', icon: <Person /> },
-        { text: 'Contribuinte', icon: <Storefront /> }, { text: 'Cliente', icon: <People /> },
-        { text: 'Venda', icon: <MonetizationOn /> }, { text: 'Pós venda', icon: <AssignmentTurnedIn /> },
-        { text: 'Relatório', icon: <TrendingUp /> },
+        { text: 'Contribuinte', icon: <Storefront /> }, { text: 'Doação', icon: <People /> },
+        { text: 'Recolhimento', icon: <MonetizationOn /> }, { text: 'Relatório', icon: <TrendingUp /> },
     ]
     const drawer = (
         <div className="content-menu">

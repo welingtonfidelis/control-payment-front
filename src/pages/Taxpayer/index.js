@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import MenuDrop from '../../components/MenuDropDown/OptionList';
+import Load from '../../components/Load/Load';
 
 import './styles.scss';
 
@@ -13,6 +14,7 @@ export default function Taxpayer() {
   const [list, setList] = useState([]); //lista de representantes variável (de acordo com busca no input de pesquisa)
   const [listFull, setListFull] = useState([]); //lista de representantes sempre completa
   const [filter, setFilter] = useState('');
+  const [loading, setLoading] = useState(false);
 
   //carega lista de representantes cadastrados
   useEffect(() => {
@@ -41,6 +43,7 @@ export default function Taxpayer() {
   }, [filter])
 
   async function getTaxpayers() {
+    setLoading(true);
     try {
       const token = localStorage.getItem('token');
       let resp = await api.get('/taxpayer', {
@@ -57,6 +60,7 @@ export default function Taxpayer() {
     catch (error) {
       console.log(error);
     }
+    setLoading(false);
   }
 
   //abre modal para cadastro de novo usuário
@@ -71,6 +75,8 @@ export default function Taxpayer() {
 
   return (
     <div className="content">
+      <Load loading={loading} />
+
       <div className="search-bar">
         <input
           placeholder="Procurar representante"

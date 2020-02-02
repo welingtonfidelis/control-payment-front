@@ -8,6 +8,7 @@ import User from '../../pages/User';
 import Taxpayer from '../../pages/Taxpayer';
 import ModalUser from '../../pages/ModalUser';
 import ModalTaxpayer from '../../pages/ModalTaxpayer';
+import Receive from '../../pages/Receive';
 
 import './styles.css';
 
@@ -20,6 +21,7 @@ export default function Main() {
             <Route path="/main/taxpayer" component={Taxpayer} />
             <Route path="/main/modaluser" component={ModalUser} />
             <Route path="/main/modaltaxpayer" component={ModalTaxpayer} />
+            <Route path="/main/receive" component={Receive} />
         </div>
     );
 }

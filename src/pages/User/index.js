@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import MenuDrop from '../../components/MenuDropDown/OptionList';
+import Load from '../../components/Load/Load';
 
 import './styles.scss';
 
@@ -13,6 +14,7 @@ export default function User() {
     const [list, setList] = useState([]); //lista de usuários variável (de acordo com busca no input de pesquisa)
     const [listFull, setListFull] = useState([]); //lista de usuários sempre completa
     const [filter, setFilter] = useState('');
+    const [loading, setLoading] = useState(false);
 
     //carega lista de usuários cadastrados
     useEffect(() => {
@@ -41,6 +43,7 @@ export default function User() {
     }, [filter])
 
     async function getUsers() {
+        setLoading(true);
         try {
             const token = localStorage.getItem('token');
             let resp = await api.get('/user', {
@@ -56,7 +59,7 @@ export default function User() {
         catch (error) {
             console.log(error);
         }
-
+        setLoading(false);
         
     }
 
@@ -72,6 +75,8 @@ export default function User() {
 
     return (
         <div className="content">
+            <Load loading={loading} />
+
             <div className="search-bar">
                 <input
                     placeholder="Procurar usuário"

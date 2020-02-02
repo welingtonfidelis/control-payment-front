@@ -231,7 +231,6 @@ export default function ModalUser(props) {
       setLoading(true);
       try {
         const resp = (await util.getCep(cepTmp)).data
-        console.log(resp);
 
         if (resp) {
           setStreet(resp.logradouro);
