@@ -1,0 +1,35 @@
+.separator{
+    margin-bottom: 20px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #adb2b8;
+}
+
+.receive-header{
+    @extend .separator;
+    align-items: center;
+    justify-content: center;
+}
+
+.receive-header > img{
+    padding-right: 10px;
+}
+
+.receive-header > div{
+    text-align: center;
+}
+
+.receive-content{
+    @extend .separator;
+}
+
+.receive-content > h3{
+    text-align: center;
+}
+
+.receive-footer{
+    text-align: center;
+}
+
+.receive-footer strong{
+    text-decoration: underline;
+}

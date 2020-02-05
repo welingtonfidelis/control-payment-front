@@ -301,6 +301,7 @@ export default function ModalUser(props) {
               <div className="flex-col-h">
                 <label htmlFor="phone2">Telefone 2 *</label>
                 <input
+                  required
                   type="text"
                   pattern="\d*"
                   minLength="9"

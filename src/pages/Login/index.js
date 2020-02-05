@@ -10,10 +10,6 @@ export default function Login({ history }) {
     const [password, setpassWord] = useState('');
     const [errorLogin, setErrorLogin] = useState(false);
 
-    useEffect(() => {
-
-    }, []);
-
     async function handleSubmit(event) {
         event.preventDefault();
 

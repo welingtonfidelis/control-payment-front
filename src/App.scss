@@ -185,13 +185,30 @@ input:invalid {
   border: 2px solid #fd0000;
 }
 
-.simple-list-1 > li{
-  margin: 10px 0 10px 0;
+.card{
   padding: 10px;
   background: #fff;
   border-radius: 15px;
+}
+
+//em lista
+.simple-list-1 > li{
+  @extend .card;
+  margin: 10px 0 10px 0;
   display: flex;
   flex-direction: row;
+}
+
+//em 2 colunas
+.simple-list-2{
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.simple-list-2 > li{
+  @extend .card;
+  list-style-type: none;
+  margin: 5px;  
 }
 
 .image-profile-mini{
