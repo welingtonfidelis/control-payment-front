@@ -41,3 +41,8 @@
 li + li{
     margin-top: 5px;
 }
+
+div > span{
+    display: flex;
+    align-items: center;
+}

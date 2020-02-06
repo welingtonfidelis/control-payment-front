@@ -16,103 +16,51 @@ export default function Dashboard() {
     const token = localStorage.getItem('token');
 
     useEffect(() => {
-        getDonations();
-        getReceives();
+        async function getInfo() {
+            setLoading(true);
 
-        const payments = [
-            {
-                id: 1, value: 50.25, expiration: 15,
-                taxpayer: { name: 'Contribuinte 1', phone1: '(35) 9999991516' }
-            },
-            {
-                id: 2, value: 50.25, expiration: 19,
-                taxpayer: { name: 'Contribuinte 2', phone1: '(35) 9999991516' }
-            },
-            {
-                id: 3, value: 50.25, expiration: 19,
-                taxpayer: { name: 'Contribuinte 3', phone1: '(35) 9999991516' }
-            },
-            {
-                id: 4, value: 50.25, expiration: 22,
-                taxpayer: { name: 'Contribuinte 4', phone1: '(35) 9999991516' }
-            },
-            {
-                id: 5, value: 50.25, expiration: 23,
-                taxpayer: { name: 'Contribuinte 5', phone1: '(35) 9999991516' }
-            },
-        ]
-
-        setPayment(payments);
-    }, [])
-
-    async function getDonations() {
-        setLoading(true);
-
-        try {
-            let resp = await api.get(`/donation/bymonth`, {
-                headers: { token }
-            });
-
-            resp = resp.data;
-
-            if(resp.status){
-                const { response } = resp;
-
-                const arrayTmp1 = [], arrayTmp2 = [], arrayCtrl = [];
-                response.forEach(element => {
-                    arrayTmp1.push(element.value);
-                    arrayTmp2.push(dateFormat(new Date(element.paidIn), 'dd/mm/yyyy'));
+            try {
+                let resp = await api.get(`/donation/bymonth`, {
+                    headers: { token }
                 });
-                setDonationValue(arrayTmp1);
-                setDonationDate(arrayTmp2);
+
+                resp = resp.data;
+
+                if (resp.status) {
+                    const { donation, taxpayer } = resp.response;
+
+                    const arrayValue = [], arrayPaidIn = [], arrayCtrl = {};
+                    let index = 0;
+
+                    donation.forEach(element => {
+                        const paidIn = dateFormat(new Date(element.paidIn), 'dd/mm/yyyy');
+                        if (arrayCtrl[paidIn]) {
+                            arrayValue[arrayCtrl[paidIn].index] += element.value;
+                        }
+                        else {
+                            arrayCtrl[paidIn] = { index };
+                            arrayValue.push(element.value);
+                            arrayPaidIn.push(paidIn);
+                            index++;
+                        }
+                    });
+
+                    setDonationValue(arrayValue);
+                    setDonationDate(arrayPaidIn);
+                    setPayment(taxpayer);
+                }
+                else {
+                    Swal.swalErrorInform();
+                }
+
+            } catch (error) {
+                console.log(error)
             }
-            else{
-                Swal.swalErrorInform();
-            }
-            
-        } catch (error) {
-            console.log(error)
+
+            setLoading(false);
         }
-
-        setLoading(false);
-    }
-
-    async function getReceives(){
-        setLoading(true);
-        const today = new Date();
-        const start = dateFormat(today, 'dd/mm/yyyy');
-        const end = dateFormat(new Date(today.setDate(today.getDate() + 7)), 'dd/mm/yyyy');
-
-        try {
-            let resp = await api.get(`/receive/bydate`, {
-                headers: { token },
-                params: { start, end}
-            });
-
-            resp = resp.data;
-            console.log(resp);
-
-            // if(resp.status){
-            //     const { response } = resp;
-
-            //     const arrayTmp1 = [], arrayTmp2 = [], arrayCtrl = [];
-            //     response.forEach(element => {
-            //         arrayTmp1.push(element.value);
-            //         arrayTmp2.push(dateFormat(new Date(element.paidIn), 'dd/mm/yyyy'));
-            //     });
-            //     setDonationValue(arrayTmp1);
-            //     setDonationDate(arrayTmp2);
-            // }
-            // else{
-            //     Swal.swalErrorInform();
-            // }
-            
-        } catch (error) {
-            console.log(error)
-        }
-
-        setLoading(false);
-    }
+        getInfo();
+    }, [])
 
     const options1 = {
         chart: {
@@ -146,18 +94,25 @@ export default function Dashboard() {
 
             <div className="next-due">
                 <ul>
-                    {payment.map(pay => (
-                        <li key={pay.id} className="flex-row">
+                    {payment.map(pay => {
+                        const expiration = new Date();
+                        const alert = expiration.getDate() > pay.Payment.expiration ? 'red' : ''
+                        expiration.setDate(pay.Payment.expiration);
+
+                        return <li key={pay.id} className="flex-row">
                             <div className="flex-col col-left">
-                                <span>{pay.taxpayer.name}</span>
-                                <span>{pay.taxpayer.phone1}</span>
+                                <span>{pay.name}</span>
+                                <div className="flex-row-w">
+                                    <span>{pay.phone1} - </span>
+                                    <span> - {pay.phone2}</span>
+                                </div>
                             </div>
                             <div className="flex-col col-right">
-                                <b>{dateFormat(pay.value, 'dd-mm-yyyy')}</b>
-                                <b>R${pay.value}</b>
+                                <b style={{ color: alert }}>{dateFormat(expiration, 'dd-mm-yyyy')}</b>
+                                <b>R${pay.Payment.value}</b>
                             </div>
                         </li>
-                    ))}
+                    })}
                 </ul>
             </div>
         </div>
