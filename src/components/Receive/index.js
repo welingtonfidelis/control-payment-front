@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import dateFormat from 'dateformat';
 import { PDFDownloadLink, BlobProvider } from '@react-pdf/renderer';
 
@@ -17,7 +17,7 @@ export default function Receive({ receives }) {
             <ul className="simple-list-2">
                 {receives.map(rec => {
                     const { Address, Payment } = rec;
-                    const { street, number, complement, district } = Address;
+                    const { street, number, district } = Address;
                     const { value } = Payment;
 
                     return <li key={rec.id}>

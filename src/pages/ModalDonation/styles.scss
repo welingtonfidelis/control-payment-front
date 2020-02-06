@@ -1,0 +1,11 @@
+.select-default input{
+  padding: 0 !important;
+}
+
+.flex-col-h > label {
+  margin-left: 10px;
+}
+
+.flex-col-h > input, .react-datepicker__input-container > input {
+  margin-top: 0 !important;
+}

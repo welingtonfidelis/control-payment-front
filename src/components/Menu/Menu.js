@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 import {
     Dashboard, Person, People, MonetizationOn, Menu as MenuIcon,
-    Storefront, AssignmentTurnedIn, TrendingUp
+    Storefront, TrendingUp
 } from '@material-ui/icons';
 
 import Swal from '../SweetAlert/SwetAlert';
@@ -51,8 +51,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-function Menu(props) {
-    const { container, page } = props;
+function Menu({ container, page }) {
     const [component, setComponent] = useState('');
     const [titleToolbar, setTitleToolbar] = useState();
     const classes = useStyles();
@@ -104,7 +103,10 @@ function Menu(props) {
                 break;
 
             case 'Doação':
-                console.log('vamos pro cliente');
+            case 'donation':
+            case 'modaldonation':
+                setTitleToolbar('Doação');
+                history.push('/main/donation');
                 break;
 
             case 'Recolhimento':

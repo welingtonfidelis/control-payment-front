@@ -9,6 +9,8 @@ import Taxpayer from '../../pages/Taxpayer';
 import ModalUser from '../../pages/ModalUser';
 import ModalTaxpayer from '../../pages/ModalTaxpayer';
 import Receive from '../../pages/Receive';
+import Donation from '../../pages/Donation';
+import ModalDonation from '../../pages/ModalDonation';
 
 import './styles.css';
 
@@ -22,6 +24,8 @@ export default function Main() {
             <Route path="/main/modaluser" component={ModalUser} />
             <Route path="/main/modaltaxpayer" component={ModalTaxpayer} />
             <Route path="/main/receive" component={Receive} />
+            <Route path="/main/donation" component={Donation} />
+            <Route path="/main/modaldonation" component={ModalDonation} />
         </div>
     );
 }

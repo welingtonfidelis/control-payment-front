@@ -121,8 +121,7 @@ export default function ModalUser(props) {
         setExpiration((Payment.expiration).padStart(2, '0'));
       }
       else {
-        Swal.swalInform('Usuário', 'Houve um problema ao carregar as ' +
-          'informações. Por favor, Tente novamente.', 'error');
+        Swal.swalErrorInform();
       }
 
     } catch (error) {
@@ -160,7 +159,7 @@ export default function ModalUser(props) {
       }
 
       if (query.data.status) {
-        Swal.swalInform('Contribuinte', 'Salvo com sucesso.', 'success');
+        Swal.swalInform();
 
         closeModal();
       }
@@ -230,8 +229,7 @@ export default function ModalUser(props) {
 
   //avisa contribuinte sobre um erro ocorrido
   function errorDisplay() {
-    Swal.swalInform('Usuário', 'Parece que algo deu errado. Por favor, ' +
-      'revise os dados inseridos e tente novamente.', 'error');
+    Swal.swalErrorInform();
   }
 
   return (
@@ -424,7 +422,7 @@ export default function ModalUser(props) {
           </div>
         </div>
 
-        <div className="flex-row-w">
+        <div className="flex-row-w modal-form-btn">
           <button type="button" onClick={closeModal} className="btn-cancel">CANCELAR</button>
           <button type="submit" className="btn-ok">SALVAR</button>
         </div>
