@@ -3,6 +3,7 @@
     justify-content: space-around;
     background: #0e78fa;
     border-radius: 15px;
+    max-height: 36px;
     cursor: pointer;
 }
 
@@ -13,7 +14,12 @@
 }
 
 .select-tab > div:hover{
-    border-radius: 5px;
-    // border: 1px solid #efefef;
     color: #fff;
+}
+
+.selected-tab{
+    border: 1px solid white;
+    color: #fff !important;
+    font-weight: bold;
+    border-radius: 5px;
 }

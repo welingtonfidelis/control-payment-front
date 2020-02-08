@@ -7,7 +7,7 @@ import Select from 'react-select';
 import Load from '../../components/Load/Load';
 import Swal from '../../components/SweetAlert/SwetAlert';
 
-import ImageProfile from '../../assets/user.png';
+import ImageProfile from '../../assets/images/user.png';
 
 import './styles.scss';
 import api from '../../services/api';
@@ -47,7 +47,7 @@ export default function ModalDonation(props) {
 
       let tmp = [];
       (resp.response).forEach(el => {
-        tmp.push({ value: el.id, label: el.name })
+        tmp.push({ value: el.id, label: el.name, payment: el.Payment.value });
       });
       setOptTaxpayer(tmp)
 
@@ -128,6 +128,11 @@ export default function ModalDonation(props) {
     setLoading(false);
   }
 
+  function handleChangeTaxpayer(event){
+    setTaxpayer(event);
+    setValue(event.payment);
+  }
+
   function closeModal() {
     history.goBack()
   }
@@ -155,7 +160,7 @@ export default function ModalDonation(props) {
                   className="select-default"
                   placeholder="Escolha um contribuinte"
                   value={taxpayer}
-                  onChange={event => setTaxpayer(event)}
+                  onChange={event => handleChangeTaxpayer(event)}
                   options={optTaxpayer}
                 />
               </div>

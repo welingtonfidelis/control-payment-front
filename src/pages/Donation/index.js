@@ -8,7 +8,7 @@ import './styles.scss';
 
 import api from '../../services/api';
 
-import ImageProfile from '../../assets/user.png';
+import ImageProfile from '../../assets/images/user.png';
 
 export default function Donation() {
     const history = useHistory();

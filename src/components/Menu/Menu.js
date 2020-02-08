@@ -14,8 +14,8 @@ import {
 import Swal from '../SweetAlert/SwetAlert';
 
 import './styles.scss';
-import CompanyLogo from '../../assets/sua-logo-aqui.png';
-import ImageProfile from '../../assets/user.png';
+import CompanyLogo from '../../assets/images/sua-logo-aqui.png';
+import ImageProfile from '../../assets/images/user.png';
 
 const drawerWidth = 240;
 

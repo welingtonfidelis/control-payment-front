@@ -7,7 +7,7 @@ import Select from 'react-select';
 import Load from '../../components/Load/Load';
 import Swal from '../../components/SweetAlert/SwetAlert';
 
-import ImageProfile from '../../assets/user.png';
+import ImageProfile from '../../assets/images/user.png';
 
 import './styles.scss';
 import api from '../../services/api';

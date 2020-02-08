@@ -33,3 +33,17 @@
 .receive-footer strong{
     text-decoration: underline;
 }
+
+
+#pdf-div{
+    position: fixed;
+    bottom: 7px;
+    right: 7px;
+    display: flex;
+    align-items: center;
+}
+
+#pdf-div > a{
+    text-decoration: none;
+    color: #fff;
+}

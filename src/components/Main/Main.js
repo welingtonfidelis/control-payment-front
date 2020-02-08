@@ -12,6 +12,8 @@ import Receive from '../../pages/Receive';
 import Donation from '../../pages/Donation';
 import ModalDonation from '../../pages/ModalDonation';
 
+import NotFound from '../../pages/NotFound';
+
 import './styles.css';
 
 export default function Main() {
