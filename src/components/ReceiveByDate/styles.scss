@@ -1,0 +1,20 @@
+.container-receive-date {
+    background: white;
+    margin-top: 10px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+}
+
+.btn-receive-search{
+    max-width: 100px;
+}
+
+.content-receive-div{
+    display: flex;
+    flex-direction: column;
+}
+
+.content-receive-div > label{
+    padding-left: 10px;
+}

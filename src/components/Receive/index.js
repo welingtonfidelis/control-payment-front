@@ -11,7 +11,6 @@ import './styles.scss';
 import ImageLogo from '../../assets/images/logo-patas.png';
 
 export default function Receive({ receives }) {
-    console.log(receives);
     const today = new Date();
     const month = dateFormat(today, 'mmmm');
 
@@ -147,9 +146,8 @@ export default function Receive({ receives }) {
                         <div className="receive-content">
                             <h3>RECIBO</h3>
                             <p>Recebi de <strong>{rec.name}</strong>, a quantia de
-                            R$ <strong>{value}</strong>,
-                                                    referente à contribuição do mês de
-                            <strong> {month}</strong>.</p>
+                            R$ <strong>{value}</strong>, referente à contribuição do mês 
+                            de <strong> {month}</strong>.</p>
                             <p>Endereço: <strong>{street}, {number}, {district}</strong>.</p>
                         </div>
 
@@ -158,8 +156,7 @@ export default function Receive({ receives }) {
                             <p>Representante da ONG Patas Amigas</p>
                         </div>
                     </li>
-
-                }
+                    }
                 )}
             </ul>            
         </div>

@@ -15,7 +15,7 @@ import api from '../../services/api';
 import util from '../../services/util.js';
 
 export default function ModalUser(props) {
-  registerLocale("pt", pt); //seta idioma local pra uso no date picker  
+  // registerLocale("pt", pt); //seta idioma local pra uso no date picker  
   const history = useHistory();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -264,6 +264,7 @@ export default function ModalUser(props) {
                   showMonthDropdown
                   showYearDropdown
                   dropdownMode="select"
+                  dateFormat="dd/MM/yyyy"
                 />
               </div>
             </div>

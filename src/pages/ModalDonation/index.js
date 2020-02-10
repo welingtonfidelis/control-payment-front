@@ -13,7 +13,7 @@ import './styles.scss';
 import api from '../../services/api';
 
 export default function ModalDonation(props) {
-  registerLocale("pt", pt); //seta idioma local pra uso no date picker  
+  // registerLocale("pt", pt); //seta idioma local pra uso no date picker  
   const history = useHistory();
   const [value, setValue] = useState('');
   const [taxpayer, setTaxpayer] = useState('');
@@ -190,6 +190,7 @@ export default function ModalDonation(props) {
                   showMonthDropdown
                   showYearDropdown
                   dropdownMode="select"
+                  dateFormat="dd/MM/yyyy"
                 />
               </div>
             </div>
