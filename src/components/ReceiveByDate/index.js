@@ -40,9 +40,9 @@ export default function ReceivaByDate() {
     return (
         <div className="flex-col-h">
             <div className="flex-row-w container-receive-date">
-                <Load loading={loading} />
+                <Load  id="divLoading" loading={loading} />
     
-                <div className="content-receive-div">
+                <div className="content-receive-date">
                     <label htmlFor="dateStart">Data inicial</label>
                     <DatePicker
                         id="dateStart"
@@ -56,7 +56,7 @@ export default function ReceivaByDate() {
                         dateFormat="dd/MM/yyyy"
                     />
                 </div>
-                <div className="content-receive-div">
+                <div className="content-receive-date">
                     <label htmlFor="dateEnd">Data inicial</label>
                     <DatePicker
                         id="dateEnd"

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import api from '../../services/api';
 
-import logo from '../../assets/images/sua-logo-aqui.png'
+import logo from '../../assets/images/logo-patas.png'
 import './styles.scss';
 
 export default function Login({ history }) {

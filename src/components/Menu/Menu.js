@@ -14,7 +14,7 @@ import {
 import Swal from '../SweetAlert/SwetAlert';
 
 import './styles.scss';
-import CompanyLogo from '../../assets/images/sua-logo-aqui.png';
+import CompanyLogo from '../../assets/images/logo-patas.png';
 import ImageProfile from '../../assets/images/user.png';
 
 const drawerWidth = 240;
@@ -135,9 +135,9 @@ function Menu({ container, page }) {
                 <div id="logo">
                     <img src={CompanyLogo} alt="Sua logo" />
                 </div>
-                <div id="company-name">
+                {/* <div id="company-name">
                     <h2>Nome da empresa</h2>
-                </div>
+                </div> */}
             </header>
             <Divider />
             <List className="content-list">

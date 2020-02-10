@@ -35,7 +35,7 @@ export default function ReceiveByMonth() {
 
     return (
         <div>
-            <Load loading={loading} />
+            <Load  id="divLoading" loading={loading} />
             <Receive receives={receives}/>
         </div>
     )

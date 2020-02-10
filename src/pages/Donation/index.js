@@ -80,7 +80,7 @@ export default function Donation() {
 
     return (
         <div className="content">
-            <Load loading={loading} />
+            <Load  id="divLoading" loading={loading} />
 
             <div className="search-bar">
                 <input

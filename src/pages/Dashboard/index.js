@@ -81,7 +81,7 @@ export default function Dashboard() {
 
     return (
         <div className="content">
-            <Load loading={loading} />
+            <Load  id="divLoading" loading={loading} />
 
             <div className="bar-chart">
                 <Chart

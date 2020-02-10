@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import DatePicker, { registerLocale } from 'react-datepicker';
-import pt from 'date-fns/locale/pt-BR';
 import Select from 'react-select';
 
 import Load from '../../components/Load/Load';
@@ -15,7 +14,6 @@ import api from '../../services/api';
 import util from '../../services/util.js';
 
 export default function ModalUser(props) {
-  // registerLocale("pt", pt); //seta idioma local pra uso no date picker  
   const history = useHistory();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -258,7 +256,7 @@ export default function ModalUser(props) {
 
   return (
     <div className="content">
-      <Load loading={loading} />
+      <Load  id="divLoading" loading={loading} />
 
       <form className="flex-col-h modal-form" autoComplete="off" onSubmit={handleSubmit}>
         <h1 className="title-modal">CADASTRO</h1>
