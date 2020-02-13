@@ -116,7 +116,7 @@ export default function ModalUser(props) {
 
         setPaymentId(Payment.id);
         setValue(Payment.value);
-        setExpiration((Payment.expiration).padStart(2, '0'));
+        setExpiration(optExpiration[Payment.expiration -1]);
       }
       else {
         Swal.swalErrorInform();
@@ -132,7 +132,7 @@ export default function ModalUser(props) {
     event.preventDefault();
     setLoading(true);
 
-    const stateTmp = state.value, expirationTmp = expiration.value, valueTmp = value.replace(',', '.');
+    const stateTmp = state.value, expirationTmp = expiration.value;
     const data = {
       'taxpayer': { name, email, phone1, phone2, birth },
       'address': { cep, 'state': stateTmp, city, district, street, complement, number },

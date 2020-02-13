@@ -84,7 +84,7 @@ export default function ReceivaByTaxpayer() {
                         isMulti
                         id="taxpayersId"
                         options={optTaxpayer}
-                        classNamePrefix="select"
+                        classNamePrefix="select_receive_taxpayer"
                     />
                 </div>
                     
