@@ -116,7 +116,9 @@ function Menu({ container, page }) {
                 break;
 
             case 'Relatório':
-                console.log('vamos pro relatorio');
+            case 'report':
+                setTitleToolbar('Relatório');
+                history.push('/main/report');
                 break;
 
             default:

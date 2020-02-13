@@ -11,9 +11,25 @@ import Load from '../../components/Load/Load';
 export default function Dashboard() {
     const [donationDate, setDonationDate] = useState([]);
     const [donationValue, setDonationValue] = useState([]);
-    const [payment, setPayment] = useState([]);
+    const [payments, setPayments] = useState([]);
     const [loading, setLoading] = useState(false);
     const token = localStorage.getItem('token');
+    const options1 = {
+        chart: {
+            id: "Doação do mês"
+        },
+        xaxis: {
+            categories: donationDate
+        },
+        title: {
+            text: `Doações do mês de ${dateFormat(new Date(), 'mmmm - yyyy')} (Total)`
+        }
+    };
+
+    const series1 = [{
+        name: "Total de doações no dia",
+        data: donationValue,
+    }];
 
     useEffect(() => {
         async function getInfo() {
@@ -47,7 +63,7 @@ export default function Dashboard() {
 
                     setDonationValue(arrayValue);
                     setDonationDate(arrayPaidIn);
-                    setPayment(taxpayer);
+                    setPayments(taxpayer);
                 }
                 else {
                     Swal.swalErrorInform();
@@ -61,23 +77,6 @@ export default function Dashboard() {
         }
         getInfo();
     }, [])
-
-    const options1 = {
-        chart: {
-            id: "Doação do mês"
-        },
-        xaxis: {
-            categories: donationDate
-        },
-        title: {
-            text: `Doações do mês de ${dateFormat(new Date(), 'mmmm - yyyy')} (Total)`
-        }
-    };
-
-    const series1 = [{
-        name: "Total de doações no dia",
-        data: donationValue,
-    }]
 
     return (
         <div className="content">
@@ -94,7 +93,7 @@ export default function Dashboard() {
 
             <div className="next-due">
                 <ul>
-                    {payment.map(pay => {
+                    {payments.map(pay => {
                         const expiration = new Date();
                         const alert = expiration.getDate() > pay.Payment.expiration ? 'red' : ''
                         expiration.setDate(pay.Payment.expiration);

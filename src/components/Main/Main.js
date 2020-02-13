@@ -11,8 +11,7 @@ import ModalTaxpayer from '../../pages/ModalTaxpayer';
 import Receive from '../../pages/Receive';
 import Donation from '../../pages/Donation';
 import ModalDonation from '../../pages/ModalDonation';
-
-import NotFound from '../../pages/NotFound';
+import Report from '../../pages/Report';
 
 import './styles.css';
 
@@ -28,6 +27,7 @@ export default function Main() {
             <Route path="/main/receive" component={Receive} />
             <Route path="/main/donation" component={Donation} />
             <Route path="/main/modaldonation" component={ModalDonation} />
+            <Route path="/main/report" component={Report} />
         </div>
     );
 }
