@@ -2,7 +2,7 @@ import React from 'react';
 import dateFormat from 'dateformat';
 import {
     PDFDownloadLink, Image,
-    PDFViewer, Page, Text, View, Document,
+    Page, Text, View, Document,
     StyleSheet
 } from '@react-pdf/renderer';
 import { GetApp } from '@material-ui/icons';

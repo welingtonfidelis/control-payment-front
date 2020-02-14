@@ -1,0 +1,35 @@
+.container-report-taxpayer{
+    background: white;
+    // height: 75px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+}
+
+.content-report-taxpayer{
+    width: 100%;
+    padding: 0 10px 5px 10px;
+}
+
+.content-report-taxpayer{
+    display: flex;
+    flex-direction: column;
+}
+
+.content-report-taxpayer > label{
+    padding-left: 10px;
+}
+
+.content-report-div2{
+    align-items: center;
+}
+
+.content-report-div2 > div{
+    flex: 1;
+}
+
+.content-report-div2 > .btn-report-search{
+    margin-right: 10px;
+}

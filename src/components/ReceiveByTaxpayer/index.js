@@ -13,7 +13,7 @@ export default function ReceivaByTaxpayer() {
     const [receives, setReceives] = useState([]);
     const [optTaxpayer, setOptTaxpayer] = useState([]);
     const [loading, setLoading] = useState(false);
-    const token = localStorage.getItem('token');
+    const [token] = useState(localStorage.getItem('token'));
 
     useEffect(()=>{
         async function getInfo() {
@@ -31,8 +31,6 @@ export default function ReceivaByTaxpayer() {
                 tmp.push({ value: el.id, label: el.name, payment: el.Payment.value });
               });
               setOptTaxpayer(tmp)
-              console.log(tmp);
-              
         
             } catch (error) {
               console.log(error);
@@ -41,13 +39,11 @@ export default function ReceivaByTaxpayer() {
           }
 
           getInfo();
-    }, []);
+    }, [token]);
 
     async function handleSearch() {
         setLoading(true);
 
-        console.log(taxpayer);
-        
         try {
             let taxpayerTmp = [];
             taxpayer.forEach(el => {
@@ -55,8 +51,11 @@ export default function ReceivaByTaxpayer() {
             });
             taxpayerTmp = JSON.stringify(taxpayerTmp);
 
-            let resp = await api.get(`/receive/bytaxpayer?arrayTaxpayerId=${taxpayerTmp}`, {
-                headers: { token }
+            let resp = await api.get(`/receive/bytaxpayer`, {
+                headers: { token },
+                params: { 
+                    arrayTaxpayerId:taxpayerTmp 
+                }
             });
             const { status } = resp.data;
 
@@ -79,7 +78,7 @@ export default function ReceivaByTaxpayer() {
                 <Load  id="divLoading" loading={loading} />
     
                 <div className="content-receive-taxpayer">
-                    <label htmlFor="taxpayersId">Data inicial</label>
+                    <label htmlFor="taxpayersId">Contribuinte</label>
                     <Select
                         className="select-default"
                         onChange={data => setTaxpayer(data)}
