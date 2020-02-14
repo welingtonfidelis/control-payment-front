@@ -3,6 +3,7 @@ import Receive from '../Receive';
 
 import api from '../../services/api';
 import Load from '../Load/Load';
+import Swal from '../SweetAlert/SwetAlert';
 
 export default function ReceiveByMonth() {
     const [receives, setReceives] = useState([]);
@@ -23,6 +24,9 @@ export default function ReceiveByMonth() {
                 if(status){
                     const { response } = resp.data;
                     setReceives(response);
+                }
+                else {
+                    Swal.swalErrorInform();
                 }
             } catch (error) {
                 console.log(error);

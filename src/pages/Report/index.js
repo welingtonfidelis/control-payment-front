@@ -6,6 +6,7 @@ import Switch from 'react-switch';
 
 import api from '../../services/api';
 import Load from '../../components/Load/Load';
+import Swal from '../../components/SweetAlert/SwetAlert';
 
 import './styles.scss';
 
@@ -53,6 +54,9 @@ export default function ReceivaByDate() {
                 const { response } = resp.data;
 
                 setDonations(response);
+            }
+            else {
+                Swal.swalErrorInform();
             }
         } catch (error) {
             console.log(error);

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import MenuDrop from '../../components/MenuDropDown/OptionList';
-import Load from '../../components/Load/Load';
-
-import './styles.scss';
 
 import api from '../../services/api';
+import Load from '../../components/Load/Load';
+import Swal from '../../components/SweetAlert/SwetAlert';
 
+import './styles.scss';
 import ImageProfile from '../../assets/images/user.png';
 
 export default function User() {
@@ -54,6 +54,9 @@ export default function User() {
             if (resp.status) {
                 setListFull(resp.response);
                 setList(resp.response);
+            }
+            else {
+                Swal.swalErrorInform();
             }
         }
         catch (error) {

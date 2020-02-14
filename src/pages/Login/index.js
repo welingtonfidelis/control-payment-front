@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import api from '../../services/api';
+import Swal from '../../components/SweetAlert/SwetAlert';
 
 import logo from '../../assets/images/logo-patas.png'
 import './styles.scss';
@@ -24,6 +25,9 @@ export default function Login({ history }) {
                 localStorage.setItem('token', token);
                 localStorage.setItem('userName', name);
                 history.push('/main/dashboard');
+            }
+            else {
+                Swal.swalErrorInform();
             }
 
         } catch (error) {

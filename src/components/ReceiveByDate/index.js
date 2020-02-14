@@ -4,6 +4,7 @@ import dateFormat from 'dateformat'
 import Receive from '../Receive';
 
 import api from '../../services/api';
+import Swal from '../SweetAlert/SwetAlert'
 import Load from '../Load/Load';
 
 import './styles.scss';
@@ -30,6 +31,9 @@ export default function ReceivaByDate() {
             if (status) {
                 const { response } = resp.data;
                 setReceives(response);
+            }
+            else {
+                Swal.swalErrorInform();
             }
         } catch (error) {
             console.log(error);

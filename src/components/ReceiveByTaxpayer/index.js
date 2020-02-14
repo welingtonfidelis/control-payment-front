@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
-import dateFormat from 'dateformat'
 import Receive from '../Receive';
 
 import api from '../../services/api';
 import Load from '../Load/Load';
+import Swal from '../SweetAlert/SwetAlert';
 
 import './styles.scss';
 
@@ -63,6 +63,9 @@ export default function ReceivaByTaxpayer() {
             if (status) {
                 const { response } = resp.data;
                 setReceives(response);
+            }
+            else {
+                Swal.swalErrorInform();
             }
         } catch (error) {
             console.log(error);
