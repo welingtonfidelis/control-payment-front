@@ -1,14 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import DatePicker from 'react-datepicker';
-import dateFormat from 'dateformat'
-import Chart from "react-apexcharts";
-import Switch from 'react-switch';
-
-import api from '../../services/api';
-import Load from '../../components/Load/Load';
 import ReportByDate from '../../components/ReportBydDate';
 import ReportByTaxpayer from '../../components/ReportByTaxpayer';
-import Swal from '../../components/SweetAlert/SwetAlert';
 
 import './styles.scss';
 

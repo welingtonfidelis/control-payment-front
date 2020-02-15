@@ -183,9 +183,9 @@ export default function ReportByTaxpayer() {
                             <div className="simple-list-3-container">
                                 {donation.map(elem => {
                                     return <div key={elem.id} className="simple-list-3-content">
-                                        <div style={{flex: 1}} id="list3content" >{elem.paidIn}</div>
-                                        <div style={{flex: 1}} id="list3content" >R${elem.value}</div>
-                                        <div style={{flex: 2}} id="list3content" >{elem.observation}</div>
+                                        <div style={{flex: 1}}>{elem.paidIn}</div>
+                                        <div style={{flex: 1}}>R${elem.value}</div>
+                                        <div style={{flex: 2}}>{elem.observation}</div>
                                     </div>
                                 })}
                             </div>

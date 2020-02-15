@@ -87,18 +87,18 @@ export default function Dashboard() {
                     options={options1}
                     series={series1}
                     type="bar"
-                    height="350px"
+                    height={window.innerHeight - 375}
                 />
             </div>
 
             <div className="next-due">
-                <ul>
+                <ul id="nextDue">
                     {payments.map(pay => {
                         const expiration = new Date();
                         const alert = expiration.getDate() > pay.Payment.expiration ? 'red' : ''
                         expiration.setDate(pay.Payment.expiration);
 
-                        return <li key={pay.id} className="flex-row">
+                        return <li key={pay.id} className="flex-row" >
                             <div className="flex-col col-left">
                                 <span>{pay.name}</span>
                                 <div className="flex-row-w">

@@ -230,21 +230,21 @@ input:invalid {
 
 .simple-list-3-content{
   display: flex;
-  // justify-content: space-between;
-  flex-direction: row;
-}
-
-.simple-list-3-content #list3content {
-  margin-bottom: 5px;
   background: #e4f0ff;
-  padding: 5px;
   border-radius: 15px;
+  flex-direction: row;
+  margin: 5px 0 5px 0;
+  padding: 10px;
 }
 
 .simple-list-3-container{
   margin-top: 5px;
   padding-top: 5px;
+}
+
+.simple-list-3 > li:not(:first-child){
   border-top: 1px solid #9a9a9a;
+  padding-top: 10px;
 }
 
 .image-profile-mini {
