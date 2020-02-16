@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import dateFormat from 'dateformat';
 import {
     PDFDownloadLink, Image,
     Page, Text, View, Document,
-    StyleSheet
+    StyleSheet, PDFViewer
 } from '@react-pdf/renderer';
 import { GetApp } from '@material-ui/icons';
 import './styles.scss';
@@ -17,7 +17,6 @@ export default function Receive({ receives }) {
     const styles = StyleSheet.create({
         page: {
             padding: 10,
-            display: "table",
             fontFamily: 'Times-Roman'
         },
         container: {
@@ -70,9 +69,11 @@ export default function Receive({ receives }) {
                     const { Address, Payment } = rec;
                     const { street, number, district } = Address;
                     const { value } = Payment;
+                    const cl = index % 2 == 0 ? styles.flexRow : styles.flexCol;
+
 
                     return (
-                        <View key={rec.id} style={styles.container}>
+                        <View style={styles.container}>
                             <View style={styles.header}>
                                 <Image
                                     style={styles.image}
@@ -90,7 +91,7 @@ export default function Receive({ receives }) {
                                 <Text style={styles.h1}>RECIBO</Text>
                                 <Text>
                                     Recebi de {rec.name}, a quantia de
-                                    R$ {value}, referente à contribuição do mês 
+                                    R$ {value}, referente à contribuição do mês
                                     de {month}.
                                 </Text>
                                 <Text>Endereço: {street}, {number}, {district}.</Text>
@@ -108,14 +109,14 @@ export default function Receive({ receives }) {
     );
 
     const PDF = () => (
-        // <PDFViewer>
+        // <PDFViewer style={{ width: '100%', height: '100%' }}>
         //     <MyDocument />
         // </PDFViewer>
 
         <div id="pdf-div" className="btn-new-medium">
             <GetApp />
-            <PDFDownloadLink 
-                document={<MyDocument />} 
+            <PDFDownloadLink
+                document={<MyDocument />}
                 fileName={`${month}.pdf`}>
                 {({ blob, url, loading, error }) => (loading ? 'Carregando...' : 'Baixar PDF')}
             </PDFDownloadLink>
@@ -146,7 +147,7 @@ export default function Receive({ receives }) {
                         <div className="receive-content">
                             <h3>RECIBO</h3>
                             <p>Recebi de <strong>{rec.name}</strong>, a quantia de
-                            R$ <strong>{value}</strong>, referente à contribuição do mês 
+                            R$ <strong>{value}</strong>, referente à contribuição do mês
                             de <strong> {month}</strong>.</p>
                             <p>Endereço: <strong>{street}, {number}, {district}</strong>.</p>
                         </div>
@@ -156,9 +157,9 @@ export default function Receive({ receives }) {
                             <p>Representante da ONG Patas Amigas</p>
                         </div>
                     </li>
-                    }
+                }
                 )}
-            </ul>            
+            </ul>
         </div>
     )
 }

@@ -151,7 +151,11 @@ function Menu({ container, page }) {
                             setComponent(el.text);
                         }}
                     >
-                        <ListItemIcon>{el.icon}</ListItemIcon>
+                        <ListItemIcon
+                            style={{ color: el.text === titleToolbar ? '#0e78fa' : '' }}
+                        >
+                            {el.icon}
+                        </ListItemIcon>
                         <ListItemText primary={el.text} />
                     </ListItem>
                 ))}
@@ -187,7 +191,7 @@ function Menu({ container, page }) {
                         onClick={handleDrawerToggle}
                         className={classes.menuButton}
                     >
-                        <MenuIcon style={{color: "#fff"}}/>
+                        <MenuIcon style={{ color: "#fff" }} />
                     </IconButton>
                     <Typography variant="h6" noWrap>
                         {titleToolbar}

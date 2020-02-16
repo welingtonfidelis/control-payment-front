@@ -69,42 +69,44 @@ export default function Login({ history }) {
     }
 
     return (
-        <div className="container-login">
-            <div>
-                <img className="logo-login" src={logo} alt="Logo" />
-            </div>
+        <div className="body-login">
+            <div className="container-login">
+                <div>
+                    <img className="logo-login" src={logo} alt="Logo" />
+                </div>
 
-            <div className="content-login" id="box-login">
-                <p>Por favor, insira seu <strong>usuário</strong> e <strong>senha</strong> abaixo.</p>
+                <div className="content-login" id="box-login">
+                    <p>Por favor, insira seu <strong>usuário</strong> e <strong>senha</strong> abaixo.</p>
 
-                <form onSubmit={handleSubmit}>
-                    <label htmlFor="user">Usuário</label>
-                    <input
-                        type="text"
-                        id="user"
-                        placeholder="seu usuário"
-                        value={user}
-                        onChange={event => setUser(event.target.value)}
-                    />
-                    <label htmlFor="password">Senha</label>
-                    <input
-                        type="password"
-                        id="password"
-                        placeholder="*******"
-                        value={password}
-                        onChange={event => setpassWord(event.target.value)}
-                    />
+                    <form onSubmit={handleSubmit}>
+                        <label htmlFor="user">Usuário</label>
+                        <input
+                            type="text"
+                            id="user"
+                            placeholder="seu usuário"
+                            value={user}
+                            onChange={event => setUser(event.target.value)}
+                        />
+                        <label htmlFor="password">Senha</label>
+                        <input
+                            type="password"
+                            id="password"
+                            placeholder="*******"
+                            value={password}
+                            onChange={event => setpassWord(event.target.value)}
+                        />
 
-                    <button type="submit" className="btn-ok">ENTRAR</button>
-                    {errorLogin ?
-                        <span
-                            className="invalid-login"
-                            title="Por favor, vefique seus dados e tente novamente.">
-                            Usuário ou senha inválidos
+                        <button type="submit" className="btn-ok">ENTRAR</button>
+                        {errorLogin ?
+                            <span
+                                className="invalid-login"
+                                title="Por favor, vefique seus dados e tente novamente.">
+                                Usuário ou senha inválidos
                         </span>
-                        : ''
-                    }
-                </form>
+                            : ''
+                        }
+                    </form>
+                </div>
             </div>
         </div>
     )

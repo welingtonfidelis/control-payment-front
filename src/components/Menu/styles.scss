@@ -32,9 +32,8 @@ footer{
 }
 
 .content-footer{
-  display: flex;
-    flex: 1;
-    align-items: flex-end;
+  flex: 1;
+  padding: 5px;
 }
 #image-profile{
     display: flex;
@@ -43,6 +42,8 @@ footer{
 #image-profile img{
     max-height: 80px;
     border-radius: 100%;
+    background: #0e78fa;
+    padding: 2px;
 }
 
 #name-profile{
