@@ -1,41 +1,10 @@
-.container-report-date {
-    background: white;
-    height: 75px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    justify-content: center;
-    align-items: center;
-    border-radius: 15px;
-}
-
-.btn-report-search{
-    max-width: 100px;
-}
-
-.content-report-date{
-    display: flex;
-    flex-direction: column;
-}
-
-.content-report-date > label{
-    padding-left: 10px;
-}
-
-.content-report-left{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    flex: 5;
-}
-
-.content-report-right{
-    flex: 1;
-}
-
-.switch-report-search{
-    display: flex;
-    flex-direction: column;
-    margin-left: 10px;
-    align-items: center;
+.switch-report-search {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: #efefef;
+  padding: 5px;
+  margin-top: 10px;
+  border-radius: 15px;
 }

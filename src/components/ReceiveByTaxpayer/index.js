@@ -74,7 +74,7 @@ export default function ReceivaByTaxpayer() {
 
     return (
         <div className="flex-col-h">
-            <div className="flex-row-w container-receive-taxpayer">
+            <div className="flex-row-w container-select-date">
                 <Load  id="divLoading" loading={loading} />
     
                 <div className="content-receive-taxpayer">
@@ -90,7 +90,7 @@ export default function ReceivaByTaxpayer() {
                     />
                 </div>
                     
-                <div className="btn-new-medium btn-receive-search" onClick={() => handleSearch()}>Buscar</div>
+                <div className="btn-search" onClick={() => handleSearch()}>Buscar</div>
             </div>
             <Receive receives={receives} />
         </div>

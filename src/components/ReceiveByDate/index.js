@@ -42,42 +42,51 @@ export default function ReceivaByDate() {
     }
 
     return (
-        <div className="flex-col-h">
-            <div className="flex-row-w container-receive-date">
+        <>
+            <div className="flex-row-w container-select-date">
                 <Load  id="divLoading" loading={loading} />
-    
-                <div className="content-receive-date">
-                    <label htmlFor="dateStart">Data inicial</label>
-                    <DatePicker
-                        id="dateStart"
-                        locale="pt"
-                        onChange={date => setStartDate(date)}
-                        selected={startDate}
-                        peekNextMonth
-                        showMonthDropdown
-                        showYearDropdown
-                        dropdownMode="select"
-                        dateFormat="dd/MM/yyyy"
-                    />
+
+                <div className="content-select-date-left">
+                    <div className="content-select-date">
+                        <label htmlFor="dateStart">Data inicial</label>
+                        <DatePicker
+                            id="dateStart"
+                            locale="pt"
+                            onChange={date => setStartDate(date)}
+                            selected={startDate}
+                            peekNextMonth
+                            showMonthDropdown
+                            showYearDropdown
+                            dropdownMode="select"
+                            dateFormat="dd/MM/yyyy"
+                        />
+                    </div>
+                    <div className="content-select-date">
+                        <label htmlFor="dateEnd">Data inicial</label>
+                        <DatePicker
+                            id="dateEnd"
+                            locale="pt"
+                            onChange={date => setEndDate(date)}
+                            selected={endDate}
+                            peekNextMonth
+                            showMonthDropdown
+                            showYearDropdown
+                            dropdownMode="select"
+                            dateFormat="dd/MM/yyyy"
+                        />
+                    </div>
                 </div>
-                <div className="content-receive-date">
-                    <label htmlFor="dateEnd">Data inicial</label>
-                    <DatePicker
-                        id="dateEnd"
-                        locale="pt"
-                        onChange={date => setEndDate(date)}
-                        selected={endDate}
-                        peekNextMonth
-                        showMonthDropdown
-                        showYearDropdown
-                        dropdownMode="select"
-                        dateFormat="dd/MM/yyyy"
-                    />
-                </div>
     
-                <div className="btn-new-medium btn-receive-search" onClick={() => handleSearch()}>Buscar</div>
+                <div className="content-select-date-right">
+                    < div 
+                        className="btn-search" 
+                        onClick={() => handleSearch()}
+                    >
+                        Buscar
+                    </div>
+                </div>
             </div>
             <Receive receives={receives} />
-        </div>
+        </>
     )
 }

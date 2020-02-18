@@ -93,11 +93,11 @@ export default function ReportByDate() {
 
     return (
         <>
-            <div className="flex-row-w container-report-date">
-                <div className="content-report-left">
+            <div className="flex-row-w container-select-date">
+                <div className="content-select-date-left">
                     <Load id="divLoading" loading={loading} />
 
-                    <div className="content-report-date">
+                    <div className="content-select-date">
                         <label htmlFor="dateStart">Data inicial</label>
                         <DatePicker
                             id="dateStart"
@@ -111,7 +111,7 @@ export default function ReportByDate() {
                             dateFormat="dd/MM/yyyy"
                         />
                     </div>
-                    <div className="content-report-date">
+                    <div className="content-select-date">
                         <label htmlFor="dateEnd">Data inicial</label>
                         <DatePicker
                             id="dateEnd"
@@ -125,23 +125,22 @@ export default function ReportByDate() {
                             dateFormat="dd/MM/yyyy"
                         />
                     </div>
+                </div>
 
+                <div className="content-select-date-right">
                     <div
-                        className="btn-new-medium btn-report-search"
+                        className="btn-search"
                         onClick={() => handleSearch()}
                     >
                         Buscar
                     </div>
-
-                </div>
-                <div className="content-report-right">
                     <label className="switch-report-search">
-                        <span>Agrupar por {typeGroup ? 'mês' : 'dia'}</span>
                         <Switch
                             onChange={() => setTypeGroup(!typeGroup)}
                             checked={typeGroup}
                             onColor='#0e78fa'
-                        />
+                            />
+                        <span>Agrupar por {typeGroup ? 'mês' : 'dia'}</span>
                     </label>
                 </div>
             </div>
@@ -151,7 +150,7 @@ export default function ReportByDate() {
                     options={options1}
                     series={series1}
                     type="bar"
-                    height={window.innerHeight - 242}
+                    height={window.innerHeight - 297}
                 />
             </div>
         </>

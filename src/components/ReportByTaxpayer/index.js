@@ -126,41 +126,44 @@ export default function ReportByTaxpayer() {
                     />
                 </div>
 
-                <div className="flex-row-w content-report-div2">
-                    <div className="content-report-taxpayer">
-                        <label htmlFor="dateStart">Data inicial</label>
-                        <DatePicker
-                            id="dateStart"
-                            locale="pt"
-                            onChange={date => setStartDate(date)}
-                            selected={startDate}
-                            peekNextMonth
-                            showMonthDropdown
-                            showYearDropdown
-                            dropdownMode="select"
-                            dateFormat="dd/MM/yyyy"
-                        />
+                <div className="flex-row-w container-select-date">
+                    <div className="content-select-date-left">
+                        <div className="content-select-date">
+                            <label htmlFor="dateStart">Data inicial</label>
+                            <DatePicker
+                                id="dateStart"
+                                locale="pt"
+                                onChange={date => setStartDate(date)}
+                                selected={startDate}
+                                peekNextMonth
+                                showMonthDropdown
+                                showYearDropdown
+                                dropdownMode="select"
+                                dateFormat="dd/MM/yyyy"
+                            />
+                        </div>
+                        <div className="content-select-date">
+                            <label htmlFor="dateEnd">Data inicial</label>
+                            <DatePicker
+                                id="dateEnd"
+                                locale="pt"
+                                onChange={date => setEndDate(date)}
+                                selected={endDate}
+                                peekNextMonth
+                                showMonthDropdown
+                                showYearDropdown
+                                dropdownMode="select"
+                                dateFormat="dd/MM/yyyy"
+                            />
+                        </div>
                     </div>
-                    <div className="content-report-taxpayer">
-                        <label htmlFor="dateEnd">Data inicial</label>
-                        <DatePicker
-                            id="dateEnd"
-                            locale="pt"
-                            onChange={date => setEndDate(date)}
-                            selected={endDate}
-                            peekNextMonth
-                            showMonthDropdown
-                            showYearDropdown
-                            dropdownMode="select"
-                            dateFormat="dd/MM/yyyy"
-                        />
+                    <div className="content-select-date-right">
+                        <div
+                            className="btn-search"
+                            onClick={() => handleSearch()}
+                        >
+                            Buscar
                     </div>
-
-                    <div
-                        className="btn-new-medium btn-report-search"
-                        onClick={() => handleSearch()}
-                    >
-                        Buscar
                     </div>
                 </div>
             </div>
@@ -179,17 +182,17 @@ export default function ReportByTaxpayer() {
                                     <h2>{el.name}</h2>
                                 </div>
                             </div>
-                            
+
                             <div className="simple-list-3-container">
                                 {donation.map(elem => {
                                     return <div key={elem.id} className="simple-list-3-content">
-                                        <div style={{flex: 1}}>{elem.paidIn}</div>
-                                        <div style={{flex: 1}}>R${elem.value}</div>
-                                        <div style={{flex: 2}}>{elem.observation}</div>
+                                        <div style={{ flex: 1 }}>{elem.paidIn}</div>
+                                        <div style={{ flex: 1 }}>R${elem.value}</div>
+                                        <div style={{ flex: 2 }}>{elem.observation}</div>
                                     </div>
                                 })}
                             </div>
-                            
+
                         </li>
                     </>
                 })}

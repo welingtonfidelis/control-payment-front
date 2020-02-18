@@ -143,6 +143,14 @@ button {
   background-color: #b80000;
 }
 
+.btn-search{
+  @extend .btn-new-medium;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+}
+
 form label {
   color: #0e78fa;
   font-size: 16px;
@@ -200,10 +208,11 @@ input:invalid {
   flex-direction: row;
 }
 
-//em 2 colunas
-.simple-list-2 {
-  display: grid;
-  grid-template-columns: auto auto;
+@media only screen and (min-width: 601px) {
+  .simple-list-2 {
+    display: grid;
+    grid-template-columns: auto auto;
+  }
 }
 
 .simple-list-2 > li {
@@ -277,7 +286,7 @@ input:invalid {
 
 .btn-new-medium {
   flex: 1;
-  background: #0e78fa;
+  background: #00b730;
   padding: 5px;
   text-align: center;
   color: #fff;
@@ -287,7 +296,7 @@ input:invalid {
 }
 
 .btn-new-medium:hover {
-  background: #0d64ce;
+  background: #008222;
 }
 
 .menu-mini > button {
@@ -331,4 +340,46 @@ input:invalid {
   color: #fff !important;
   font-weight: bold;
   border-radius: 5px;
+}
+
+.container-select-date {
+  background: white;
+  height: 130px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 0 10px 0 10px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+}
+
+.content-select-date {
+  display: flex;
+  flex-direction: column;
+}
+
+.content-select-date > label {
+  padding-left: 10px;
+}
+
+.content-select-date-left {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex: 5;
+}
+
+@media only screen and (max-width: 600px) {
+  .content-select-date-left {
+    flex-direction: column !important;
+  }
+
+  .container-select-date {
+    height: 100%;
+  }
+}
+
+.content-select-date-right {
+  flex: 1;
 }

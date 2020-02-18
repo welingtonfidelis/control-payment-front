@@ -69,8 +69,6 @@ export default function Receive({ receives }) {
                     const { Address, Payment } = rec;
                     const { street, number, district } = Address;
                     const { value } = Payment;
-                    const cl = index % 2 == 0 ? styles.flexRow : styles.flexCol;
-
 
                     return (
                         <View style={styles.container}>

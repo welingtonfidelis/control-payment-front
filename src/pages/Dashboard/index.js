@@ -95,7 +95,7 @@ export default function Dashboard() {
                 <ul id="nextDue">
                     {payments.map(pay => {
                         const expiration = new Date();
-                        const alert = expiration.getDate() > pay.Payment.expiration ? 'red' : ''
+                        const alert = expiration.getDate() > pay.Payment.expiration ? '#ff5a5a' : ''
                         expiration.setDate(pay.Payment.expiration);
 
                         return <li key={pay.id} className="flex-row" >
