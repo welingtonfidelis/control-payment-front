@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import Load from '../../components/Load/Load';
 import api from '../../services/api';
 import Swal from '../../components/SweetAlert/SwetAlert';
 
@@ -10,9 +11,11 @@ export default function Login({ history }) {
     const [user, setUser] = useState('');
     const [password, setpassWord] = useState('');
     const [errorLogin, setErrorLogin] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     async function handleSubmit(event) {
         event.preventDefault();
+        setLoading(true);
 
         try {
             const _response = await api.post('/user/login', { user, password })
@@ -27,45 +30,13 @@ export default function Login({ history }) {
                 history.push('/main/dashboard');
             }
             else {
-                Swal.swalErrorInform();
+                setErrorLogin(true);
             }
-
+            
         } catch (error) {
-            setErrorLogin(true);
-            upAndDownShake();
+            Swal.swalErrorInform();
         }
-    }
-
-    //Função para "chacoalhar" tela de login com erro de usuario ou senha
-    let counter = 1;
-    function upAndDownShake() {
-        let shakingElements = [], magnitude = 16;
-        const startX = 0, startY = 0, numberOfShakes = 15,
-            magnitudeUnit = magnitude / numberOfShakes;
-        const randomInt = (min, max) => {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        };
-        const element = document.getElementById('box-login');
-
-        if (counter < numberOfShakes) {
-            element.style.transform = 'translate(' + startX + 'px, ' + startY + 'px)';
-
-            magnitude -= magnitudeUnit;
-
-            const randomX = randomInt(-magnitude, magnitude);
-            const randomY = randomInt(-magnitude, magnitude);
-
-            element.style.transform = 'translate(' + randomX + 'px, ' + randomY + 'px)';
-            counter += 1;
-
-            requestAnimationFrame(upAndDownShake);
-        }
-        else counter = 1;
-
-        if (counter >= numberOfShakes) {
-            element.style.transform = 'translate(' + startX + ', ' + startY + ')';
-            shakingElements.splice(shakingElements.indexOf(element), 1);
-        }
+        setLoading(false);
     }
 
     return (
@@ -76,6 +47,8 @@ export default function Login({ history }) {
                 </div>
 
                 <div className="content-login" id="box-login">
+                    <Load id="divLoading" loading={loading} />
+                    
                     <p>Por favor, insira seu <strong>usuário</strong> e <strong>senha</strong> abaixo.</p>
 
                     <form onSubmit={handleSubmit}>
