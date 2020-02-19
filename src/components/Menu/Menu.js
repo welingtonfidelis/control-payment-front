@@ -11,6 +11,7 @@ import {
     Storefront, TrendingUp
 } from '@material-ui/icons';
 
+import { isAdministrator } from '../../services/auth';
 import Swal from '../SweetAlert/SwetAlert';
 
 import './styles.scss';
@@ -59,6 +60,11 @@ function Menu({ container, page }) {
     const [mobileOpen, setMobileOpen] = useState(false);
     const history = useHistory();
     const userName = localStorage.getItem('userName');
+    const [menuOptions, setMenuOptions] = useState([
+        { text: 'Dashboard', icon: < Dashboard /> }, { text: 'Usuário', icon: <Person /> },
+        { text: 'Contribuinte', icon: <Storefront /> }, { text: 'Doação', icon: <People /> },
+        { text: 'Recolhimento', icon: <MonetizationOn /> }, { text: 'Relatório', icon: <TrendingUp /> },
+    ]);
 
     async function exit() {
         if (await Swal.swalConfirm('Sair do sistema', 'Deseja realmente sair do sistema?')) {
@@ -76,10 +82,19 @@ function Menu({ container, page }) {
     useEffect(() => {
         const selected = page.split('/');
         setComponent(selected[selected.length - 1]);
+
+        //se usuário não for do tipo ADM, retira-se algumas opções de acesso
+        if(!isAdministrator()){
+            const admPermit = 'Usuário Relatório';
+            const tmp = menuOptions.filter(el =>{
+                return ((admPermit).indexOf(el.text) == -1);
+            });
+            setMenuOptions(tmp);
+        }
     }, []);
 
     useEffect(() => {
-        setTitleToolbar(component);
+        setTitleToolbar(component);    
 
         switch (component) {
             case 'Dashboard':
@@ -126,11 +141,6 @@ function Menu({ container, page }) {
         }
     }, [component])
 
-    const options = [
-        { text: 'Dashboard', icon: < Dashboard /> }, { text: 'Usuário', icon: <Person /> },
-        { text: 'Contribuinte', icon: <Storefront /> }, { text: 'Doação', icon: <People /> },
-        { text: 'Recolhimento', icon: <MonetizationOn /> }, { text: 'Relatório', icon: <TrendingUp /> },
-    ]
     const drawer = (
         <div className="content-menu">
             <header id="hdr">
@@ -143,7 +153,7 @@ function Menu({ container, page }) {
             </header>
             <Divider />
             <List className="content-list">
-                {options.map((el, index) => (
+                {menuOptions.map((el, index) => (
                     <ListItem
                         button key={index}
                         selected={el.text === titleToolbar}

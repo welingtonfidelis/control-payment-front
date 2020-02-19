@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import dateFormat from 'dateformat';
 import {
     PDFDownloadLink, Image,
     Page, Text, View, Document,
-    StyleSheet, PDFViewer
+    StyleSheet
 } from '@react-pdf/renderer';
 import { GetApp } from '@material-ui/icons';
 import './styles.scss';

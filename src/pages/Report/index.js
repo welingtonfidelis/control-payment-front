@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import ReportByDate from '../../components/ReportBydDate';
 import ReportByTaxpayer from '../../components/ReportByTaxpayer';
 

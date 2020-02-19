@@ -20,13 +20,15 @@ export default function Login({ history }) {
         try {
             const _response = await api.post('/user/login', { user, password })
 
-            //se login estiver correto, armazena variaveis e vai prossegue Dashboard
+            //se login estiver correto, armazena variaveis e vai para Dashboard
             const { status } = _response.data;
             if (status) {
-                const { name, token } = _response.data.response;
+                const { name, token, isAdm } = _response.data.response;
 
                 localStorage.setItem('token', token);
                 localStorage.setItem('userName', name);
+                localStorage.setItem('isAdm', isAdm);
+                
                 history.push('/main/dashboard');
             }
             else {

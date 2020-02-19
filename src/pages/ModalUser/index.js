@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
+import Switch from 'react-switch';
 import Select from 'react-select';
 
 import Load from '../../components/Load/Load';
@@ -34,10 +35,11 @@ export default function ModalUser(props) {
   const [optState, setOptState] = useState([]);
   const [loading, setLoading] = useState(false);
   const [userId, setUserId] = useState(0);
+  const [isAdm, setIsAdm] = useState(false);
   const [addressId, setAddressId] = useState(0);
 
   const token = localStorage.getItem('token');
-  
+
   useEffect(() => {
     //recupera informações básicas para construir as opções nos inputs
     getInfo();
@@ -63,7 +65,7 @@ export default function ModalUser(props) {
       (resp.response).forEach(el => {
         tmp.push({ value: el.code, label: el.name })
       });
-       setOptState(tmp)
+      setOptState(tmp)
 
     } catch (error) {
       console.log(error);
@@ -94,6 +96,7 @@ export default function ModalUser(props) {
         setPhone(response.phone);
         setUser(response.user);
         setUserCtrl(response.user);
+        setIsAdm(response.isAdm);
 
         setAddressId(Address.id);
         setCep(Address.cep ? Address.cep : '');
@@ -120,7 +123,7 @@ export default function ModalUser(props) {
 
     const stateTmp = state.value;
     const data = {
-      'user': { name, email, user, password, phone, birth },
+      'user': { name, email, user, password, phone, birth, isAdm },
       'address': { cep, 'state': stateTmp, city, district, street, complement, number }
     }
 
@@ -256,7 +259,7 @@ export default function ModalUser(props) {
 
   return (
     <div className="content">
-      <Load  id="divLoading" loading={loading} />
+      <Load id="divLoading" loading={loading} />
 
       <form className="flex-col-h modal-form" autoComplete="off" onSubmit={handleSubmit}>
         <h1 className="title-modal">CADASTRO</h1>
@@ -444,6 +447,15 @@ export default function ModalUser(props) {
               onChange={event => setPasswordConfirm(event.target.value)}
               onBlur={handleCheckConfirmPassword}
             />
+
+            <label className="switch-report-search">
+              <Switch
+                onChange={() => setIsAdm(!isAdm)}
+                checked={isAdm}
+                onColor='#0e78fa'
+              />
+              <span>Usuário do tipo <strong>{isAdm ? 'Admnistrador' : 'Comum'}</strong></span>
+            </label>
           </div>
 
         </div>
