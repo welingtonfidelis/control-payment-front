@@ -15,7 +15,6 @@ import { isAdministrator } from '../../services/auth';
 import Swal from '../SweetAlert/SwetAlert';
 
 import './styles.scss';
-import CompanyLogo from '../../assets/images/logo-patas.png';
 import ImageProfile from '../../assets/images/user.png';
 
 const drawerWidth = 240;
@@ -53,6 +52,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Menu({ container, page }) {
+    const CompanyLogo = localStorage.getItem('logoOng');
     const [component, setComponent] = useState('');
     const [titleToolbar, setTitleToolbar] = useState();
     const classes = useStyles();

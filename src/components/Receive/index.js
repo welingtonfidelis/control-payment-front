@@ -8,9 +8,8 @@ import {
 import { GetApp } from '@material-ui/icons';
 import './styles.scss';
 
-import ImageLogo from '../../assets/images/logo-patas.png';
-
 export default function Receive({ receives }) {
+    const ImageLogo = localStorage.getItem('logoOng');
     const today = new Date();
     const month = dateFormat(today, 'mmmm');
 
@@ -73,9 +72,10 @@ export default function Receive({ receives }) {
                     return (
                         <View style={styles.container}>
                             <View style={styles.header}>
-                                <Image
-                                    style={styles.image}
-                                    src={ImageLogo}
+                                <Image 
+                                    cache={false} 
+                                    style={styles.image} 
+                                    src={ImageLogo} 
                                 />
                                 <View style={styles.headerText}>
                                     <Text>CNPJ <Text style={styles.h1}>023.778.707/0001-29</Text></Text>
@@ -133,7 +133,7 @@ export default function Receive({ receives }) {
 
                     return <li key={rec.id}>
                         <div className="receive-header flex-row-w">
-                            <img src={ImageLogo} alt="Logo pagas amigas" />
+                            <img src={ImageLogo} alt="Sua logo" />
                             <div></div>
                             <div>
                                 <div>CNPJ <strong>023.778.707/0001-29</strong></div>

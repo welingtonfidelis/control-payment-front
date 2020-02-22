@@ -4,7 +4,7 @@ import Load from '../../components/Load/Load';
 import api from '../../services/api';
 import Swal from '../../components/SweetAlert/SwetAlert';
 
-import logo from '../../assets/images/logo-patas.png'
+// import logo from '../../assets/images/logo-patasamigas.png'
 import './styles.scss';
 
 export default function Login({ history }) {
@@ -23,13 +23,16 @@ export default function Login({ history }) {
             //se login estiver correto, armazena variaveis e vai para Dashboard
             const { status } = _response.data;
             if (status) {
-                const { name, token, isAdm } = _response.data.response;
+                const { name, token, isAdm, nameOng, logoOng } = _response.data.response;
 
                 localStorage.setItem('token', token);
                 localStorage.setItem('userName', name);
                 localStorage.setItem('isAdm', isAdm);
+                localStorage.setItem('nameOng', nameOng);
+                localStorage.setItem('logoOng', logoOng);
                 
                 history.push('/main/dashboard');
+                return;
             }
             else {
                 setErrorLogin(true);
@@ -45,7 +48,7 @@ export default function Login({ history }) {
         <div className="body-login">
             <div className="container-login">
                 <div>
-                    <img className="logo-login" src={logo} alt="Logo" />
+                    {/* <img className="logo-login" src={logo} alt="Logo" /> */}
                 </div>
 
                 <div className="content-login" id="box-login">
