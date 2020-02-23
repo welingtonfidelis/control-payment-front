@@ -1,17 +1,17 @@
 import React from 'react';
-import dateFormat from 'dateformat';
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale'
 import {
     PDFDownloadLink, Image,
     Page, Text, View, Document,
-    StyleSheet
+    StyleSheet, PDFViewer
 } from '@react-pdf/renderer';
 import { GetApp } from '@material-ui/icons';
 import './styles.scss';
 
 export default function Receive({ receives }) {
     const ImageLogo = localStorage.getItem('logoOng');
-    const today = new Date();
-    const month = dateFormat(today, 'mmmm');
+    const month = format(new Date(), 'MMMM', {locale: ptBR})
 
     const styles = StyleSheet.create({
         page: {
@@ -27,7 +27,7 @@ export default function Receive({ receives }) {
             flexDirection: 'column',
             fontSize: 10,
             marginBottom: 5,
-            padding: 5
+            padding: 5,
         },
         header: {
             flexDirection: 'row',
@@ -65,23 +65,30 @@ export default function Receive({ receives }) {
         <Document>
             <Page style={styles.page}>
                 {receives.map((rec, index) => {
-                    const { Address, Payment } = rec;
+                    const { Address, Payment, Ong } = rec;
                     const { street, number, district } = Address;
                     const { value } = Payment;
 
+                    const municipallaw = Ong.municipallaw
+                        ? `Utilidade Pública Municipal Lei nº ${Ong.municipallaw}`
+                        : '';
+                    const statelaw = Ong.statelaw
+                        ? `Utilidade Pública Municipal Lei nº ${Ong.statelaw}`
+                        : '';
+
                     return (
-                        <View style={styles.container}>
+                        <View key={rec.id} style={styles.container}>
                             <View style={styles.header}>
-                                <Image 
+                                {/* <Image 
                                     cache={false} 
                                     style={styles.image} 
                                     src={ImageLogo} 
-                                />
+                                /> */}
                                 <View style={styles.headerText}>
-                                    <Text>CNPJ <Text style={styles.h1}>023.778.707/0001-29</Text></Text>
-                                    <Text>Utilidade Pública Municipal Lei nº 1.965/95</Text>
-                                    <Text>Utilidade Pública Estadual Lei nº 22.321/16</Text>
-                                    <Text>contatopatasamigas@hotmail.com</Text>
+                                    <Text>CNPJ <Text style={styles.h1}>{Ong.cnpj}</Text></Text>
+                                    <Text>{municipallaw}</Text>
+                                    <Text>{statelaw}</Text>
+                                    <Text>{Ong.email}</Text>
                                 </View>
                             </View>
 
@@ -96,7 +103,9 @@ export default function Receive({ receives }) {
                             </View>
 
                             <View style={styles.footer}>
-                                <Text>Passos/MG, {dateFormat(today, 'dd/mm/yyyy')}</Text>
+                                <Text>Passos/MG, ____/____/_______</Text>
+                                <Text>{"\n"}</Text>
+                                <Text>__________________________________</Text>
                                 <Text>Representante da ONG Patas Amigas</Text>
                             </View>
                         </View>
@@ -123,23 +132,30 @@ export default function Receive({ receives }) {
 
     return (
         <div>
-            <PDF />
+            {/* <PDF /> */}
 
             <ul className="simple-list-2">
                 {receives.map(rec => {
-                    const { Address, Payment } = rec;
+                    const { Address, Payment, Ong } = rec;
                     const { street, number, district } = Address;
                     const { value } = Payment;
+
+                    const municipallaw = Ong.municipallaw
+                        ? `Utilidade Pública Municipal Lei nº ${Ong.municipallaw}`
+                        : '';
+                    const statelaw = Ong.statelaw
+                        ? `Utilidade Pública Municipal Lei nº ${Ong.statelaw}`
+                        : '';
 
                     return <li key={rec.id}>
                         <div className="receive-header flex-row-w">
                             <img src={ImageLogo} alt="Sua logo" />
                             <div></div>
                             <div>
-                                <div>CNPJ <strong>023.778.707/0001-29</strong></div>
-                                <div>Utilidade Pública Municipal Lei nº <strong>1.965/95</strong></div>
-                                <div>Utilidade Pública Estadual Lei nº <strong>22.321/16</strong></div>
-                                <strong>contatopatasamigas@hotmail.com</strong>
+                                <div>CNPJ <strong>{Ong.cnpj}</strong></div>
+                                <div>{municipallaw}</div>
+                                <div>{statelaw}</div>
+                                <strong>{Ong.email}</strong>
                             </div>
                         </div>
                         <div className="receive-content">
@@ -151,8 +167,10 @@ export default function Receive({ receives }) {
                         </div>
 
                         <div className="receive-footer">
-                            <p>Passos/MG, <strong>{dateFormat(today, 'dd/mm/yyyy')}</strong></p>
-                            <p>Representante da ONG Patas Amigas</p>
+                            <p>Passos/MG, ____/____/_______</p>
+                            <br></br>
+                            <p>__________________________________________</p>
+                            <p>Representante da {Ong.name}</p>
                         </div>
                     </li>
                 }

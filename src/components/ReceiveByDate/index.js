@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
-import DatePicker from 'react-datepicker';
-import dateFormat from 'dateformat'
+import { format } from 'date-fns';
+import {
+    MuiPickersUtilsProvider,
+    KeyboardDatePicker
+} from '@material-ui/pickers';
+import DateFnsUtils from "@date-io/date-fns";
+import { ptBR } from 'date-fns/locale';
 import Receive from '../Receive';
 
 import api from '../../services/api';
@@ -20,8 +25,8 @@ export default function ReceivaByDate() {
 
         try {
             const token = localStorage.getItem('token');
-            const start = dateFormat(startDate, 'yyyy-mm-dd');
-            const end = dateFormat(endDate, 'yyyy-mm-dd');
+            const start = format(startDate, 'yyyy-MM-dd');
+            const end = format(endDate, 'yyyy-MM-dd');
 
             let resp = await api.get(`/receive/bydate?start=${start}&end=${end}`, {
                 headers: { token }
@@ -44,42 +49,50 @@ export default function ReceivaByDate() {
     return (
         <>
             <div className="flex-row-w container-select-date">
-                <Load  id="divLoading" loading={loading} />
+                <Load id="divLoading" loading={loading} />
 
                 <div className="content-select-date-left">
                     <div className="content-select-date">
                         <label htmlFor="dateStart">Data inicial</label>
-                        <DatePicker
-                            id="dateStart"
-                            locale="pt"
-                            onChange={date => setStartDate(date)}
-                            selected={startDate}
-                            peekNextMonth
-                            showMonthDropdown
-                            showYearDropdown
-                            dropdownMode="select"
-                            dateFormat="dd/MM/yyyy"
-                        />
+                        <div className="keyboardpicker-modal-taxpayer">
+                            <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBR}>
+                                <KeyboardDatePicker
+                                    className="nomargin-datepicker"
+                                    id="date-picker-dialog"
+                                    format="dd/MM/yyyy"
+                                    value={startDate}
+                                    onChange={date => setStartDate(date)}
+                                    KeyboardButtonProps={{
+                                        'aria-label': 'change date',
+                                    }}
+                                    cancelLabel="SAIR"
+                                />
+                            </MuiPickersUtilsProvider>
+                        </div>
                     </div>
                     <div className="content-select-date">
                         <label htmlFor="dateEnd">Data inicial</label>
-                        <DatePicker
-                            id="dateEnd"
-                            locale="pt"
-                            onChange={date => setEndDate(date)}
-                            selected={endDate}
-                            peekNextMonth
-                            showMonthDropdown
-                            showYearDropdown
-                            dropdownMode="select"
-                            dateFormat="dd/MM/yyyy"
-                        />
+                        <div className="keyboardpicker-modal-taxpayer">
+                            <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBR}>
+                                <KeyboardDatePicker
+                                    className="nomargin-datepicker"
+                                    id="date-picker-dialog"
+                                    format="dd/MM/yyyy"
+                                    value={endDate}
+                                    onChange={date => setEndDate(date)}
+                                    KeyboardButtonProps={{
+                                        'aria-label': 'change date',
+                                    }}
+                                    cancelLabel="SAIR"
+                                />
+                            </MuiPickersUtilsProvider>
+                        </div>
                     </div>
                 </div>
-    
+
                 <div className="content-select-date-right">
-                    < div 
-                        className="btn-search" 
+                    < div
+                        className="btn-search"
                         onClick={() => handleSearch()}
                     >
                         Buscar

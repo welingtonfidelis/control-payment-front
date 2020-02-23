@@ -383,3 +383,8 @@ input:invalid {
 .content-select-date-right {
   flex: 1;
 }
+
+.nomargin-datepicker #date-picker-dialog,
+.nomargin-timepicker #time-picker {
+  margin: 0 !important;
+}

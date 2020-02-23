@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Chart from "react-apexcharts";
-import dateFormat from 'dateformat';
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
 import './styles.scss';
 
@@ -22,7 +23,7 @@ export default function Dashboard() {
             categories: donationDate
         },
         title: {
-            text: `Doações do mês de ${dateFormat(new Date(), 'mmmm - yyyy')} (Total)`
+            text: `Doações do mês de ${format(new Date(), 'MMMM - yyyy', {locale: ptBR})} (Total)`
         }
     };
 
@@ -49,7 +50,7 @@ export default function Dashboard() {
                     let index = 0;
 
                     donation.forEach(element => {
-                        const paidIn = dateFormat(new Date(element.paidIn), 'dd/mm/yyyy');
+                        const paidIn = format(new Date(element.paidIn), 'dd/MM/yyyy');
                         if (arrayCtrl[paidIn]) {
                             arrayValue[arrayCtrl[paidIn].index] += element.value;
                         }
@@ -107,7 +108,7 @@ export default function Dashboard() {
                                 </div>
                             </div>
                             <div className="flex-col col-right">
-                                <b style={{ color: alert }}>{dateFormat(expiration, 'dd-mm-yyyy')}</b>
+                                <b style={{ color: alert }}>{format(expiration, 'dd-MM-yyyy')}</b>
                                 <b>R${pay.Payment.value}</b>
                             </div>
                         </li>

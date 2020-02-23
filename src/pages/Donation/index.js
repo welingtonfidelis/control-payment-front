@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import dateFormat from 'dateformat';
+import { format } from 'date-fns';
 import { useHistory } from 'react-router-dom';
 import MenuDrop from '../../components/MenuDropDown/OptionList';
 
@@ -114,7 +114,7 @@ export default function Donation() {
                             <h2>{Taxpayer.name}</h2>
                             <span>
                                 R$ {donation.value} - 
-                                 {dateFormat(today, 'dd/mm/yyyy HH:MM')}
+                                 {format(today, 'dd/MM/yyyy HH:MM')}
                             </span>
                         </div>
 

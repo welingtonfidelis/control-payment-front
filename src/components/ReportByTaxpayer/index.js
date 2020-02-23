@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
-import DatePicker from 'react-datepicker';
-import dateFormat from 'dateformat';
+import {
+    MuiPickersUtilsProvider,
+    KeyboardDatePicker
+} from '@material-ui/pickers';
+import DateFnsUtils from "@date-io/date-fns";
+import { ptBR } from 'date-fns/locale';
+import { format } from 'date-fns';
 
 import api from '../../services/api';
 import Load from '../Load/Load';
@@ -58,8 +63,8 @@ export default function ReportByTaxpayer() {
             let resp = await api.get(`/donation/bytaxpayer`, {
                 headers: { token },
                 params: {
-                    start: startDate,
-                    end: endDate,
+                    start: format(startDate, 'yyyy-MM-dd'),
+                    end: format(endDate, 'yyyy-MM-dd'),
                     arrayTaxpayerId: taxpayerTmp
                 }
             });
@@ -74,7 +79,7 @@ export default function ReportByTaxpayer() {
                         arrayCtrl[el.TaxpayerId].donation.push({
                             id: el.id,
                             value: el.value,
-                            paidIn: dateFormat(el.paidIn, 'dd/mm/yyyy'),
+                            paidIn: format(new Date(el.paidIn), 'dd/MM/yyyy'),
                             observation: el.observation
                         });
                     }
@@ -85,7 +90,7 @@ export default function ReportByTaxpayer() {
                             donation: [{
                                 id: el.id,
                                 value: el.value,
-                                paidIn: dateFormat(el.paidIn, 'dd/mm/yyyy'),
+                                paidIn: format(new Date(el.paidIn), 'dd/MM/yyyy'),
                                 observation: el.observation
                             }]
                         }
@@ -130,31 +135,39 @@ export default function ReportByTaxpayer() {
                     <div className="content-select-date-left">
                         <div className="content-select-date">
                             <label htmlFor="dateStart">Data inicial</label>
-                            <DatePicker
-                                id="dateStart"
-                                locale="pt"
-                                onChange={date => setStartDate(date)}
-                                selected={startDate}
-                                peekNextMonth
-                                showMonthDropdown
-                                showYearDropdown
-                                dropdownMode="select"
-                                dateFormat="dd/MM/yyyy"
-                            />
+                            <div className="keyboardpicker-modal-taxpayer">
+                                <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBR}>
+                                    <KeyboardDatePicker
+                                        className="nomargin-datepicker"
+                                        id="date-picker-dialog"
+                                        format="dd/MM/yyyy"
+                                        value={startDate}
+                                        onChange={date => setStartDate(date)}
+                                        KeyboardButtonProps={{
+                                            'aria-label': 'change date',
+                                        }}
+                                        cancelLabel="SAIR"
+                                    />
+                                </MuiPickersUtilsProvider>
+                            </div>
                         </div>
                         <div className="content-select-date">
                             <label htmlFor="dateEnd">Data inicial</label>
-                            <DatePicker
-                                id="dateEnd"
-                                locale="pt"
-                                onChange={date => setEndDate(date)}
-                                selected={endDate}
-                                peekNextMonth
-                                showMonthDropdown
-                                showYearDropdown
-                                dropdownMode="select"
-                                dateFormat="dd/MM/yyyy"
-                            />
+                            <div className="keyboardpicker-modal-taxpayer">
+                                <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBR}>
+                                    <KeyboardDatePicker
+                                        className="nomargin-datepicker"
+                                        id="date-picker-dialog"
+                                        format="dd/MM/yyyy"
+                                        value={endDate}
+                                        onChange={date => setEndDate(date)}
+                                        KeyboardButtonProps={{
+                                            'aria-label': 'change date',
+                                        }}
+                                        cancelLabel="SAIR"
+                                    />
+                                </MuiPickersUtilsProvider>
+                            </div>
                         </div>
                     </div>
                     <div className="content-select-date-right">
@@ -185,7 +198,7 @@ export default function ReportByTaxpayer() {
 
                             <div className="simple-list-3-container">
                                 {donation.map(elem => {
-                                    return <div key={elem.id} className="simple-list-3-content">
+                                    return <div key={(elem.id)} className="simple-list-3-content">
                                         <div style={{ flex: 1 }}>{elem.paidIn}</div>
                                         <div style={{ flex: 1 }}>R${elem.value}</div>
                                         <div style={{ flex: 2 }}>{elem.observation}</div>

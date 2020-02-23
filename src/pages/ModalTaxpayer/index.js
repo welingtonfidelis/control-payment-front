@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import DatePicker from 'react-datepicker';
 import Select from 'react-select';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker
+} from '@material-ui/pickers';
+import DateFnsUtils from "@date-io/date-fns";
+import { ptBR } from 'date-fns/locale';
 
 import Load from '../../components/Load/Load';
 import Swal from '../../components/SweetAlert/SwetAlert';
@@ -36,18 +42,20 @@ export default function ModalUser(props) {
   const [addressId, setAddressId] = useState(0);
   const [paymentId, setPaymentId] = useState(0);
   const token = localStorage.getItem('token');
+  const [hourStart, setHourStart] = useState(new Date());
+  const [hourEnd, setHourEnd] = useState(new Date());
   const optExpiration = [
-    {value: "01", label: "01"},{value: "02", label: "02"},{value: "03", label: "03"},
-    {value: "04", label: "04"},{value: "05", label: "05"},{value: "06", label: "06"},
-    {value: "07", label: "07"},{value: "08", label: "08"},{value: "09", label: "09"},
-    {value: "10", label: "10"},{value: "11", label: "11"},{value: "12", label: "12"},
-    {value: "13", label: "13"},{value: "14", label: "14"},{value: "15", label: "15"},
-    {value: "16", label: "16"},{value: "17", label: "17"},{value: "18", label: "18"},
-    {value: "19", label: "19"},{value: "20", label: "20"},{value: "21", label: "21"},
-    {value: "22", label: "22"},{value: "23", label: "23"},{value: "24", label: "24"},
-    {value: "25", label: "25"},{value: "26", label: "26"},{value: "27", label: "27"},
-    {value: "28", label: "28"},{value: "29", label: "29"},{value: "30", label: "30"},
-    {value: "31", label: "31"}
+    { value: "01", label: "01" }, { value: "02", label: "02" }, { value: "03", label: "03" },
+    { value: "04", label: "04" }, { value: "05", label: "05" }, { value: "06", label: "06" },
+    { value: "07", label: "07" }, { value: "08", label: "08" }, { value: "09", label: "09" },
+    { value: "10", label: "10" }, { value: "11", label: "11" }, { value: "12", label: "12" },
+    { value: "13", label: "13" }, { value: "14", label: "14" }, { value: "15", label: "15" },
+    { value: "16", label: "16" }, { value: "17", label: "17" }, { value: "18", label: "18" },
+    { value: "19", label: "19" }, { value: "20", label: "20" }, { value: "21", label: "21" },
+    { value: "22", label: "22" }, { value: "23", label: "23" }, { value: "24", label: "24" },
+    { value: "25", label: "25" }, { value: "26", label: "26" }, { value: "27", label: "27" },
+    { value: "28", label: "28" }, { value: "29", label: "29" }, { value: "30", label: "30" },
+    { value: "31", label: "31" }
   ];
 
   useEffect(() => {
@@ -96,7 +104,7 @@ export default function ModalUser(props) {
         const { response } = resp;
         const { Address } = response;
         const { Payment } = response;
-        
+
         setTaxpayerId(response.id);
         setName(response.name);
         setBirth(new Date(response.birth));
@@ -116,7 +124,9 @@ export default function ModalUser(props) {
 
         setPaymentId(Payment.id);
         setValue(Payment.value);
-        setExpiration(optExpiration[Payment.expiration -1]);
+        setExpiration(optExpiration[Payment.expiration - 1]);
+        setHourStart(new Date(Payment.hourStart));
+        setHourEnd(new Date(Payment.hourEnd));
       }
       else {
         Swal.swalErrorInform();
@@ -136,7 +146,7 @@ export default function ModalUser(props) {
     const data = {
       'taxpayer': { name, email, phone1, phone2, birth },
       'address': { cep, 'state': stateTmp, city, district, street, complement, number },
-      'payment': {value, expiration: expirationTmp}
+      'payment': { value, expiration: expirationTmp, hourStart, hourEnd }
     }
 
     try {
@@ -210,7 +220,7 @@ export default function ModalUser(props) {
       setLoading(true);
       try {
         const resp = (await util.getCep(cepTmp)).data
-    
+
         if (resp) {
           setStreet(resp.logradouro);
           setComplement(resp.complemento);
@@ -232,7 +242,7 @@ export default function ModalUser(props) {
 
   return (
     <div className="content">
-      <Load  id="divLoading" loading={loading} />
+      <Load id="divLoading" loading={loading} />
 
       <form className="flex-col-h modal-form" autoComplete="off" onSubmit={handleSubmit}>
         <h1 className="title-modal">CADASTRO</h1>
@@ -254,16 +264,21 @@ export default function ModalUser(props) {
               </div>
               <div className="flex-col-h" style={{ flex: 1 }}>
                 <label htmlFor="birth">Data de nascimento *</label>
-                <DatePicker
-                  locale="pt"
-                  onChange={date => setBirth(date)}
-                  selected={birth}
-                  peekNextMonth
-                  showMonthDropdown
-                  showYearDropdown
-                  dropdownMode="select"
-                  dateFormat="dd/MM/yyyy"
-                />
+                <div className="keyboardpicker-modal-taxpayer">
+                  <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBR}>
+                    <KeyboardDatePicker
+                      className="nomargin-datepicker"
+                      id="date-picker-dialog"
+                      format="dd/MM/yyyy"
+                      value={birth}
+                      onChange={date => setBirth(date)}
+                      KeyboardButtonProps={{
+                        'aria-label': 'change date',
+                      }}
+                      cancelLabel="SAIR"
+                    />
+                  </MuiPickersUtilsProvider>
+                </div>
               </div>
             </div>
 
@@ -418,6 +433,34 @@ export default function ModalUser(props) {
               onChange={event => setExpiration(event)}
               options={optExpiration}
             />
+          </div>
+          <div className="flex-col-h">
+            <label htmlFor="value">Horário para recolhimento</label>
+            <div className="flex-row-w keyboardpicker-modal-taxpayer">
+              <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBR}>
+                <KeyboardTimePicker
+                  className="nomargin-timepicker"
+                  margin="normal"
+                  id="time-picker"
+                  value={hourStart}
+                  onChange={date => setHourStart(date)}
+                  KeyboardButtonProps={{
+                    'aria-label': 'change time',
+                  }}
+                />
+                <KeyboardTimePicker
+                  className="nomargin-timepicker"
+                  margin="normal"
+                  id="time-picker"
+                  value={hourEnd}
+                  onChange={date => setHourEnd(date)}
+                  KeyboardButtonProps={{
+                    'aria-label': 'change time',
+                  }}
+                  cancelLabel="SAIR"
+                />
+              </MuiPickersUtilsProvider>
+            </div>
           </div>
         </div>
 

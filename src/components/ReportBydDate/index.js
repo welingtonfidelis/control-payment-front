@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import DatePicker from 'react-datepicker';
-import dateFormat from 'dateformat'
+import {
+    MuiPickersUtilsProvider,
+    KeyboardDatePicker
+} from '@material-ui/pickers';
+import DateFnsUtils from "@date-io/date-fns";
+import { ptBR } from 'date-fns/locale';
+import { format } from 'date-fns';
 import Chart from "react-apexcharts";
 import Switch from 'react-switch';
 
@@ -27,8 +32,8 @@ export default function ReportByDate() {
         },
         title: {
             text: `Doações do mês de 
-                ${dateFormat(startDate, 'mmmm - yyyy')} à  
-                ${dateFormat(endDate, 'mmmm - yyyy')}`
+                ${format(startDate, 'MMMM - yyyy', { locale: ptBR })} à  
+                ${format(endDate, 'MMMM - yyyy', { locale: ptBR })}`
         }
     };
 
@@ -42,8 +47,8 @@ export default function ReportByDate() {
 
         try {
             const token = localStorage.getItem('token');
-            const start = dateFormat(startDate, 'yyyy-mm-dd');
-            const end = dateFormat(endDate, 'yyyy-mm-dd');
+            const start = format(startDate, 'yyyy-MM-dd');
+            const end = format(endDate, 'yyyy-MM-dd');
 
             const resp = await api.get(`/donation/bydate?start=${start}&end=${end}`, {
                 headers: { token }
@@ -71,11 +76,11 @@ export default function ReportByDate() {
 
     function handleBuildData() {
         const arrayValue = [], arrayPaidIn = [], arrayCtrl = {},
-            dtFormat = typeGroup ? 'mmmm - yyyy' : 'dd/mm/yyyy';
+            dtFormat = typeGroup ? 'MMMM - yyyy' : 'dd/MM/yyyy';
         let index = 0;
 
         donations.forEach(element => {
-            const paidIn = dateFormat(new Date(element.paidIn), dtFormat);
+            const paidIn = format(new Date(element.paidIn), dtFormat);
             if (arrayCtrl[paidIn]) {
                 arrayValue[arrayCtrl[paidIn].index] += element.value;
             }
@@ -99,31 +104,39 @@ export default function ReportByDate() {
 
                     <div className="content-select-date">
                         <label htmlFor="dateStart">Data inicial</label>
-                        <DatePicker
-                            id="dateStart"
-                            locale="pt"
-                            onChange={date => setStartDate(date)}
-                            selected={startDate}
-                            peekNextMonth
-                            showMonthDropdown
-                            showYearDropdown
-                            dropdownMode="select"
-                            dateFormat="dd/MM/yyyy"
-                        />
+                        <div className="keyboardpicker-modal-taxpayer">
+                            <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBR}>
+                                <KeyboardDatePicker
+                                    className="nomargin-datepicker"
+                                    id="date-picker-dialog"
+                                    format="dd/MM/yyyy"
+                                    value={startDate}
+                                    onChange={date => setStartDate(date)}
+                                    KeyboardButtonProps={{
+                                        'aria-label': 'change date',
+                                    }}
+                                    cancelLabel="SAIR"
+                                />
+                            </MuiPickersUtilsProvider>
+                        </div>
                     </div>
                     <div className="content-select-date">
                         <label htmlFor="dateEnd">Data inicial</label>
-                        <DatePicker
-                            id="dateEnd"
-                            locale="pt"
-                            onChange={date => setEndDate(date)}
-                            selected={endDate}
-                            peekNextMonth
-                            showMonthDropdown
-                            showYearDropdown
-                            dropdownMode="select"
-                            dateFormat="dd/MM/yyyy"
-                        />
+                        <div className="keyboardpicker-modal-taxpayer">
+                            <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBR}>
+                                <KeyboardDatePicker
+                                    className="nomargin-datepicker"
+                                    id="date-picker-dialog"
+                                    format="dd/MM/yyyy"
+                                    value={endDate}
+                                    onChange={date => setEndDate(date)}
+                                    KeyboardButtonProps={{
+                                        'aria-label': 'change date',
+                                    }}
+                                    cancelLabel="SAIR"
+                                />
+                            </MuiPickersUtilsProvider>
+                        </div>
                     </div>
                 </div>
 
@@ -139,7 +152,7 @@ export default function ReportByDate() {
                             onChange={() => setTypeGroup(!typeGroup)}
                             checked={typeGroup}
                             onColor='#0e78fa'
-                            />
+                        />
                         <span>Agrupar por {typeGroup ? 'mês' : 'dia'}</span>
                     </label>
                 </div>

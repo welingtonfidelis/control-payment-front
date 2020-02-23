@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import DatePicker from 'react-datepicker';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDateTimePicker
+} from '@material-ui/pickers';
+import DateFnsUtils from "@date-io/date-fns";
+import { ptBR } from 'date-fns/locale';
 import Select from 'react-select';
 
 import Load from '../../components/Load/Load';
@@ -179,17 +184,21 @@ export default function ModalDonation(props) {
               </div>
               <div className="flex-col-h">
                 <label htmlFor="paidIn">Data *</label>
-                <DatePicker
-                  locale="pt"
-                  id="paidIn"
-                  onChange={date => setPaidIn(date)}
-                  selected={paidIn}
-                  peekNextMonth
-                  showMonthDropdown
-                  showYearDropdown
-                  dropdownMode="select"
-                  dateFormat="dd/MM/yyyy"
-                />
+                <div className="keyboardpicker-modal-taxpayer">
+                  <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBR}>
+                    <KeyboardDateTimePicker
+                      className="nomargin-datepicker"
+                      id="date-picker-dialog"
+                      format="dd/MM/yyyy hh:mm"
+                      value={paidIn}
+                      onChange={date => setPaidIn(date)}
+                      KeyboardButtonProps={{
+                        'aria-label': 'change date',
+                      }}
+                      cancelLabel="SAIR"
+                    />
+                  </MuiPickersUtilsProvider>
+                </div>
               </div>
             </div>
 

@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import DatePicker from 'react-datepicker';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker
+} from '@material-ui/pickers';
+import DateFnsUtils from "@date-io/date-fns";
+import { ptBR } from 'date-fns/locale';
 import Switch from 'react-switch';
 import Select from 'react-select';
 
@@ -281,16 +286,21 @@ export default function ModalUser(props) {
               </div>
               <div className="flex-col-h" style={{ flex: 1 }}>
                 <label htmlFor="birth">Data de nascimento *</label>
-                <DatePicker
-                  locale="pt"
-                  onChange={date => setBirth(date)}
-                  selected={birth}
-                  peekNextMonth
-                  showMonthDropdown
-                  showYearDropdown
-                  dropdownMode="select"
-                  dateFormat="dd/MM/yyyy"
-                />
+                <div className="keyboardpicker-modal-taxpayer">
+                  <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBR}>
+                    <KeyboardDatePicker
+                      className="nomargin-datepicker"
+                      id="date-picker-dialog"
+                      format="dd/MM/yyyy hh:mm"
+                      value={birth}
+                      onChange={date => setBirth(date)}
+                      KeyboardButtonProps={{
+                        'aria-label': 'change date',
+                      }}
+                      cancelLabel="SAIR"
+                    />
+                  </MuiPickersUtilsProvider>
+                </div>
               </div>
             </div>
 
