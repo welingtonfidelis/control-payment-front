@@ -268,7 +268,7 @@ export default function ModalUser(props) {
                   <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBR}>
                     <KeyboardDatePicker
                       className="nomargin-datepicker"
-                      id="date-picker-dialog"
+                      
                       format="dd/MM/yyyy"
                       value={birth}
                       onChange={date => setBirth(date)}

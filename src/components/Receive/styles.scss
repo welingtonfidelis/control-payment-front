@@ -35,6 +35,12 @@
     text-decoration: underline;
 }
 
+.receive-footer-obs{
+    text-align: right;
+    font-size: 12px;
+    margin-top: 10px;
+}
+
 #pdf-div{
     position: fixed;
     bottom: 10px;
@@ -46,4 +52,20 @@
 #pdf-div > a{
     text-decoration: none;
     color: #fff;
+}
+
+.receive-copy-ong{
+    border-right: 1px dotted;
+    padding-right: 7px;
+    margin-right: 7px;
+    flex: 1;
+}
+
+.receive-copy-ong div:first-child {
+    text-align: center;
+    border-bottom: 1px solid #adb2b8;
+}
+
+.receive-copy-client{
+    flex: 2;
 }

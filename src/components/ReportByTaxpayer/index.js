@@ -139,7 +139,7 @@ export default function ReportByTaxpayer() {
                                 <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBR}>
                                     <KeyboardDatePicker
                                         className="nomargin-datepicker"
-                                        id="date-picker-dialog"
+                                        
                                         format="dd/MM/yyyy"
                                         value={startDate}
                                         onChange={date => setStartDate(date)}
@@ -157,7 +157,7 @@ export default function ReportByTaxpayer() {
                                 <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBR}>
                                     <KeyboardDatePicker
                                         className="nomargin-datepicker"
-                                        id="date-picker-dialog"
+                                        
                                         format="dd/MM/yyyy"
                                         value={endDate}
                                         onChange={date => setEndDate(date)}

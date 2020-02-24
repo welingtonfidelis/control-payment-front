@@ -210,8 +210,8 @@ input:invalid {
 
 @media only screen and (min-width: 601px) {
   .simple-list-2 {
-    display: grid;
-    grid-template-columns: auto auto;
+    // display: grid;
+    // grid-template-columns: auto auto;
   }
 }
 
@@ -384,7 +384,7 @@ input:invalid {
   flex: 1;
 }
 
-.nomargin-datepicker #date-picker-dialog,
-.nomargin-timepicker #time-picker {
+.nomargin-datepicker input,
+.nomargin-timepicker input {
   margin: 0 !important;
 }

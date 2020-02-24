@@ -188,7 +188,7 @@ export default function ModalDonation(props) {
                   <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBR}>
                     <KeyboardDateTimePicker
                       className="nomargin-datepicker"
-                      id="date-picker-dialog"
+                      
                       format="dd/MM/yyyy hh:mm"
                       value={paidIn}
                       onChange={date => setPaidIn(date)}
