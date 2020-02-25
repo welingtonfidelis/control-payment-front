@@ -12,6 +12,7 @@ import Switch from 'react-switch';
 import api from '../../services/api';
 import Load from '../../components/Load/Load';
 import Swal from '../../components/SweetAlert/SwetAlert';
+import ReportDonationPdf from '../ReportDonation/index';
 
 import './styles.scss';
 
@@ -23,6 +24,7 @@ export default function ReportByDate() {
     const [donations, setDonations] = useState([]);
     const [loading, setLoading] = useState(false);
     const [typeGroup, setTypeGroup] = useState(true);
+    const [totalDonation, setTotalDonation] = useState(0);
     const options1 = {
         chart: {
             id: "Doação do mês"
@@ -33,7 +35,8 @@ export default function ReportByDate() {
         title: {
             text: `Doações do mês de 
                 ${format(startDate, 'MMMM - yyyy', { locale: ptBR })} à  
-                ${format(endDate, 'MMMM - yyyy', { locale: ptBR })}`
+                ${format(endDate, 'MMMM - yyyy', { locale: ptBR })} 
+                (Total: R$${totalDonation})`
         }
     };
 
@@ -58,6 +61,12 @@ export default function ReportByDate() {
             if (status) {
                 const { response } = resp.data;
 
+                let tmp = 0;
+                response.forEach((el) => {
+                    tmp += el.value;
+                });
+
+                setTotalDonation(tmp);
                 setDonations(response);
             }
             else {
@@ -98,6 +107,12 @@ export default function ReportByDate() {
 
     return (
         <>
+            <ReportDonationPdf
+                startDate={startDate}
+                endDate={endDate}
+                receives={donations}
+            >
+            </ReportDonationPdf>
             <div className="flex-row-w container-select-date">
                 <div className="content-select-date-left">
                     <Load id="divLoading" loading={loading} />
@@ -108,7 +123,7 @@ export default function ReportByDate() {
                             <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBR}>
                                 <KeyboardDatePicker
                                     className="nomargin-datepicker"
-                                    
+
                                     format="dd/MM/yyyy"
                                     value={startDate}
                                     onChange={date => setStartDate(date)}
@@ -126,7 +141,7 @@ export default function ReportByDate() {
                             <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBR}>
                                 <KeyboardDatePicker
                                     className="nomargin-datepicker"
-                                    
+
                                     format="dd/MM/yyyy"
                                     value={endDate}
                                     onChange={date => setEndDate(date)}

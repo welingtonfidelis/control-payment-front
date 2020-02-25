@@ -8,12 +8,8 @@ import {
 } from '@react-pdf/renderer';
 import { GetApp } from '@material-ui/icons';
 import Switch from 'react-switch';
-import ReactToPrint from 'react-to-print';
 
 import './styles.scss';
-import ImageLogo2 from '../../assets/images/logo-patasamigas.png';
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf'
 
 export default function Receive({ receives }) {
     const ImageLogo = localStorage.getItem('logoOng');
@@ -103,7 +99,7 @@ export default function Receive({ receives }) {
                         <Image
                             cache={false}
                             style={styles.image}
-                            src={ImageLogo2}
+                            src={ImageLogo}
                         />
                     </View>
 
@@ -157,7 +153,7 @@ export default function Receive({ receives }) {
                                     <Image
                                         cache={false}
                                         style={styles.image}
-                                        src={ImageLogo2}
+                                        src={ImageLogo}
                                     />
                                     <View style={styles.headerText}>
                                         <Text>CNPJ <Text style={styles.h1}>{Ong.cnpj}</Text></Text>

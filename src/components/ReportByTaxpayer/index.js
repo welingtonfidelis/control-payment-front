@@ -11,6 +11,7 @@ import { format } from 'date-fns';
 import api from '../../services/api';
 import Load from '../Load/Load';
 import Swal from '../SweetAlert/SwetAlert';
+import ReportDonationPdf from '../ReportDonation/index';
 
 import './styles.scss';
 import ImageProfile from '../../assets/images/user.png';
@@ -23,6 +24,7 @@ export default function ReportByTaxpayer() {
     const [loading, setLoading] = useState(false);
     const [donations, setDonations] = useState([]);
     const [token] = useState(localStorage.getItem('token'));
+    const [receives, setReceives] = useState([]);
 
     useEffect(() => {
         async function getInfo() {
@@ -99,8 +101,8 @@ export default function ReportByTaxpayer() {
                 arrayCtrl = arrayCtrl.filter(el => {
                     if (el) return el;
                 })
-                console.log(arrayCtrl);
 
+                setReceives(response);
                 setDonations(arrayCtrl);
 
             }
@@ -115,6 +117,13 @@ export default function ReportByTaxpayer() {
 
     return (
         <>
+            <ReportDonationPdf
+                startDate={startDate}
+                endDate={endDate}
+                receives={receives}
+            >
+            </ReportDonationPdf>
+
             <div className="flex-col-h container-report-taxpayer">
                 <Load id="divLoading" loading={loading} />
 
@@ -139,7 +148,7 @@ export default function ReportByTaxpayer() {
                                 <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBR}>
                                     <KeyboardDatePicker
                                         className="nomargin-datepicker"
-                                        
+
                                         format="dd/MM/yyyy"
                                         value={startDate}
                                         onChange={date => setStartDate(date)}
@@ -157,7 +166,7 @@ export default function ReportByTaxpayer() {
                                 <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBR}>
                                     <KeyboardDatePicker
                                         className="nomargin-datepicker"
-                                        
+
                                         format="dd/MM/yyyy"
                                         value={endDate}
                                         onChange={date => setEndDate(date)}
@@ -185,7 +194,7 @@ export default function ReportByTaxpayer() {
                 {donations.map(el => {
                     const { donation } = el;
                     return <>
-                        <li key={(el.id)}>
+                        <li key={el.id}>
                             <div className="flex-row-w">
                                 <div className="image-profile-mini">
                                     <img src={ImageProfile} alt="Foto perfil" />

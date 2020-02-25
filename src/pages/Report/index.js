@@ -38,8 +38,8 @@ export default function ReceivaByDate() {
         <div className="content">
             <div className="flex-col-h">
                 <div className="select-tab">
-                    <div id="repDate" className="selected-tab" onClick={() => handleSwitTab(1)}>Mês atual</div>
-                    <div id="repTax" onClick={() => handleSwitTab(2)}>Escolher data</div>
+                    <div id="repDate" className="selected-tab" onClick={() => handleSwitTab(1)}>Doações por data</div>
+                    <div id="repTax" onClick={() => handleSwitTab(2)}>Doações por contribuite</div>
                 </div>
                 
                 {selectTab}
