@@ -11,12 +11,12 @@ import { format } from 'date-fns';
 import api from '../../services/api';
 import Load from '../Load/Load';
 import Swal from '../SweetAlert/SwetAlert';
-import ReportDonationPdf from '../ReportDonation/index';
+import ReportDonationPdf from '../Donation/index';
 
 import './styles.scss';
 import ImageProfile from '../../assets/images/user.png';
 
-export default function ReportByTaxpayer() {
+export default function DonationByTaxpayer() {
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
     const [optTaxpayer, setOptTaxpayer] = useState([]);

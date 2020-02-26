@@ -11,7 +11,7 @@ import { GetApp } from '@material-ui/icons';
 export default function ReportDonation({ receives, startDate, endDate }) {
     startDate = format(new Date(startDate), 'dd/MM/yyyy', { locale: ptBR });
     endDate = format(new Date(endDate), 'dd/MM/yyyy', { locale: ptBR });
-    const ImageLogo = localStorage.getItem('logoOng');
+    const ImageLogo = `${process.env.PUBLIC_URL}/${localStorage.getItem('logoOng')}`;
 
     const styles = StyleSheet.create({
         page: {
@@ -66,10 +66,9 @@ export default function ReportDonation({ receives, startDate, endDate }) {
     const MyDocument = () => (
         <Document>
             <Page style={styles.page}>
-                {/* <Image
-                    cache={false}
+                <Image
                     src={ImageLogo}
-                /> */}
+                />
                 <Text style={styles.title}>Relatório de Doações - {startDate} à {endDate}{"\n\n"}</Text>
                 <View style={styles.table}>
                     <View style={styles.tableRow}>

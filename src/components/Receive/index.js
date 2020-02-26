@@ -12,7 +12,7 @@ import Switch from 'react-switch';
 import './styles.scss';
 
 export default function Receive({ receives }) {
-    const ImageLogo = localStorage.getItem('logoOng');
+    const ImageLogo = `${process.env.PUBLIC_URL}/${localStorage.getItem('logoOng')}`;
     const month = format(new Date(), 'MMMM', { locale: ptBR });
     const year = format(new Date(), 'yyyy');
     const [receiveCopy, setReceiveCopy] = useState(false);
@@ -97,7 +97,6 @@ export default function Receive({ receives }) {
                 <View key={rec.id} style={styles.containerCopyOng}>
                     <View style={styles.header}>
                         <Image
-                            cache={false}
                             style={styles.image}
                             src={ImageLogo}
                         />
@@ -241,7 +240,7 @@ export default function Receive({ receives }) {
                             className="receive-copy-ong"
                             style={{ display: receiveCopy ? 'block' : 'none' }}>
 
-                            <div>
+                            <div className="receive-header">
                                 <img src={ImageLogo} alt="Sua logo" />
                             </div>
 

@@ -10,13 +10,13 @@ import Chart from "react-apexcharts";
 import Switch from 'react-switch';
 
 import api from '../../services/api';
-import Load from '../../components/Load/Load';
-import Swal from '../../components/SweetAlert/SwetAlert';
-import ReportDonationPdf from '../ReportDonation/index';
+import Load from '../Load/Load';
+import Swal from '../SweetAlert/SwetAlert';
+import ReportDonationPdf from '../Donation/index';
 
 import './styles.scss';
 
-export default function ReportByDate() {
+export default function DonationByDate() {
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
     const [donationDate, setDonationDate] = useState([]);

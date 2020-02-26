@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import ReportByDate from '../../components/ReportBydDate';
-import ReportByTaxpayer from '../../components/ReportByTaxpayer';
+import DonationByDate from '../../components/DonationByDate';
+import DonationByTaxpayer from '../../components/DonationByTaxpayer';
+import ListTaxpayer from '../../components/ListTaxpayer';
 
 import './styles.scss';
 
 export default function ReceivaByDate() {
-    const [selectTab, setSelectTab] = useState(<ReportByDate />);
+    const [selectTab, setSelectTab] = useState(<DonationByDate />);
     const [selectDiv, setSelectDiv] = useState('repDate');
 
 
@@ -14,13 +15,18 @@ export default function ReceivaByDate() {
         let div = '';
         switch (opt) {
             case 1:
-                select = <ReportByDate />;
+                select = <DonationByDate />;
                 div = 'repDate';
                 break;
 
             case 2:
-                select = <ReportByTaxpayer />;
+                select = <DonationByTaxpayer />;
                 div = 'repTax';
+                break;
+
+            case 3:
+                select = <ListTaxpayer />;
+                div = 'listTax';
                 break;
 
             default:
@@ -39,9 +45,10 @@ export default function ReceivaByDate() {
             <div className="flex-col-h">
                 <div className="select-tab">
                     <div id="repDate" className="selected-tab" onClick={() => handleSwitTab(1)}>Doações por data</div>
-                    <div id="repTax" onClick={() => handleSwitTab(2)}>Doações por contribuite</div>
+                    <div id="repTax" onClick={() => handleSwitTab(2)}>Doações por contribuinte</div>
+                    <div id="listTax" onClick={() => handleSwitTab(3)}>Contribuintes</div>
                 </div>
-                
+
                 {selectTab}
             </div>
         </div>

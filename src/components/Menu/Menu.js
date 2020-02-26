@@ -52,7 +52,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Menu({ container, page }) {
-    const CompanyLogo = localStorage.getItem('logoOng');
+    const CompanyLogo = `${process.env.PUBLIC_URL}/${localStorage.getItem('logoOng')}`;
     const [component, setComponent] = useState('');
     const [titleToolbar, setTitleToolbar] = useState();
     const classes = useStyles();
@@ -145,7 +145,7 @@ function Menu({ container, page }) {
         <div className="content-menu">
             <header id="hdr">
                 <div id="logo">
-                    <img src={CompanyLogo} alt="Sua logo" />
+                    <img src={CompanyLogo} />
                 </div>
                 {/* <div id="company-name">
                     <h2>Nome da empresa</h2>
