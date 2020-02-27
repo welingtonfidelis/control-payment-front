@@ -8,78 +8,37 @@ import {
 } from '@react-pdf/renderer';
 import { GetApp } from '@material-ui/icons';
 
+import { styles } from '../../assets/css/pdf';
+
 export default function ReportDonation({ receives, startDate, endDate }) {
     startDate = format(new Date(startDate), 'dd/MM/yyyy', { locale: ptBR });
     endDate = format(new Date(endDate), 'dd/MM/yyyy', { locale: ptBR });
     const ImageLogo = `${process.env.PUBLIC_URL}/${localStorage.getItem('logoOng')}`;
 
-    const styles = StyleSheet.create({
-        page: {
-            padding: 10,
-            fontFamily: 'Times-Roman',
-            fontSize: 10
-        },
-        title: {
-            textAlign: 'center',
-            fontSize: 14
-        },
-        table: {
-            display: "table",
-            width: "auto",
-        },
-        tableRow: {
-            margin: "auto",
-            flexDirection: "row",
-        },
-        tableRowI: {
-            margin: "auto",
-            flexDirection: "row",
-            backgroundColor: '#e8f2ff'
-        },
-        tableRowJ: {
-            margin: "auto",
-            flexDirection: "row",
-            backgroundColor: '#cee4ff'
-        },
-        tableColTitle: {
-            width: "33%",
-            borderRightWidth: 1,
-            borderLeft: 1,
-            borderWidth: 1,
-            backgroundColor: '#a7ffbe',
-            fontSize: 12
-        },
-        tableCol: {
-            width: "33%",
-            borderStyle: "solid",
-            borderWidth: 1,
-            borderTopWidth: 0
-        },
-        tableCell: {
-            margin: "auto",
-            marginTop: 5,
-        }
-    });
-
     let totalDonation = 0;
-
     const MyDocument = () => (
         <Document>
             <Page style={styles.page}>
-                <Image
-                    src={ImageLogo}
-                />
-                <Text style={styles.title}>Relatório de Doações - {startDate} à {endDate}{"\n\n"}</Text>
-                <View style={styles.table}>
-                    <View style={styles.tableRow}>
-                        <View style={styles.tableColTitle}>
-                            <Text style={styles.tableCell}>Data e hora</Text>
+                <View style={styles().divTitle}>
+                    <Image
+                        src={ImageLogo}
+                        style={styles().imgTitle}
+                    />
+                    <Text style={styles().title}>Relatório de Doações - {startDate} à {endDate}</Text>
+                </View>
+                <View style={styles().table}>
+                    <View style={styles().tableRow}>
+                        <View style={styles().tableColCount}>
+                            <Text style={styles().tableCell}>nº</Text>
                         </View>
-                        <View style={styles.tableColTitle}>
-                            <Text style={styles.tableCell}>Nome</Text>
+                        <View style={styles(3).tableColHeader}>
+                            <Text style={styles().tableCellHeader}>Data e hora</Text>
                         </View>
-                        <View style={styles.tableColTitle}>
-                            <Text style={styles.tableCell}>Valor</Text>
+                        <View style={styles(3).tableColHeader}>
+                            <Text style={styles().tableCellHeader}>Nome</Text>
+                        </View>
+                        <View style={styles(3).tableColHeader}>
+                            <Text style={styles().tableCellHeader}>Valor</Text>
                         </View>
                     </View>
 
@@ -89,31 +48,25 @@ export default function ReportDonation({ receives, startDate, endDate }) {
                         totalDonation += value;
 
                         return (
-                            <View key={el.id} style={index % 2 ? styles.tableRowI : styles.tableRowJ}>
-                                <View style={styles.tableCol}>
-                                    <Text style={styles.tableCell}>{format(new Date(paidIn), 'dd/MM/yyyy hh:mm')}</Text>
+                            <View key={el.id} style={styles().tableRow}>
+                                <View style={styles(null, index).tableColCount}>
+                                    <Text style={styles(null, index).tableCell}>{index + 1}</Text>
                                 </View>
-                                <View style={styles.tableCol}>
-                                    <Text style={styles.tableCell}>{name}</Text>
+                                <View style={styles(3, index).tableCol}>
+                                    <Text style={styles().tableCell}>{format(new Date(paidIn), 'dd/MM/yyyy hh:mm')}</Text>
                                 </View>
-                                <View style={styles.tableCol}>
-                                    <Text style={styles.tableCell}>R$ {value}</Text>
+                                <View style={styles(3, index).tableCol}>
+                                    <Text style={styles().tableCell}>{name}</Text>
+                                </View>
+                                <View style={styles(3, index).tableCol}>
+                                    <Text style={styles().tableCell}>R$ {value}</Text>
                                 </View>
                             </View>
                         )
                     })}
-
-                    <View style={styles.tableRow}>
-                        <View style={styles.tableColTitle}>
-                            <Text style={styles.tableCell}></Text>
-                        </View>
-                        <View style={styles.tableColTitle}>
-                            <Text style={styles.tableCell}>Total</Text>
-                        </View>
-                        <View style={styles.tableColTitle}>
-                            <Text style={styles.tableCell}>R$ {totalDonation}</Text>
-                        </View>
-                    </View>
+                </View>
+                <View style={styles().footer}>
+                    <Text>Total de doações: {totalDonation}</Text>
                 </View>
             </Page>
         </Document>

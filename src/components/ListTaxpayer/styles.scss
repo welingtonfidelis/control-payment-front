@@ -17,12 +17,13 @@
 
 .table-report-listtaxpayer  th {
   text-align: left;
-  background-color: rgb(190, 220, 250);
+  background-color: #4093f9;
   text-transform: uppercase;
   padding-top: 1rem;
   padding-bottom: 1rem;
   border-bottom: rgb(50, 50, 100) solid 2px;
   border-top: none;
+  color: #fff
 }
 
 .table-report-listtaxpayer  td {
@@ -31,10 +32,19 @@
   color: rgb(20, 20, 20);
 }
 
+.table-report-listtaxpayer tr:nth-child(odd) {
+  background-color: #d3e6f9;
+}
+
 .table-report-listtaxpayer  td:first-of-type, th:first-of-type {
   border-left: none;
 }
 
 .table-report-listtaxpayer  td:last-of-type, th:last-of-type {
   border-right: none;
+}
+
+.div-report-listtaxpayer{
+  max-width: 80vw;
+  overflow: auto;
 }

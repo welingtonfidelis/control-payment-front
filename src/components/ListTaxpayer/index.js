@@ -1,31 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import {
-    MuiPickersUtilsProvider,
-    KeyboardDatePicker
-} from '@material-ui/pickers';
-import {
-    PDFDownloadLink, Image,
+    PDFDownloadLink, Image, PDFViewer,
     Page, Text, View, Document,
-    StyleSheet, PDFViewer
 } from '@react-pdf/renderer';
-import { GetApp, Landscape } from '@material-ui/icons';
-import DateFnsUtils from "@date-io/date-fns";
-import { ptBR } from 'date-fns/locale';
+import { GetApp} from '@material-ui/icons';
+
 import { format } from 'date-fns';
-import Chart from "react-apexcharts";
-import Switch from 'react-switch';
 
 import api from '../../services/api';
 import Load from '../Load/Load';
 import Swal from '../SweetAlert/SwetAlert';
 
-import {styles} from '../../assets/css/pdf';
+import { styles } from '../../assets/css/pdf';
 import './styles.scss';
 
 export default function ListTaxpayer() {
     const [taxpayer, setTaxpayer] = useState([]);
     const [loading, setLoading] = useState(false);
     const token = localStorage.getItem('token');
+    const ImageLogo = `${process.env.PUBLIC_URL}/${localStorage.getItem('logoOng')}`;
 
     useEffect(() => {
         async function getInfo() {
@@ -55,18 +48,21 @@ export default function ListTaxpayer() {
         getInfo();
     }, [token]);
 
+    let totalTaxpayer = 0;
     const MyDocument = () => (
         <Document>
             <Page orientation="landscape" style={styles().page}>
-                {/* <Image
-                    cache={false}
-                    src={ImageLogo}
-                /> */}
-                <Text style={styles().title}>Relatório de Contribuintes {"\n\n"}</Text>
+                <View style={styles().divTitle}>
+                    <Image
+                        src={ImageLogo}
+                        style={styles().imgTitle}
+                    />
+                    <Text style={styles().title}>Relatório de Contribuintes</Text>
+                </View>
                 <View style={styles().table}>
                     <View style={styles().tableRow}>
-                        <View>
-                            <Text style={styles().tableCell}></Text>
+                        <View style={styles().tableColCount}>
+                            <Text style={styles().tableCell}>nº</Text>
                         </View>
                         <View style={styles(8).tableColHeader}>
                             <Text style={styles().tableCellHeader}>Nome</Text>
@@ -106,48 +102,39 @@ export default function ListTaxpayer() {
 
                         return (
                             <View key={el.id} style={styles().tableRow}>
-                                <View style={styles(8).tableCol, {width: '2%'}}>
-                                    <Text style={styles().tableCell}>{index + 1}</Text>
+                                <View style={styles(null, index).tableColCount}>
+                                    <Text style={styles(null, index).tableCell}>{index + 1}</Text>
                                 </View>
-                                <View style={styles(8).tableCol}>
+                                <View style={styles(8, index).tableCol}>
                                     <Text style={styles().tableCell}>{el.name}</Text>
                                 </View>
-                                <View style={styles(8).tableCol}>
+                                <View style={styles(8, index).tableCol}>
                                     <Text style={styles().tableCell}>{format(new Date(el.birth), 'dd/MM/yyyy')}</Text>
                                 </View>
-                                <View style={styles(8).tableCol}>
+                                <View style={styles(8, index).tableCol}>
                                     <Text style={styles().tableCell}>{cep}, {street}, {complement}, {number}, {district}, {city}-{state}</Text>
                                 </View>
-                                <View style={styles(8).tableCol}>
+                                <View style={styles(8, index).tableCol}>
                                     <Text style={styles().tableCell}>{el.phone1}</Text>
                                 </View>
-                                <View style={styles(8).tableCol}>
+                                <View style={styles(8, index).tableCol}>
                                     <Text style={styles().tableCell}>{el.phone1}</Text>
                                 </View>
-                                <View style={styles(8).tableCol}>
+                                <View style={styles(8, index).tableCol}>
                                     <Text style={styles().tableCell}>{el.email}</Text>
                                 </View>
-                                <View style={styles(8).tableCol}>
+                                <View style={styles(8, index).tableCol}>
                                     <Text style={styles().tableCell}>R$ {Payment.value}</Text>
                                 </View>
-                                <View style={styles(8).tableCol}>
+                                <View style={styles(8, index).tableCol}>
                                     <Text style={styles().tableCell}>{Payment.expiration}</Text>
                                 </View>
                             </View>
                         )
                     })}
-
-                    <View style={styles.tableRow}>
-                        <View style={styles.tableColTitle}>
-                            <Text style={styles.tableCell}></Text>
-                        </View>
-                        <View style={styles.tableColTitle}>
-                            <Text style={styles.tableCell}>Total</Text>
-                        </View>
-                        <View style={styles.tableColTitle}>
-                            <Text style={styles.tableCell}>0</Text>
-                        </View>
-                    </View>
+                </View>
+                <View style={styles().footer}>
+                    <Text>Total de contribuintes: {taxpayer.length}</Text>
                 </View>
             </Page>
         </Document>
@@ -155,7 +142,7 @@ export default function ListTaxpayer() {
 
     const PDF = () => (
         // <PDFViewer style={{ width: '100%', height: '50vh' }}>
-        //     <MyDocument/>
+        //     <MyDocument />
         // </PDFViewer>
 
         <div id="pdf-div" className="btn-new-medium">

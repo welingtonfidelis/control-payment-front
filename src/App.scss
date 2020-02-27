@@ -208,13 +208,6 @@ input:invalid {
   flex-direction: row;
 }
 
-@media only screen and (min-width: 601px) {
-  .simple-list-2 {
-    // display: grid;
-    // grid-template-columns: auto auto;
-  }
-}
-
 .simple-list-2 > li {
   @extend .card;
   list-style-type: none;

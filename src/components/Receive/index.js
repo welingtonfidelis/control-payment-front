@@ -141,6 +141,10 @@ export default function Receive({ receives }) {
                     const statelaw = Ong.statelaw
                         ? `Utilidade Pública Municipal Lei nº ${Ong.statelaw}`
                         : '';
+                    const social1 = Ong.social1
+                        ? Ong.social1 : '';
+                    const social2 = Ong.social2
+                        ? Ong.social2 : '';
 
                     return (
                         <View style={styles.body}>
@@ -159,6 +163,8 @@ export default function Receive({ receives }) {
                                         <Text>{municipallaw}</Text>
                                         <Text>{statelaw}</Text>
                                         <Text>{Ong.email}</Text>
+                                        <Text>{social1}</Text>
+                                        <Text>{social2}</Text>
                                     </View>
                                 </View>
 
@@ -185,7 +191,6 @@ export default function Receive({ receives }) {
                                 </View>
                             </View>
                         </View>
-
                     )
                 })}
             </Page>
@@ -234,6 +239,10 @@ export default function Receive({ receives }) {
                     const statelaw = Ong.statelaw
                         ? `Utilidade Pública Municipal Lei nº ${Ong.statelaw}`
                         : '';
+                    const social1 = Ong.social1
+                        ? Ong.social1 : '';
+                    const social2 = Ong.social2
+                        ? Ong.social2 : '';
 
                     return <li key={rec.id} className="flex-row-w">
                         <div
@@ -269,6 +278,8 @@ export default function Receive({ receives }) {
                                     <div>{municipallaw}</div>
                                     <div>{statelaw}</div>
                                     <strong>{Ong.email}</strong>
+                                    <p><strong>{social1}</strong></p>
+                                    <p><strong>{social2}</strong></p>
                                 </div>
                             </div>
                             <div className="receive-content">
