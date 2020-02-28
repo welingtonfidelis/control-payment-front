@@ -1,4 +1,4 @@
-.body-login{
+.body-login {
   display: flex;
   align-items: center;
   height: calc(100vh - 42px);
@@ -12,10 +12,16 @@
   padding: 30px;
 }
 
+.content-login > img {
+  display: flex;
+  margin: auto;
+}
+
 .content-login > p {
-  font-size: 22px;
+  font-size: 18px;
   line-height: 30px;
   margin-bottom: 30px;
+  text-align: center;
 }
 
 .content-login form {

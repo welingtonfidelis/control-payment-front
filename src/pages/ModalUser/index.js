@@ -291,7 +291,7 @@ export default function ModalUser(props) {
                     <KeyboardDatePicker
                       className="nomargin-datepicker"
                       
-                      format="dd/MM/yyyy hh:mm"
+                      format="dd/MM/yyyy"
                       value={birth}
                       onChange={date => setBirth(date)}
                       KeyboardButtonProps={{

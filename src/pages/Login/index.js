@@ -4,10 +4,10 @@ import Load from '../../components/Load/Load';
 import api from '../../services/api';
 import Swal from '../../components/SweetAlert/SwetAlert';
 
-// import logo from '../../assets/images/logo-patasamigas.png'
 import './styles.scss';
 
 export default function Login({ history }) {
+    const ImageLogo = `${process.env.PUBLIC_URL}/favicon.ico`;
     const [user, setUser] = useState('');
     const [password, setpassWord] = useState('');
     const [errorLogin, setErrorLogin] = useState(false);
@@ -48,11 +48,11 @@ export default function Login({ history }) {
         <div className="body-login">
             <div className="container-login">
                 <div>
-                    {/* <img className="logo-login" src={logo} alt="Logo" /> */}
                 </div>
 
                 <div className="content-login" id="box-login">
                     <Load id="divLoading" loading={loading} />
+                    <img className="logo-login" src={ImageLogo} alt="Logo" />
                     
                     <p>Por favor, insira seu <strong>usuário</strong> e <strong>senha</strong> abaixo.</p>
 
