@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 import {
     Dashboard, Person, People, MonetizationOn, Menu as MenuIcon,
-    Storefront, TrendingUp
+    Storefront, TrendingUp, AttachMoney
 } from '@material-ui/icons';
 
 import { isAdministrator } from '../../services/auth';
@@ -63,6 +63,7 @@ function Menu({ container, page }) {
     const [menuOptions, setMenuOptions] = useState([
         { text: 'Dashboard', icon: < Dashboard /> }, { text: 'Usuário', icon: <Person /> },
         { text: 'Contribuinte', icon: <Storefront /> }, { text: 'Doação', icon: <People /> },
+        { text: 'Caixa', icon: <AttachMoney /> },
         { text: 'Recolhimento', icon: <MonetizationOn /> }, { text: 'Relatório', icon: <TrendingUp /> },
     ]);
 
@@ -128,6 +129,12 @@ function Menu({ container, page }) {
             case 'receive':
                 setTitleToolbar('Recolhimento');
                 history.push('/main/receive');
+                break;
+
+            case 'Caixa':
+            case 'cashregister':
+                setTitleToolbar('Caixa');
+                history.push('/main/cashregister');
                 break;
 
             case 'Relatório':

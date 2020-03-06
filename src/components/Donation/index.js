@@ -53,7 +53,7 @@ export default function ReportDonation({ receives, startDate, endDate }) {
                                     <Text style={styles(null, index).tableCell}>{index + 1}</Text>
                                 </View>
                                 <View style={styles(3, index).tableCol}>
-                                    <Text style={styles().tableCell}>{format(new Date(paidIn), 'dd/MM/yyyy hh:mm')}</Text>
+                                    <Text style={styles().tableCell}>{format(new Date(paidIn), 'dd/MM/yyyy')}</Text>
                                 </View>
                                 <View style={styles(3, index).tableCol}>
                                     <Text style={styles().tableCell}>{name}</Text>

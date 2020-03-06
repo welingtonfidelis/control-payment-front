@@ -4,68 +4,44 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker
 } from '@material-ui/pickers';
+import { RadioGroup, FormControlLabel, Radio, FormLabel } from '@material-ui/core';
 import DateFnsUtils from "@date-io/date-fns";
 import { ptBR } from 'date-fns/locale';
-import Select from 'react-select';
 
 import Load from '../../components/Load/Load';
 import Swal from '../../components/SweetAlert/SwetAlert';
 
-import ImageProfile from '../../assets/images/user.png';
-
 import './styles.scss';
 import api from '../../services/api';
+
+import ImageCashIn from '../../assets/images/cashregister_in.png';
+import ImageCashOut from '../../assets/images/cashregister_out.png';
 
 export default function ModalDonation(props) {
   const history = useHistory();
   const [value, setValue] = useState('');
-  const [taxpayer, setTaxpayer] = useState('');
+  const [type, setType] = useState('in');
+  const [description, setDescription] = useState('');
   const [observation, setObservation] = useState('');
-  const [donationId, setDonationId] = useState(0);
+  const [cashregisterId, setCashRegisterId] = useState(0);
   const [paidIn, setPaidIn] = useState(new Date());
   const [loading, setLoading] = useState(false);
-  const [optTaxpayer, setOptTaxpayer] = useState([]);
 
   const token = localStorage.getItem('token');
 
   useEffect(() => {
-    //recupera informações básicas para construir as opções nos inputs
-    getInfo();
-
-    //atualizar/detalhar doação (chamada vem do dropmenu de detalhes)
+    //atualizar/detalhar entrada/saida caixa (chamada vem do dropmenu de detalhes)
     if (props.location.state) {
-      getDonation();
+      getCashRegisters();
     }
   }, [])
 
-  async function getInfo() {
-    setLoading(true);
-
-    try {
-      let resp = await api.get('/taxpayer', {
-        headers: { token }
-      });
-
-      resp = resp.data
-
-      let tmp = [];
-      (resp.response).forEach(el => {
-        tmp.push({ value: el.id, label: el.name, payment: el.Payment.value });
-      });
-      setOptTaxpayer(tmp)
-
-    } catch (error) {
-      console.log(error);
-    }
-    setLoading(false);
-  }
-
-  async function getDonation() {
+  async function getCashRegisters() {
     const { id } = props.location.state;
 
     setLoading(true);
     try {
-      let resp = await api.get(`/donation/${id}`, {
+      let resp = await api.get(`/cashregister/${id}`, {
         headers: { token }
       });
 
@@ -73,13 +49,13 @@ export default function ModalDonation(props) {
 
       if (resp.status) {
         const { response } = resp;
-        const { Taxpayer } = response;
 
-        setDonationId(response.id);
+        setCashRegisterId(response.id);
+        setDescription(response.description);
         setValue(response.value);
         setPaidIn(new Date(response.paidIn));
         setObservation(response.observation);
-        setTaxpayer({ value: Taxpayer.id, label: Taxpayer.name });
+
       }
       else {
         Swal.swalErrorInform();
@@ -95,23 +71,22 @@ export default function ModalDonation(props) {
     event.preventDefault();
     setLoading(true);
 
-    const taxpayerTmp = taxpayer.value;
     const data = {
-      'donation': { value, paidIn, observation, 'TaxpayerId': taxpayerTmp }
+      'cashregister': { value, paidIn, observation, type, description }
     }
 
     try {
       let query = null;
 
       //update
-      if (donationId > 0) {
-        query = await api.put('/donation/' + donationId, data, {
+      if (cashregisterId > 0) {
+        query = await api.put('/cashregister/' + cashregisterId, data, {
           headers: { token },
         });
       }
       //create
       else {
-        query = await api.post('/donation', data, {
+        query = await api.post('/cashregister', data, {
           headers: { token },
         });
       }
@@ -131,11 +106,6 @@ export default function ModalDonation(props) {
     setLoading(false);
   }
 
-  function handleChangeTaxpayer(event) {
-    setTaxpayer(event);
-    setValue(event.payment);
-  }
-
   function closeModal() {
     history.goBack()
   }
@@ -153,18 +123,42 @@ export default function ModalDonation(props) {
         <h1 className="title-modal">CADASTRO</h1>
 
         <div className="flex-row-w">
-          <img className="image-profile-large" src={ImageProfile} alt="Foto perfil" />
+          <img
+            className="image-cashregister-large"
+            src={type === 'in' ?
+              ImageCashIn :
+              ImageCashOut}
+            alt="Foto perfil"
+          />
 
           <div className="flex-col-h">
+            <RadioGroup
+              value={type} onChange={event => setType(event.target.value)} row>
+              <FormControlLabel
+                value="in"
+                control={<Radio color="primary" />}
+                label="Entrada"
+                labelPlacement="right"
+              />
+              <FormControlLabel
+                value="out"
+                control={<Radio color="primary" />}
+                label="Saída"
+                labelPlacement="right"
+              />
+            </RadioGroup>
             <div className="flex-row-w">
+
               <div className="flex-col-h">
-                <label htmlFor="name">Nome *</label>
-                <Select
-                  className="select-default"
-                  placeholder="Escolha um contribuinte"
-                  value={taxpayer}
-                  onChange={event => handleChangeTaxpayer(event)}
-                  options={optTaxpayer}
+                <label htmlFor="name">Descrição *</label>
+                <input
+                  required
+                  type="text"
+                  id="description"
+                  placeholder="Descrição da entrada/saída de caixa"
+                  title="Descrição da entrada/saída de caixa"
+                  value={description}
+                  onChange={event => setDescription(event.target.value)}
                 />
               </div>
             </div>
@@ -176,12 +170,13 @@ export default function ModalDonation(props) {
                   required
                   type="number"
                   id="value"
-                  placeholder="Valor da doação"
-                  title="Valor da doação"
+                  placeholder="Valor do registro de caixa"
+                  title="Valor do registro de caixa"
                   value={value}
                   onChange={event => setValue(event.target.value)}
                 />
               </div>
+
               <div className="flex-col-h">
                 <label htmlFor="paidIn">Data *</label>
                 <div className="keyboardpicker-modal-taxpayer">
@@ -203,15 +198,17 @@ export default function ModalDonation(props) {
             </div>
 
           </div>
+
         </div>
+
         <div className="flex-row-w">
           <div className="flex-col-h">
             <label htmlFor="observation">Observação</label>
             <input
               type="text"
               id="observation"
-              placeholder="Observação sobre a doação"
-              title="Observação sobre a doação"
+              placeholder="Observação sobre o registro de caixa"
+              title="Observação sobre o registro de caixa"
               value={observation}
               onChange={event => setObservation(event.target.value)}
             />

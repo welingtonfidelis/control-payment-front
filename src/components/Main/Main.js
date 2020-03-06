@@ -11,6 +11,8 @@ import ModalTaxpayer from '../../pages/ModalTaxpayer';
 import Receive from '../../pages/Receive';
 import Donation from '../../pages/Donation';
 import ModalDonation from '../../pages/ModalDonation';
+import ModalCashRegister from '../../pages/ModalCashRegister';
+import CashRegister from '../../pages/CashRegister';
 import Report from '../../pages/Report';
 import { isAdministrator } from '../../services/auth';
 import './styles.css';
@@ -30,13 +32,15 @@ export default function Main() {
         <div id="main">
             <Menu page={window.location.href} />
             <Route path="/main/dashboard" component={Dashboard} />
-            <PrivateRoute path="/main/user" component={User} />
             <Route path="/main/taxpayer" component={Taxpayer} />
-            <PrivateRoute path="/main/modaluser" component={ModalUser} />
             <Route path="/main/modaltaxpayer" component={ModalTaxpayer} />
             <Route path="/main/receive" component={Receive} />
             <Route path="/main/donation" component={Donation} />
             <Route path="/main/modaldonation" component={ModalDonation} />
+            <Route path="/main/modalcashregister" component={ModalCashRegister} />
+            <Route path="/main/cashregister" component={CashRegister} />
+            <PrivateRoute path="/main/user" component={User} />
+            <PrivateRoute path="/main/modaluser" component={ModalUser} />
             <PrivateRoute path="/main/report" component={Report} />
         </div>
     );

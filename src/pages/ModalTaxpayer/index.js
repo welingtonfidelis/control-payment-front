@@ -248,7 +248,7 @@ export default function ModalUser(props) {
         <h1 className="title-modal">CADASTRO</h1>
 
         <div className="flex-row-w">
-          <img className="img-rad-large" src={ImageProfile} alt="Foto perfil" />
+          <img className="image-profile-large" src={ImageProfile} alt="Foto perfil" />
 
           <div className="flex-col-h">
             <div className="flex-row-w">
