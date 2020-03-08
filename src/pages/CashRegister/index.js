@@ -54,8 +54,6 @@ export default function Donation() {
             if (resp.status) {
                 setListFull(resp.response);
                 setList(resp.response);
-                console.log(resp.response);
-                
             }
             else {
                 Swal.swalErrorInform();
