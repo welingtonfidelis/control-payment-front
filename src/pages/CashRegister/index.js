@@ -8,7 +8,8 @@ import Load from '../../components/Load/Load';
 import Swal from '../../components/SweetAlert/SwetAlert';
 
 import './styles.scss';
-import ImageProfile from '../../assets/images/user.png';
+import ImageCashIn from '../../assets/images/cashregister_in.png';
+import ImageCashOut from '../../assets/images/cashregister_out.png';
 
 export default function Donation() {
     const history = useHistory();
@@ -19,22 +20,16 @@ export default function Donation() {
 
     //carega lista de usuários cadastrados
     useEffect(() => {
-        getDonations();
+        getCashRegisters();
     }, [])
 
     //filtra usuários por nomes digitados na busca
     useEffect(() => {
         if (filter !== '') {
             const filtred = listFull.filter((obj) => {
-                const { Taxpayer } = obj, { Address } = Taxpayer;
-
-                obj.search = (Taxpayer.name ? Taxpayer.name.toLowerCase() : '')
-                    + ' ' + (Taxpayer.phone1 ? Taxpayer.phone1 : '')
-                    + ' ' + (Taxpayer.phone2 ? Taxpayer.phone2 : '')
-                    + ' ' + (Address.street ? Address.street.toLowerCase() : '')
-                    + ' ' + (Address.district ? Address.district.toLowerCase() : '')
-                    + ' ' + (Address.state ? Address.state.toLowerCase() : '')
-                    + ' ' + (Address.city ? Address.city.toLowerCase() : '')
+                obj.search = 
+                    + ' ' + (obj.description ? obj.description : '')
+                    + ' ' + (obj.type ? obj.type : '')
                     + ' ' + (obj.value ? obj.value : '')
                     + ' ' + (obj.paidIn ? obj.paidIn : '')
 
@@ -47,11 +42,11 @@ export default function Donation() {
 
     }, [filter])
 
-    async function getDonations() {
+    async function getCashRegisters() {
         setLoading(true);
         try {
             const token = localStorage.getItem('token');
-            let resp = await api.get('/donation', {
+            let resp = await api.get('/cashregister', {
                 headers: { token }
             });
 
@@ -73,12 +68,12 @@ export default function Donation() {
 
     //abre modal para cadastro de novo usuário
     function handleModal() {
-        history.push('/main/modalDonation');
+        history.push('/main/modalcashregister');
     }
 
     //recarrega lista de usuários quando há exclusão
     function handleRefreshList(){
-        getDonations();
+        getCashRegisters();
     }
 
     return (
@@ -101,25 +96,29 @@ export default function Donation() {
             </div>
 
             <ul className="simple-list-1">
-                {list.map(donation => {
-                    const { Taxpayer } = donation;
-                    const today = new Date(donation.paidIn);
+                {list.map(cashregister => {
+                    const today = new Date(cashregister.paidIn);
 
-                    return <li key={donation.id} data-id={donation.id}>
-                        <div className="image-profile-mini">
-                            <img src={ImageProfile} alt="Foto perfil" />
+                    return <li key={cashregister.id} data-id={cashregister.id}>
+                        <div className="image-cashregister-mini">
+                            <img 
+                            src={cashregister.type === 'in' ? 
+                                ImageCashIn : 
+                                ImageCashOut} 
+                                alt="Foto perfil" 
+                            />
                         </div>
 
                         <div className="simple-info-1">
-                            <h2>{Taxpayer.name}</h2>
+                            <h2>{cashregister.description}</h2>
                             <span>
-                                R$ {donation.value} - 
+                                R$ {cashregister.value} - 
                                  {format(today, 'dd/MM/yyyy')}
                             </span>
                         </div>
 
                         <div>
-                            <MenuDrop type="donation" id={donation.id} refresh={handleRefreshList}/>
+                            <MenuDrop type="cashregister" id={cashregister.id} refresh={handleRefreshList}/>
                         </div>
                     </li>
                 })}

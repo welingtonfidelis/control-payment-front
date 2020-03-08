@@ -74,12 +74,20 @@ button {
   width: 100%;
 }
 
-.img-rad-large {
+.image-large-1{
   width: 150px;
   height: 150px;
   border-radius: 50%;
-  border: solid 2px #0e78fa;
   margin: 0 10px 0 10px;
+}
+
+.image-profile-large{
+  @extend .image-large-1;
+  border: solid 2px #0e78fa;
+}
+
+.image-cashregister-large{
+  @extend .image-large-1;
 }
 
 .title-modal {
@@ -143,7 +151,7 @@ button {
   background-color: #b80000;
 }
 
-.btn-search{
+.btn-search {
   @extend .btn-new-medium;
   display: flex;
   justify-content: center;
@@ -218,11 +226,11 @@ input:invalid {
   @extend .card;
 }
 
-.simple-list-3 > li{
+.simple-list-3 > li {
   list-style-type: none;
 }
 
-.simple-list-3-content{
+.simple-list-3-content {
   display: flex;
   background: #e4f0ff;
   border-radius: 15px;
@@ -231,28 +239,44 @@ input:invalid {
   padding: 10px;
 }
 
-.simple-list-3-container{
+.simple-list-3-container {
   margin-top: 5px;
   padding-top: 5px;
 }
 
-.simple-list-3 > li:not(:first-child){
+.simple-list-3 > li:not(:first-child) {
   border-top: 1px solid #9a9a9a;
   padding-top: 10px;
 }
 
-.image-profile-mini {
+.image-mini-1 {
   display: flex;
   flex-direction: column;
   flex: 1;
   margin-right: 5px;
 }
 
-.image-profile-mini > img {
+.image-mini-2 {
   width: 60px;
   height: 60px;
   border-radius: 50%;
+}
+
+.image-profile-mini {
+  @extend .image-mini-1;
+}
+
+.image-profile-mini > img {
+  @extend .image-mini-2;
   border: solid 2px #0e78fa;
+}
+
+.image-cashregister-mini {
+  @extend .image-mini-1;
+}
+
+.image-cashregister-mini > img {
+  @extend .image-mini-2;
 }
 
 .simple-info-1 {
@@ -338,10 +362,9 @@ input:invalid {
 
 .container-select-date {
   background: white;
-  height: 130px;
   margin-top: 10px;
   margin-bottom: 10px;
-  padding: 0 10px 0 10px;
+  padding: 5px 10px 5px 10px;
   justify-content: center;
   align-items: center;
   border-radius: 15px;

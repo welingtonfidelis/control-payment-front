@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import DonationByDate from '../../components/DonationByDate';
 import DonationByTaxpayer from '../../components/DonationByTaxpayer';
 import ListTaxpayer from '../../components/ListTaxpayer';
+import ReportCashRegister from '../../components/ReportCashRegister';
 
 import './styles.scss';
 
@@ -29,6 +30,11 @@ export default function ReceivaByDate() {
                 div = 'listTax';
                 break;
 
+            case 4:
+                select = <ReportCashRegister />;
+                div = 'cashReg';
+                break;
+
             default:
                 break;
         }
@@ -47,6 +53,7 @@ export default function ReceivaByDate() {
                     <div id="repDate" className="selected-tab" onClick={() => handleSwitTab(1)}>Doações por data</div>
                     <div id="repTax" onClick={() => handleSwitTab(2)}>Doações por contribuinte</div>
                     <div id="listTax" onClick={() => handleSwitTab(3)}>Contribuintes</div>
+                    <div id="cashReg" onClick={() => handleSwitTab(4)}>Caixa</div>
                 </div>
 
                 {selectTab}

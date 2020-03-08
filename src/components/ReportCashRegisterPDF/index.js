@@ -15,7 +15,7 @@ export default function ReportDonation({ receives, startDate, endDate }) {
     endDate = format(new Date(endDate), 'dd/MM/yyyy', { locale: ptBR });
     const ImageLogo = `${process.env.PUBLIC_URL}/${localStorage.getItem('logoOng')}`;
 
-    let totalDonation = 0;
+    let totalIn = 0, totalOut = 0;
     const MyDocument = () => (
         <Document>
             <Page style={styles.page}>
@@ -24,41 +24,66 @@ export default function ReportDonation({ receives, startDate, endDate }) {
                         src={ImageLogo}
                         style={styles().imgTitle}
                     />
-                    <Text style={styles().title}>Relatório de Doações - {startDate} à {endDate}</Text>
+                    <Text style={styles().title}>Relatório de Registro de Caixa - {startDate} à {endDate}</Text>
                 </View>
                 <View style={styles().table}>
                     <View style={styles().tableRow}>
                         <View style={styles().tableColCount}>
                             <Text style={styles().tableCell}>nº</Text>
                         </View>
-                        <View style={styles(3).tableColHeader}>
+                        <View style={styles(4).tableColHeader}>
+                            <Text style={styles().tableCellHeader}>Tipo</Text>
+                        </View>
+                        <View style={styles(4).tableColHeader}>
                             <Text style={styles().tableCellHeader}>Data e hora</Text>
                         </View>
-                        <View style={styles(3).tableColHeader}>
-                            <Text style={styles().tableCellHeader}>Nome</Text>
+                        <View style={styles(4).tableColHeader}>
+                            <Text style={styles().tableCellHeader}>Descrição</Text>
                         </View>
-                        <View style={styles(3).tableColHeader}>
+                        <View style={styles(4).tableColHeader}>
                             <Text style={styles().tableCellHeader}>Valor</Text>
                         </View>
                     </View>
 
                     {receives.map((el, index) => {
-                        const { value, paidIn, Taxpayer } = el;
-                        const { name } = Taxpayer;
-                        totalDonation += value;
+                        const { value, paidIn, description, type } = el;
+                        
+                        let typeDsc = '';
+                        switch (type) {
+                            case 'in':
+                                typeDsc = 'Entrada';
+                                totalIn += value;
+                                break;
+
+                            case 'don':
+                                typeDsc = 'Doação';
+                                totalIn += value;
+                                break;
+
+                            case 'out':
+                                typeDsc = 'Saída';
+                                totalOut += value;
+                                break;
+                        
+                            default:
+                                break;
+                        }
 
                         return (
                             <View key={el.id} style={styles().tableRow}>
                                 <View style={styles(null, index).tableColCount}>
                                     <Text style={styles(null, index).tableCell}>{index + 1}</Text>
                                 </View>
-                                <View style={styles(3, index).tableCol}>
+                                <View style={styles(4, index).tableCol}>
+                                    <Text style={styles().tableCell}>{typeDsc}</Text>
+                                </View>
+                                <View style={styles(4, index).tableCol}>
                                     <Text style={styles().tableCell}>{format(new Date(paidIn), 'dd/MM/yyyy')}</Text>
                                 </View>
-                                <View style={styles(3, index).tableCol}>
-                                    <Text style={styles().tableCell}>{name}</Text>
+                                <View style={styles(4, index).tableCol}>
+                                    <Text style={styles().tableCell}>{description}</Text>
                                 </View>
-                                <View style={styles(3, index).tableCol}>
+                                <View style={styles(4, index).tableCol}>
                                     <Text style={styles().tableCell}>R$ {value}</Text>
                                 </View>
                             </View>
@@ -66,7 +91,8 @@ export default function ReportDonation({ receives, startDate, endDate }) {
                     })}
                 </View>
                 <View style={styles().footer}>
-                    <Text>Total de doações: {totalDonation}</Text>
+                    <Text>Total de entrada: R${totalIn}</Text>
+                    <Text>Total de saída: R${totalOut}</Text>
                 </View>
             </Page>
         </Document>
