@@ -3,6 +3,8 @@ import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { isAuthenticated } from '../src/services/auth';
 
 import Login from './pages/Login';
+import ResetPassword from './pages/ResetPassword';
+import ChangePassword from './pages/ChangePassword';
 import Main from './components/Main/Main';
 import NotFound from './pages/NotFound';
 
@@ -21,6 +23,8 @@ export default function Routes() {
         <BrowserRouter>
             <Switch>
                 <Route path="/" exact component={Login} />
+                <Route path="/resetpassword" component={ResetPassword} />
+                <Route path="/changepassword" component={ChangePassword} />
                 <PrivateRoute path="/main" component={Main} />
 
                 <Route path="*" component={NotFound} />

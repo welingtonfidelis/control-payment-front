@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-    PDFDownloadLink, Image, PDFViewer,
+    PDFDownloadLink, Image,
     Page, Text, View, Document,
 } from '@react-pdf/renderer';
 import { GetApp} from '@material-ui/icons';

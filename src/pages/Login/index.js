@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import Load from '../../components/Load/Load';
 import api from '../../services/api';
 import Swal from '../../components/SweetAlert/SwetAlert';
-
-import './styles.scss';
 
 export default function Login({ history }) {
     const ImageLogo = `${process.env.PUBLIC_URL}/favicon.ico`;
@@ -30,14 +29,14 @@ export default function Login({ history }) {
                 localStorage.setItem('isAdm', isAdm);
                 localStorage.setItem('nameOng', nameOng);
                 localStorage.setItem('logoOng', logoOng);
-                
+
                 history.push('/main/dashboard');
                 return;
             }
             else {
                 setErrorLogin(true);
             }
-            
+
         } catch (error) {
             Swal.swalErrorInform();
         }
@@ -53,8 +52,10 @@ export default function Login({ history }) {
                 <div className="content-login" id="box-login">
                     <Load id="divLoading" loading={loading} />
                     <img className="logo-login" src={ImageLogo} alt="Logo" />
-                    
-                    <p>Por favor, insira seu <strong>usuário</strong> e <strong>senha</strong> abaixo.</p>
+
+                    <p>
+                        Por favor, insira seu <strong>usuário</strong> e <strong>senha</strong> abaixo.
+                    </p>
 
                     <form onSubmit={handleSubmit}>
                         <label htmlFor="user">Usuário</label>
@@ -84,6 +85,10 @@ export default function Login({ history }) {
                             : ''
                         }
                     </form>
+
+                    <div className="back-link">
+                        <Link to='/resetpassword'>Esqueci minha senha</Link>
+                    </div>
                 </div>
             </div>
         </div>
