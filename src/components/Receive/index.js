@@ -1,10 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale'
 import {
     PDFDownloadLink, Image,
     Page, Text, View, Document,
-    StyleSheet, PDFViewer
+    StyleSheet
 } from '@react-pdf/renderer';
 import { GetApp } from '@material-ui/icons';
 import Switch from 'react-switch';

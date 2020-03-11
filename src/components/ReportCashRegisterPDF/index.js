@@ -107,7 +107,7 @@ export default function ReportDonation({ receives, startDate, endDate }) {
             <GetApp />
             <PDFDownloadLink
                 document={<MyDocument />}
-                fileName={`doacoes_${startDate}-${endDate}.pdf`}>
+                fileName={`caixa_${startDate}-${endDate}.pdf`}>
                 {({ blob, url, loading, error }) => (loading ? 'Carregando...' : 'Baixar PDF')}
             </PDFDownloadLink>
         </div>
