@@ -8,6 +8,7 @@ import {
 } from '@material-ui/pickers';
 import DateFnsUtils from "@date-io/date-fns";
 import { ptBR } from 'date-fns/locale';
+import NumberFormat from 'react-number-format';
 
 import Load from '../../components/Load/Load';
 import Swal from '../../components/SweetAlert/SwetAlert';
@@ -298,7 +299,18 @@ export default function ModalUser(props) {
               </div>
               <div className="flex-col-h">
                 <label htmlFor="phone1">Telefone 1 *</label>
-                <input
+                <NumberFormat 
+                  required
+                  id="phone1"
+                  value={phone1}
+                  onChange={event => setPhone1(event.target.value)}
+                  format="(##) # ####-####" 
+                  placeholder="(00) 9 0000-0000"
+                  title="Telefone com no 9 dígitos."
+                  mask="_"
+                />
+
+                {/* <input
                   required
                   type="text"
                   pattern="\d*"
@@ -308,20 +320,19 @@ export default function ModalUser(props) {
                   title="Telefone com no mínimo 9 dígitos."
                   value={phone1}
                   onChange={event => setPhone1(event.target.value)}
-                />
+                /> */}
               </div>
               <div className="flex-col-h">
                 <label htmlFor="phone2">Telefone 2 *</label>
-                <input
+                <NumberFormat 
                   required
-                  type="text"
-                  pattern="\d*"
-                  minLength="9"
                   id="phone2"
-                  placeholder="Celular do contribuinte"
-                  title="Telefone com no mínimo 9 dígitos."
                   value={phone2}
                   onChange={event => setPhone2(event.target.value)}
+                  format="(##) # ####-####" 
+                  placeholder="(00) 9 0000-0000"
+                  title="Telefone com no 9 dígitos."
+                  mask="_"
                 />
               </div>
             </div>
@@ -333,15 +344,14 @@ export default function ModalUser(props) {
             <div className="flex-row-w">
               <div className="flex-col-h">
                 <label htmlFor="cep">CEP</label>
-                <input
-                  type="text"
-                  pattern="\d*"
-                  maxLength="8"
+                <NumberFormat 
                   id="cep"
-                  placeholder="CEP"
-                  title="Apenas números. 8 dígitos."
                   value={cep}
                   onChange={event => setCep(event.target.value)}
+                  format="########" 
+                  placeholder="00000000"
+                  title="Cep do contribuinte"
+                  mask="_"
                   onBlur={handleCep}
                 />
               </div>
