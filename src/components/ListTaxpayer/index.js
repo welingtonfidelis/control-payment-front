@@ -3,7 +3,7 @@ import {
     PDFDownloadLink, Image,
     Page, Text, View, Document,
 } from '@react-pdf/renderer';
-import { GetApp} from '@material-ui/icons';
+import { GetApp } from '@material-ui/icons';
 
 import { format } from 'date-fns';
 
@@ -187,19 +187,17 @@ export default function ListTaxpayer() {
                             const state = Address.state ? Address.state : '';
                             const number = Address.number ? Address.number : '';
 
-                            return <>
-                                <tr key={el.id}>
-                                    <td>{index + 1}</td>
-                                    <td>{el.name}</td>
-                                    <td>{format(new Date(el.birth), 'dd/MM/yyyy')}</td>
-                                    <td>{cep}, {street}, {complement}, {number}, {district}, {city}-{state}</td>
-                                    <td>{el.phone1}</td>
-                                    <td>{el.phone1}</td>
-                                    <td>{el.email}</td>
-                                    <td>R$ {Payment.value}</td>
-                                    <td>{Payment.expiration}</td>
-                                </tr>
-                            </>
+                            return <tr key={el.id}>
+                                <td>{index + 1}</td>
+                                <td>{el.name}</td>
+                                <td>{format(new Date(el.birth), 'dd/MM/yyyy')}</td>
+                                <td>{cep}, {street}, {complement}, {number}, {district}, {city}-{state}</td>
+                                <td>{el.phone1}</td>
+                                <td>{el.phone1}</td>
+                                <td>{el.email}</td>
+                                <td>R$ {Payment.value}</td>
+                                <td>{Payment.expiration}</td>
+                            </tr>
                         })}
                     </tbody>
                 </table>

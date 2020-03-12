@@ -56,11 +56,6 @@ export default function DonationByDate() {
 
     const series1 = registerOpt;
 
-    useEffect(() => {
-        console.log(typeIn);
-
-    }, [typeIn]);
-
     async function handleSearch() {
         setLoading(true);
 
@@ -112,15 +107,15 @@ export default function DonationByDate() {
             switch (element.type) {
                 case 'don':
                     arrayValue[0].data[0] += element.value;
-                    setTotalIn(totalIn + element.value);
+                    setTotalIn((totalIn + element.value).toFixed(2));
                     break;
                 case 'in':
                     arrayValue[1].data[0] += element.value;
-                    setTotalIn(totalIn + element.value);
+                    setTotalIn((totalIn + element.value).toFixed(2));
                     break;
                 case 'out':
                     arrayValue[2].data[1] += element.value;
-                    setTotalOut(totalOut + element.value);
+                    setTotalOut((totalOut + element.value).toFixed(2));
                     break;
 
                 default:

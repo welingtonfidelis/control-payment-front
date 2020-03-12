@@ -18,7 +18,7 @@ export default function ReportDonation({ receives, startDate, endDate }) {
     let totalIn = 0, totalOut = 0;
     const MyDocument = () => (
         <Document>
-            <Page style={styles.page}>
+            <Page style={styles().page}>
                 <View style={styles().divTitle}>
                     <Image
                         src={ImageLogo}
@@ -47,7 +47,7 @@ export default function ReportDonation({ receives, startDate, endDate }) {
 
                     {receives.map((el, index) => {
                         const { value, paidIn, description, type } = el;
-                        
+
                         let typeDsc = '';
                         switch (type) {
                             case 'in':
@@ -70,7 +70,7 @@ export default function ReportDonation({ receives, startDate, endDate }) {
                         }
 
                         return (
-                            <View key={el.id} style={styles().tableRow}>
+                            <View key={typeDsc + el.id} style={styles().tableRow}>
                                 <View style={styles(null, index).tableColCount}>
                                     <Text style={styles(null, index).tableCell}>{index + 1}</Text>
                                 </View>

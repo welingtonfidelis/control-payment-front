@@ -66,7 +66,7 @@ export default function DonationByDate() {
                     tmp += el.value;
                 });
 
-                setTotalDonation(tmp);
+                setTotalDonation(tmp.toFixed(2));
                 setDonations(response);
             }
             else {
@@ -84,14 +84,16 @@ export default function DonationByDate() {
     }, [donations, typeGroup]);
 
     function handleBuildData() {
-        const arrayValue = [], arrayPaidIn = [], arrayCtrl = {},
+        let arrayValue = [], arrayPaidIn = [], arrayCtrl = {},
             dtFormat = typeGroup ? 'MMMM - yyyy' : 'dd/MM/yyyy';
         let index = 0;
 
         donations.forEach(element => {
             const paidIn = format(new Date(element.paidIn), dtFormat);
             if (arrayCtrl[paidIn]) {
-                arrayValue[arrayCtrl[paidIn].index] += element.value;
+                const A = arrayValue[arrayCtrl[paidIn].index] + element.value;
+
+                arrayValue[arrayCtrl[paidIn].index] = parseFloat((A).toFixed(2));
             }
             else {
                 arrayCtrl[paidIn] = { index };

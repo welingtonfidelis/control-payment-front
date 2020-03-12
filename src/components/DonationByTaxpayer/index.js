@@ -193,30 +193,28 @@ export default function DonationByTaxpayer() {
             <ul className="simple-list-3">
                 {donations.map(el => {
                     const { donation } = el;
-                    return <>
-                        <li key={el.id}>
-                            <div className="flex-row-w">
-                                <div className="image-profile-mini">
-                                    <img src={ImageProfile} alt="Foto perfil" />
-                                </div>
-
-                                <div className="simple-info-1">
-                                    <h2>{el.name}</h2>
-                                </div>
+                    return <li key={el.id}>
+                        <div className="flex-row-w">
+                            <div className="image-profile-mini">
+                                <img src={ImageProfile} alt="Foto perfil" />
                             </div>
 
-                            <div className="simple-list-3-container">
-                                {donation.map(elem => {
-                                    return <div key={(elem.id)} className="simple-list-3-content">
-                                        <div style={{ flex: 1 }}>{elem.paidIn}</div>
-                                        <div style={{ flex: 1 }}>R${elem.value}</div>
-                                        <div style={{ flex: 2 }}>{elem.observation}</div>
-                                    </div>
-                                })}
+                            <div className="simple-info-1">
+                                <h2>{el.name}</h2>
                             </div>
+                        </div>
 
-                        </li>
-                    </>
+                        <div className="simple-list-3-container">
+                            {donation.map(elem => {
+                                return <div key={(elem.id)} className="simple-list-3-content">
+                                    <div style={{ flex: 1 }}>{elem.paidIn}</div>
+                                    <div style={{ flex: 1 }}>R${elem.value}</div>
+                                    <div style={{ flex: 2 }}>{elem.observation}</div>
+                                </div>
+                            })}
+                        </div>
+
+                    </li>
                 })}
             </ul>
         </>
