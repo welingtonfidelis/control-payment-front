@@ -14,7 +14,7 @@ export default function Load(props) {
           transitionDelay: loading ? '10ms' : '10ms',
         }}
       >
-        <LinearProgress variant="query" color="secondary" />
+        <LinearProgress color="secondary" />
       </Fade>
     </div>
   )
