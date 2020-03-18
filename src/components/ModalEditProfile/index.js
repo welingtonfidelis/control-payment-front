@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
-  Modal,
-  Backdrop,
-  Fade,
-  Tab,
-  AppBar,
-  Tabs,
-  Typography,
+  Modal, Backdrop, Fade,
+  Tab, AppBar, Tabs, Typography,
   Box
 } from "@material-ui/core/";
-import { Phone, Favorite, PersonPin } from "@material-ui/icons";
+import { AccountCircle, Home, Lock } from "@material-ui/icons";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker
@@ -88,6 +83,7 @@ export default function TransitionsModal() {
   const [emailCtrl, setEmailCtrl] = useState("");
   const [user, setUser] = useState("");
   const [userCtrl, setUserCtrl] = useState("");
+  const [oldPassword, setOldPassword] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [phone, setPhone] = useState("");
@@ -102,13 +98,14 @@ export default function TransitionsModal() {
   const [optState, setOptState] = useState([]);
   const [loading, setLoading] = useState(false);
   const [userId, setUserId] = useState(0);
-  const [isAdm, setIsAdm] = useState(false);
   const [addressId, setAddressId] = useState(0);
+  const [loadUserInfo, setLoadUserInfo] = useState(true);
 
   const token = localStorage.getItem("token");
 
   const handleOpen = () => {
     setOpen(true);
+    setLoadUserInfo(!loadUserInfo);
   };
 
   const handleClose = () => {
@@ -117,73 +114,75 @@ export default function TransitionsModal() {
 
   useEffect(() => {
     //recupera informações básicas para construir as opções nos inputs
+    async function getInfo() {
+      setLoading(true);
+
+      try {
+        let resp = await api.get("/address/state", {
+          headers: { token }
+        });
+
+        resp = resp.data;
+        let tmp = [];
+        resp.response.forEach(el => {
+          tmp.push({ value: el.code, label: el.name });
+        });
+        setOptState(tmp);
+      } catch (error) {
+        console.log(error);
+      }
+      setLoading(false);
+    };
+
     getInfo();
-    getUser();
   }, []);
 
-  async function getInfo() {
-    setLoading(true);
-
-    try {
-      let resp = await api.get("/address/state", {
-        headers: { token }
-      });
-
-      resp = resp.data;
-      let tmp = [];
-      resp.response.forEach(el => {
-        tmp.push({ value: el.code, label: el.name });
-      });
-      setOptState(tmp);
-    } catch (error) {
-      console.log(error);
-    }
-    setLoading(false);
-  }
-
-  async function getUser() {
-    setLoading(true);
-    try {
-      let resp = await api.get(`/user/bytoken`, {
-        headers: { token }
-      });
-
-      resp = resp.data;
-
-      if (resp.status) {
-        const { response } = resp;
-        const { Address } = response;
-
-        console.log(response);
-
-        setUserId(response.id);
-        setName(response.name);
-        setBirth(new Date(response.birth));
-        setEmail(response.email);
-        setEmailCtrl(response.email);
-        setPhone(response.phone);
-        setUser(response.user);
-        setUserCtrl(response.user);
-        setIsAdm(response.isAdm);
-
-        setAddressId(Address.id);
-        setCep(Address.cep ? Address.cep : "");
-        setStreet(Address.street ? Address.street : "");
-        setNumber(Address.number ? Address.number : "");
-        setComplement(Address.complement ? Address.complement : "");
-        setDistrict(Address.district ? Address.district : "");
-        setCity(Address.city ? Address.city : "");
-        setState(
-          Address.state ? { value: Address.state, label: Address.state } : ""
-        );
-      } else {
-        Swal.swalErrorInform();
+  useEffect(() => {
+    //recupera informações do usuário
+    async function getUser() {
+      setLoading(true);
+      try {
+        let resp = await api.get(`/user/bytoken`, {
+          headers: { token }
+        });
+  
+        resp = resp.data;
+  
+        if (resp.status) {
+          const { response } = resp;
+          const { Address } = response;
+  
+          setUserId(response.id);
+          setName(response.name);
+          setBirth(new Date(response.birth));
+          setEmail(response.email);
+          setEmailCtrl(response.email);
+          setPhone(response.phone);
+          setUser(response.user);
+          setUserCtrl(response.user);
+  
+          setAddressId(Address.id);
+          setCep(Address.cep ? Address.cep : "");
+          setStreet(Address.street ? Address.street : "");
+          setNumber(Address.number ? Address.number : "");
+          setComplement(Address.complement ? Address.complement : "");
+          setDistrict(Address.district ? Address.district : "");
+          setCity(Address.city ? Address.city : "");
+          setState(
+            Address.state ? { value: Address.state, label: Address.state } : ""
+          );
+        } else {
+          Swal.swalErrorInform();
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
-    setLoading(false);
-  }
+      setLoading(false);
+    };
+
+    getUser();
+  }, [loadUserInfo]);
+
 
   async function handleSaveUser(event) {
     event.preventDefault();
@@ -200,15 +199,93 @@ export default function TransitionsModal() {
 
       if (query.data.status) {
         Swal.swalInform();
-      }
-      else errorDisplay();
-
+      } else errorDisplay();
     } catch (error) {
       errorDisplay();
       console.log(error);
     }
 
     setLoading(false);
+  }
+
+  async function handleSaveAddress(event) {
+    event.preventDefault();
+    setLoading(true);
+
+    const stateTmp = state.value;
+    const data = {
+      address: {
+        id: addressId,
+        cep,
+        street,
+        number,
+        complement,
+        district,
+        city,
+        state: stateTmp
+      },
+      returnInf: true
+    };
+
+    try {
+      const query = await api.put("/address", data, {
+        headers: { token }
+      });
+
+      if (query.data.status) {
+        Swal.swalInform();
+      } else errorDisplay();
+    } catch (error) {
+      errorDisplay();
+      console.log(error);
+    }
+
+    setLoading(false);
+  }
+
+  async function handleSaveLoginInfo(event, type = null) {
+    event.preventDefault();
+
+    if (oldPassword === "") {
+      const userName = localStorage.getItem('userName');
+      Swal.swalErrorInform(userName, "É necessário inserir sua senha atual");
+    } else {
+      let data = {};
+      switch (type) {
+        case 1:
+          data = { oldPassword, user };
+          break;
+
+        case 2:
+          data = { oldPassword, password };
+          break;
+
+        default:
+          break;
+      }
+
+      setLoading(true);
+
+      try {
+        const query = await api.put("/user/login", data, {
+          headers: { token }
+        });
+
+        if (query.data.status) {
+          Swal.swalInform();
+          setOldPassword('');
+          setPassword('');
+          setPasswordConfirm('');
+        }
+        else errorDisplay();
+
+      } catch (error) {
+        errorDisplay();
+        console.log(error);
+      }
+
+      setLoading(false);
+    }
   }
 
   async function handleCheckUser() {
@@ -336,14 +413,14 @@ export default function TransitionsModal() {
                 scrollButtons="off"
                 aria-label="scrollable prevent tabs example"
               >
-                <Tab icon={<Phone />} aria-label="phone" {...a11yProps(0)} />
+                <Tab icon={<AccountCircle />} aria-label="phone" {...a11yProps(0)} />
                 <Tab
-                  icon={<Favorite />}
+                  icon={<Home />}
                   aria-label="favorite"
                   {...a11yProps(1)}
                 />
                 <Tab
-                  icon={<PersonPin />}
+                  icon={<Lock />}
                   aria-label="person"
                   {...a11yProps(2)}
                 />
@@ -357,7 +434,7 @@ export default function TransitionsModal() {
                 alt="Foto perfil"
               />
 
-              <div className="flex-col-h" style={{ flex: 1 }}>
+              <form onSubmit={handleSaveUser} className="flex-col-h">
                 <label htmlFor="birth">Data de nascimento *</label>
                 <div className="keyboardpicker-modal-taxpayer">
                   <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBR}>
@@ -373,8 +450,6 @@ export default function TransitionsModal() {
                     />
                   </MuiPickersUtilsProvider>
                 </div>
-              </div>
-              <div className="flex-col-h" style={{ flex: 3 }}>
                 <label htmlFor="name">Nome *</label>
                 <input
                   required
@@ -383,9 +458,7 @@ export default function TransitionsModal() {
                   value={name}
                   onChange={event => setName(event.target.value)}
                 />
-              </div>
 
-              <div className="flex-col-h">
                 <label htmlFor="email">E-Mail *</label>
                 <input
                   required
@@ -397,8 +470,7 @@ export default function TransitionsModal() {
                   onChange={event => setEmail(event.target.value)}
                   onBlur={handleCheckEmail}
                 />
-              </div>
-              <div className="flex-col-h">
+
                 <label htmlFor="phone">Celular *</label>
                 <NumberFormat
                   required
@@ -410,193 +482,187 @@ export default function TransitionsModal() {
                   title="Telefone com no 9 dígitos."
                   mask="_"
                 />
-              </div>
 
-              <div className="flex-row-w">
-                <button
-                  type="button"
-                  onClick={handleClose}
-                  className="btn-cancel"
-                >
-                  CANCELAR
-                </button>
-                <button
-                  type="button"
-                  onClick={handleSaveUser}
-                  className="btn-ok"
-                >
-                  SALVAR
-                </button>
-              </div>
+                <div className="flex-row-w">
+                  <button
+                    type="button"
+                    onClick={handleClose}
+                    className="btn-cancel"
+                  >
+                    CANCELAR
+                  </button>
+                  <button type="submit" className="btn-ok">
+                    SALVAR
+                  </button>
+                </div>
+              </form>
             </TabPanel>
             <TabPanel value={value} index={1}>
-              Item Two
+              <form
+                id="profile-user-info"
+                className="flex-col-h"
+                onSubmit={handleSaveAddress}
+              >
+                <label htmlFor="cep">CEP</label>
+                <NumberFormat
+                  id="cep"
+                  value={cep}
+                  onChange={event => setCep(event.target.value)}
+                  format="########"
+                  placeholder="00000000"
+                  title="Cep do usuário"
+                  mask="_"
+                  onBlur={handleCep}
+                />
+
+                <label htmlFor="street">Rua</label>
+                <input
+                  id="street"
+                  placeholder="Rua"
+                  value={street}
+                  onChange={event => setStreet(event.target.value)}
+                />
+
+                <label htmlFor="number">Número</label>
+                <input
+                  type="number"
+                  id="number"
+                  placeholder="Número"
+                  value={number}
+                  onChange={event => setNumber(event.target.value)}
+                />
+
+                <label htmlFor="complement">Complemento</label>
+                <input
+                  id="complement"
+                  placeholder="Complemento"
+                  value={complement}
+                  onChange={event => setComplement(event.target.value)}
+                />
+
+                <label htmlFor="district">Bairro</label>
+                <input
+                  id="district"
+                  placeholder="Bairro"
+                  value={district}
+                  onChange={event => setDistrict(event.target.value)}
+                />
+
+                <div className="flex-row-w">
+                  <div className="flex-col-h" style={{ flex: 2 }}>
+                    <label htmlFor="city">Cidade</label>
+                    <input
+                      id="city"
+                      placeholder="Cidade"
+                      value={city}
+                      onChange={event => setCity(event.target.value)}
+                    />
+                  </div>
+                  <div className="flex-col-h" style={{ flex: 1 }}>
+                    <label htmlFor="state">Estado</label>
+                    <Select
+                      className="select-default"
+                      placeholder="Escolha um estado"
+                      value={state}
+                      onChange={event => setState(event)}
+                      options={optState}
+                    />
+                  </div>
+                </div>
+
+                <div className="flex-row-w">
+                  <button
+                    type="button"
+                    onClick={handleClose}
+                    className="btn-cancel"
+                  >
+                    CANCELAR
+                  </button>
+                  <button type="submit" className="btn-ok">
+                    SALVAR
+                  </button>
+                </div>
+              </form>
             </TabPanel>
             <TabPanel value={value} index={2}>
-              Item Three
+              <div className="flex-col-h">
+                <label htmlFor="oldPassword">Senha Atual*</label>
+                <input
+                  required
+                  pattern=".{8,}"
+                  id="oldPassword"
+                  type="password"
+                  placeholder="Senha do usuário"
+                  title="A senha deve conter no mínimo 8 caracteres."
+                  value={oldPassword}
+                  onChange={event => setOldPassword(event.target.value)}
+                />
+
+                <label htmlFor="user">Usuário *</label>
+                <form
+                  id="profile-user-info"
+                  className="flex-row-w"
+                  onSubmit={event => {
+                    handleSaveLoginInfo(event, 1);
+                  }}
+                >
+                  <input
+                    required
+                    id="user"
+                    placeholder="Usuário"
+                    title="Usuário deve ser único no sistema."
+                    value={user}
+                    onChange={event => setUser(event.target.value)}
+                    onBlur={handleCheckUser}
+                  />
+
+                  <button type="submit" className="btn-ok">
+                    SALVAR
+                  </button>
+                </form>
+
+                <form
+                  id="profile-user-info"
+                  onSubmit={event => {
+                    handleSaveLoginInfo(event, 2);
+                  }}
+                  className="flex-col-h"
+                >
+                  <label htmlFor="password">Nova senha *</label>
+                  <input
+                    required
+                    pattern=".{8,}"
+                    id="password"
+                    type="password"
+                    placeholder="Senha do usuário"
+                    title="A senha deve conter no mínimo 8 caracteres."
+                    value={password}
+                    onChange={event => setPassword(event.target.value)}
+                  />
+
+                  <label htmlFor="passwordConfirm">
+                    Confirmar nova senha *
+                  </label>
+                  <div className="flex-row-w">
+                    <input
+                      required
+                      id="passwordConfirm"
+                      type="password"
+                      placeholder="Confirmar senha"
+                      title="Repita a senha anterior."
+                      value={passwordConfirm}
+                      onChange={event => setPasswordConfirm(event.target.value)}
+                      onBlur={handleCheckConfirmPassword}
+                    />
+
+                    <button type="submit" className="btn-ok">
+                      SALVAR
+                    </button>
+                  </div>
+                </form>
+              </div>
             </TabPanel>
           </div>
-
-          {/* <div className="content">
-                        <Load id="divLoading" loading={loading} />
-
-                        <form className="flex-col-h modal-form" autoComplete="off" onSubmit={handleSubmit}>
-                            <h1 className="title-modal">PERFIL</h1>
-
-                            <img className="image-profile-large" src={ImageProfile} alt="Foto perfil" />
-
-                            <div className="flex-row-w">
-                                <div className="flex-col-h">
-                                    <div className="flex-row-w">
-                                        <div className="flex-col-h" style={{ flex: 3 }}>
-                                            <label htmlFor="name">Nome *</label>
-                                            <input
-                                                required
-                                                id="name"
-                                                placeholder="Nome do usuário"
-                                                value={name}
-                                                onChange={event => setName(event.target.value)}
-                                            />
-                                        </div>
-                                        <div className="flex-col-h" style={{ flex: 1 }}>
-                                            <label htmlFor="birth">Data de nascimento *</label>
-                                            <div className="keyboardpicker-modal-taxpayer">
-                                                <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBR}>
-                                                    <KeyboardDatePicker
-                                                        className="nomargin-datepicker"
-
-                                                        format="dd/MM/yyyy"
-                                                        value={birth}
-                                                        onChange={date => setBirth(date)}
-                                                        KeyboardButtonProps={{
-                                                            'aria-label': 'change date',
-                                                        }}
-                                                        cancelLabel="SAIR"
-                                                    />
-                                                </MuiPickersUtilsProvider>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="flex-row-w">
-                                        <div className="flex-col-h">
-                                            <label htmlFor="email">E-Mail *</label>
-                                            <input
-                                                required
-                                                type="email"
-                                                id="email"
-                                                placeholder="E-mail do usuário"
-                                                title="E-mail deve ser único no sistema."
-                                                value={email}
-                                                onChange={event => setEmail(event.target.value)}
-                                                onBlur={handleCheckEmail}
-                                            />
-                                        </div>
-                                        <div className="flex-col-h">
-                                            <label htmlFor="phone">Celular *</label>
-                                            <NumberFormat
-                                                required
-                                                id="phone"
-                                                value={phone}
-                                                onChange={event => setPhone(event.target.value)}
-                                                format="(##) # ####-####"
-                                                placeholder="(00) 9 0000-0000"
-                                                title="Telefone com no 9 dígitos."
-                                                mask="_"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="flex-row-w">
-                                <div className="flex-col-h">
-                                    <div className="flex-row-w">
-                                        <div className="flex-col-h">
-                                            <label htmlFor="cep">CEP</label>
-                                            <NumberFormat
-                                                id="cep"
-                                                value={cep}
-                                                onChange={event => setCep(event.target.value)}
-                                                format="########"
-                                                placeholder="00000000"
-                                                title="Cep do usuário"
-                                                mask="_"
-                                                onBlur={handleCep}
-                                            />
-                                        </div>
-                                        <div className="flex-col-h">
-                                            <label htmlFor="street">Rua</label>
-                                            <input
-                                                id="street"
-                                                placeholder="Rua"
-                                                value={street}
-                                                onChange={event => setStreet(event.target.value)}
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div className="flex-row-w">
-                                        <div className="flex-col-h">
-                                            <label htmlFor="number">Número</label>
-                                            <input
-                                                type="number"
-                                                id="number"
-                                                placeholder="Número"
-                                                value={number}
-                                                onChange={event => setNumber(event.target.value)}
-                                            />
-                                        </div>
-                                        <div className="flex-col-h">
-                                            <label htmlFor="complement">Complemento</label>
-                                            <input
-                                                id="complement"
-                                                placeholder="Complemento"
-                                                value={complement}
-                                                onChange={event => setComplement(event.target.value)}
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div className="flex-row-w">
-                                        <div className="flex-col-h">
-                                            <label htmlFor="district">Bairro</label>
-                                            <input
-                                                id="district"
-                                                placeholder="Bairro"
-                                                value={district}
-                                                onChange={event => setDistrict(event.target.value)}
-                                            />
-
-                                        </div>
-                                        <div className="flex-col-h">
-                                            <label htmlFor="city">Cidade</label>
-                                            <input
-                                                id="city"
-                                                placeholder="Cidade"
-                                                value={city}
-                                                onChange={event => setCity(event.target.value)}
-                                            />
-                                        </div>
-                                        <div className="flex-col-h">
-                                            <label htmlFor="state">Estado</label>
-                                            <Select
-                                                className="select-default"
-                                                placeholder="Escolha um estado"
-                                                value={state}
-                                                onChange={event => setState(event)}
-                                                options={optState}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="flex-row-w modal-form-btn">
-                                <button type="submit" className="btn-ok">SALVAR</button>
-                            </div>
-                        </form>
-                    </div> */}
         </Fade>
       </Modal>
     </div>
