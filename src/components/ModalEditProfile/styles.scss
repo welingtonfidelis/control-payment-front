@@ -1,0 +1,36 @@
+.edit-profile-img:hover {
+  cursor: pointer;
+}
+
+.modal-profile-content {
+  width: 50%;
+  height: 65%;
+  background: #fff;
+  overflow: auto;
+}
+
+@media only screen and (max-width: 600px) {
+  .modal-profile-content {
+    width: 90% !important;
+    height: 80% !important;
+  }
+}
+
+.MuiTabs-flexContainer {
+  justify-content: center;
+}
+
+.modal-profile-tab1 > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#profile-user-info input {
+  flex: 2;
+}
+
+#profile-user-info button {
+  flex: 1;
+  margin: 10px 10px 0 0;
+}

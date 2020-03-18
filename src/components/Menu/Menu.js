@@ -11,6 +11,8 @@ import {
     Storefront, TrendingUp, AttachMoney
 } from '@material-ui/icons';
 
+import ModalEditProfile from '../ModalEditProfile/index';
+
 import { isAdministrator } from '../../services/auth';
 import Swal from '../SweetAlert/SwetAlert';
 
@@ -85,9 +87,9 @@ function Menu({ container, page }) {
         setComponent(selected[selected.length - 1]);
 
         //se usuário não for do tipo ADM, retira-se algumas opções de acesso
-        if(!isAdministrator()){
+        if (!isAdministrator()) {
             const admPermit = 'Usuário Relatório';
-            const tmp = menuOptions.filter(el =>{
+            const tmp = menuOptions.filter(el => {
                 return ((admPermit).indexOf(el.text) == -1);
             });
             setMenuOptions(tmp);
@@ -95,7 +97,7 @@ function Menu({ container, page }) {
     }, []);
 
     useEffect(() => {
-        setTitleToolbar(component);    
+        setTitleToolbar(component);
 
         switch (component) {
             case 'Dashboard':
@@ -182,7 +184,8 @@ function Menu({ container, page }) {
             <footer>
                 <div className="content-footer">
                     <div id="image-profile">
-                        <img src={ImageProfile} alt="Foto perfil" />
+                        {/* <img src={ImageProfile} alt="Foto perfil" /> */}
+                        <ModalEditProfile />
                         <div id="name-profile">
                             {userName}
                         </div>
