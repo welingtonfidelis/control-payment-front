@@ -90,7 +90,7 @@ export default function Receive({ receives }) {
     //canhoto do pdf
     const CopyOngPdf = ({ rec }) => {
         const { Address, Payment, Ong } = rec;
-        const { street, number, district } = Address;
+        const { street, number, district, complement } = Address;
         const { value } = Payment;
 
         if (receiveCopy) {
@@ -109,7 +109,7 @@ export default function Receive({ receives }) {
                             Recebi de {rec.name}, a quantia de {util.maskValue(value)}, 
                             referente à contribuição do mês de {month}.
                         </Text>
-                        <Text>Endereço: {street}, {number}, {district}.</Text>
+                        <Text>Endereço: {street}, {number}, {complement}, {district}.</Text>
                     </View>
 
                     <View style={styles.footer}>
@@ -130,7 +130,7 @@ export default function Receive({ receives }) {
             <Page style={styles.page}>
                 {receives.map((rec, index) => {
                     const { Address, Payment, Ong } = rec;
-                    const { street, number, district } = Address;
+                    const { street, number, district, complement } = Address;
                     const { value } = Payment;
                     const hourStart = format(new Date(Payment.hourStart), "HH:mm");
                     const hourEnd = format(new Date(Payment.hourEnd), "HH:mm");
@@ -175,7 +175,7 @@ export default function Receive({ receives }) {
                                         {util.maskValue(value)}, referente à contribuição do mês
                                         de {month}.
                                     </Text>
-                                    <Text>Endereço: {street}, {number}, {district}.</Text>
+                                    <Text>Endereço: {street}, {number}, {complement},  {district}.</Text>
                                 </View>
 
                                 <View style={styles.footer}>
@@ -228,7 +228,7 @@ export default function Receive({ receives }) {
             <ul className={"simple-list-2"} id="printme">
                 {receives.map(rec => {
                     const { Address, Payment, Ong } = rec;
-                    const { street, number, district } = Address;
+                    const { street, number, district, complement } = Address;
                     const { value } = Payment;
                     const hourStart = format(new Date(Payment.hourStart), "HH:mm");
                     const hourEnd = format(new Date(Payment.hourEnd), "HH:mm");
@@ -258,7 +258,7 @@ export default function Receive({ receives }) {
                                 <p>Recebi de <strong>{rec.name}</strong>, a quantia de
                                  <strong> {util.maskValue(value)}</strong>, referente à contribuição do mês
                                 de <strong> {month}</strong>.</p>
-                                <p>Endereço: <strong>{street}, {number}, {district}</strong>.</p>
+                                <p>Endereço: <strong>{street}, {number}, {complement}, {district}</strong>.</p>
                             </div>
 
                             <div className="receive-footer">
@@ -287,7 +287,7 @@ export default function Receive({ receives }) {
                                 <p>Recebi de <strong>{rec.name}</strong>, a quantia de
                                  <strong> {util.maskValue(value)}</strong>, referente à contribuição do mês
                                 de <strong> {month}</strong>.</p>
-                                <p>Endereço: <strong>{street}, {number}, {district}</strong>.</p>
+                                <p>Endereço: <strong>{street}, {number}, {complement}, {district}</strong>.</p>
                             </div>
 
                             <div className="receive-footer">
