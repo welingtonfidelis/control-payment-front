@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import MenuDrop from '../../components/MenuDropDown/OptionList';
 
 import api from '../../services/api';
+import util from '../../services/util';
 import Load from '../../components/Load/Load';
 import Swal from '../../components/SweetAlert/SwetAlert';
 
@@ -113,7 +114,7 @@ export default function Donation() {
                         <div className="simple-info-1">
                             <h2>{Taxpayer.name}</h2>
                             <span>
-                                R$ {donation.value} - 
+                                {util.maskValue(donation.value)} - 
                                  {format(today, 'dd/MM/yyyy')}
                             </span>
                         </div>

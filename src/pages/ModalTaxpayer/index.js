@@ -269,7 +269,7 @@ export default function ModalUser(props) {
                   <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBR}>
                     <KeyboardDatePicker
                       className="nomargin-datepicker"
-                      
+
                       format="dd/MM/yyyy"
                       value={birth}
                       onChange={date => setBirth(date)}
@@ -299,37 +299,26 @@ export default function ModalUser(props) {
               </div>
               <div className="flex-col-h">
                 <label htmlFor="phone1">Telefone 1 *</label>
-                <NumberFormat 
+                <NumberFormat
                   required
                   id="phone1"
                   value={phone1}
                   onChange={event => setPhone1(event.target.value)}
-                  format="(##) # ####-####" 
+                  format="(##) # ####-####"
                   placeholder="(00) 9 0000-0000"
                   title="Telefone com no 9 dígitos."
                   mask="_"
                 />
 
-                {/* <input
-                  required
-                  type="text"
-                  pattern="\d*"
-                  minLength="9"
-                  id="phone1"
-                  placeholder="Celular do contribuinte"
-                  title="Telefone com no mínimo 9 dígitos."
-                  value={phone1}
-                  onChange={event => setPhone1(event.target.value)}
-                /> */}
               </div>
               <div className="flex-col-h">
                 <label htmlFor="phone2">Telefone 2 *</label>
-                <NumberFormat 
+                <NumberFormat
                   required
                   id="phone2"
                   value={phone2}
                   onChange={event => setPhone2(event.target.value)}
-                  format="(##) # ####-####" 
+                  format="(##) # ####-####"
                   placeholder="(00) 9 0000-0000"
                   title="Telefone com no 9 dígitos."
                   mask="_"
@@ -344,11 +333,11 @@ export default function ModalUser(props) {
             <div className="flex-row-w">
               <div className="flex-col-h">
                 <label htmlFor="cep">CEP</label>
-                <NumberFormat 
+                <NumberFormat
                   id="cep"
                   value={cep}
                   onChange={event => setCep(event.target.value)}
-                  format="########" 
+                  format="########"
                   placeholder="00000000"
                   title="Cep do contribuinte"
                   mask="_"

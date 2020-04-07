@@ -9,5 +9,8 @@ export default {
     } catch (error) {
       console.log(error);
     }
+  },
+  maskValue(value){
+    return Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
   }
 }

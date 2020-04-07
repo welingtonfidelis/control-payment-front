@@ -4,12 +4,13 @@ import { ptBR } from 'date-fns/locale'
 import {
     PDFDownloadLink, Image,
     Page, Text, View, Document,
-    StyleSheet
+    StyleSheet, PDFViewer
 } from '@react-pdf/renderer';
 import { GetApp } from '@material-ui/icons';
 import Switch from 'react-switch';
 
 import './styles.scss';
+import util from '../../services/util';
 
 export default function Receive({ receives }) {
     const ImageLogo = `${process.env.PUBLIC_URL}/${localStorage.getItem('logoOng')}`;
@@ -19,7 +20,7 @@ export default function Receive({ receives }) {
 
     const styles = StyleSheet.create({
         page: {
-            padding: 10,
+            paddingHorizontal: 5,
             fontFamily: 'Times-Roman'
         },
         body: {
@@ -105,10 +106,9 @@ export default function Receive({ receives }) {
                     <View style={styles.content}>
                         <Text style={styles.h1}>RECIBO</Text>
                         <Text>
-                            Recebi de {rec.name}, a quantia de
-                                            R$ {value}, referente à contribuição do mês
-                                            de {month}.
-                                        </Text>
+                            Recebi de {rec.name}, a quantia de {util.maskValue(value)}, 
+                            referente à contribuição do mês de {month}.
+                        </Text>
                         <Text>Endereço: {street}, {number}, {district}.</Text>
                     </View>
 
@@ -163,8 +163,8 @@ export default function Receive({ receives }) {
                                         <Text>{municipallaw}</Text>
                                         <Text>{statelaw}</Text>
                                         <Text>{Ong.email}</Text>
-                                        <Text>{social1}</Text>
-                                        <Text>{social2}</Text>
+                                        {/* <Text>{social1}</Text> */}
+                                        {/* <Text>{social2}</Text> */}
                                     </View>
                                 </View>
 
@@ -172,7 +172,7 @@ export default function Receive({ receives }) {
                                     <Text style={styles.h1}>RECIBO</Text>
                                     <Text>
                                         Recebi de {rec.name}, a quantia de
-                                        R$ {value}, referente à contribuição do mês
+                                        {util.maskValue(value)}, referente à contribuição do mês
                                         de {month}.
                                     </Text>
                                     <Text>Endereço: {street}, {number}, {district}.</Text>
@@ -256,7 +256,7 @@ export default function Receive({ receives }) {
                             <div className="receive-content">
                                 <h3>RECIBO</h3>
                                 <p>Recebi de <strong>{rec.name}</strong>, a quantia de
-                                R$ <strong>{value}</strong>, referente à contribuição do mês
+                                 <strong> {util.maskValue(value)}</strong>, referente à contribuição do mês
                                 de <strong> {month}</strong>.</p>
                                 <p>Endereço: <strong>{street}, {number}, {district}</strong>.</p>
                             </div>
@@ -278,14 +278,14 @@ export default function Receive({ receives }) {
                                     <div>{municipallaw}</div>
                                     <div>{statelaw}</div>
                                     <strong>{Ong.email}</strong>
-                                    <p><strong>{social1}</strong></p>
-                                    <p><strong>{social2}</strong></p>
+                                    {/* <p><strong>{social1}</strong></p> */}
+                                    {/* <p><strong>{social2}</strong></p> */}
                                 </div>
                             </div>
                             <div className="receive-content">
                                 <h3>RECIBO</h3>
                                 <p>Recebi de <strong>{rec.name}</strong>, a quantia de
-                                R$ <strong>{value}</strong>, referente à contribuição do mês
+                                 <strong> {util.maskValue(value)}</strong>, referente à contribuição do mês
                                 de <strong> {month}</strong>.</p>
                                 <p>Endereço: <strong>{street}, {number}, {district}</strong>.</p>
                             </div>
