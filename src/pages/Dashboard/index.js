@@ -8,6 +8,7 @@ import './styles.scss';
 import api from '../../services/api';
 import Swal from '../../components/SweetAlert/SwetAlert';
 import Load from '../../components/Load/Load';
+import util from '../../services/util';
 
 export default function Dashboard() {
     const [donationDate, setDonationDate] = useState([]);
@@ -109,7 +110,7 @@ export default function Dashboard() {
                             </div>
                             <div className="flex-col col-right">
                                 <b style={{ color: alert }}>{format(expiration, 'dd-MM-yyyy')}</b>
-                                <b>R${pay.Payment.value}</b>
+                                <b>{util.maskValue(pay.Payment.value)}</b>
                             </div>
                         </li>
                     })}

@@ -10,6 +10,7 @@ import Swal from '../../components/SweetAlert/SwetAlert';
 import './styles.scss';
 import ImageCashIn from '../../assets/images/cashregister_in.png';
 import ImageCashOut from '../../assets/images/cashregister_out.png';
+import util from '../../services/util';
 
 export default function Donation() {
     const history = useHistory();
@@ -27,7 +28,7 @@ export default function Donation() {
     useEffect(() => {
         if (filter !== '') {
             const filtred = listFull.filter((obj) => {
-                obj.search = 
+                obj.search =
                     + ' ' + (obj.description ? obj.description : '')
                     + ' ' + (obj.type ? obj.type : '')
                     + ' ' + (obj.value ? obj.value : '')
@@ -63,7 +64,7 @@ export default function Donation() {
             console.log(error);
         }
         setLoading(false);
-        
+
     }
 
     //abre modal para cadastro de novo usuário
@@ -72,13 +73,13 @@ export default function Donation() {
     }
 
     //recarrega lista de usuários quando há exclusão
-    function handleRefreshList(){
+    function handleRefreshList() {
         getCashRegisters();
     }
 
     return (
         <div className="content">
-            <Load  id="divLoading" loading={loading} />
+            <Load id="divLoading" loading={loading} />
 
             <div className="search-bar">
                 <input
@@ -101,24 +102,24 @@ export default function Donation() {
 
                     return <li key={cashregister.id} data-id={cashregister.id}>
                         <div className="image-cashregister-mini">
-                            <img 
-                            src={cashregister.type === 'in' ? 
-                                ImageCashIn : 
-                                ImageCashOut} 
-                                alt="Foto perfil" 
+                            <img
+                                src={cashregister.type === 'in' ?
+                                    ImageCashIn :
+                                    ImageCashOut}
+                                alt="Foto perfil"
                             />
                         </div>
 
                         <div className="simple-info-1">
                             <h2>{cashregister.description}</h2>
                             <span>
-                                R$ {cashregister.value} - 
-                                 {format(today, 'dd/MM/yyyy')}
+                                {util.maskValue(cashregister.value)}
+                                - {format(today, 'dd/MM/yyyy')}
                             </span>
                         </div>
 
                         <div>
-                            <MenuDrop type="cashregister" id={cashregister.id} refresh={handleRefreshList}/>
+                            <MenuDrop type="cashregister" id={cashregister.id} refresh={handleRefreshList} />
                         </div>
                     </li>
                 })}

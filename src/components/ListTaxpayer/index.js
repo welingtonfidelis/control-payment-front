@@ -8,6 +8,7 @@ import { GetApp } from '@material-ui/icons';
 import { format } from 'date-fns';
 
 import api from '../../services/api';
+import util from '../../services/util';
 import Load from '../Load/Load';
 import Swal from '../SweetAlert/SwetAlert';
 
@@ -124,7 +125,7 @@ export default function ListTaxpayer() {
                                     <Text style={styles().tableCell}>{el.email}</Text>
                                 </View>
                                 <View style={styles(8, index).tableCol}>
-                                    <Text style={styles().tableCell}>R$ {Payment.value}</Text>
+                                    <Text style={styles().tableCell}>{util.maskValue(Payment.value)}</Text>
                                 </View>
                                 <View style={styles(8, index).tableCol}>
                                     <Text style={styles().tableCell}>{Payment.expiration}</Text>
@@ -195,7 +196,7 @@ export default function ListTaxpayer() {
                                 <td>{el.phone1}</td>
                                 <td>{el.phone1}</td>
                                 <td>{el.email}</td>
-                                <td>R$ {Payment.value}</td>
+                                <td>{util.maskValue(Payment.value)}</td>
                                 <td>{Payment.expiration}</td>
                             </tr>
                         })}

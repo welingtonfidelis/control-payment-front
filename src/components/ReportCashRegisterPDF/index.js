@@ -8,6 +8,8 @@ import {
 } from '@react-pdf/renderer';
 import { GetApp } from '@material-ui/icons';
 
+import util from '../../services/util';
+
 import { styles } from '../../assets/css/pdf';
 
 export default function ReportDonation({ receives, startDate, endDate }) {
@@ -84,15 +86,15 @@ export default function ReportDonation({ receives, startDate, endDate }) {
                                     <Text style={styles().tableCell}>{description}</Text>
                                 </View>
                                 <View style={styles(4, index).tableCol}>
-                                    <Text style={styles().tableCell}>R$ {value}</Text>
+                                    <Text style={styles().tableCell}>{util.maskValue(value)}</Text>
                                 </View>
                             </View>
                         )
                     })}
                 </View>
                 <View style={styles().footer}>
-                    <Text>Total de entrada: R${totalIn}</Text>
-                    <Text>Total de saída: R${totalOut}</Text>
+                    <Text>Total de entrada: {util.maskValue(totalIn)}</Text>
+                    <Text>Total de saída: {util.maskValue(totalOut)}</Text>
                 </View>
             </Page>
         </Document>
