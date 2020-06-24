@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/control-payment-front/precache-manifest.a6c18dd8b5667652ea458141e9270120.js"
+  "/control-payment-front/precache-manifest.fb8ce6b7274abdb860bfd5c2b7d954f1.js"
 );
 
 self.addEventListener('message', (event) => {
