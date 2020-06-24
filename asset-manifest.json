@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/control-payment-front/static/css/main.94e44302.chunk.css",
+    "main.js": "/control-payment-front/static/js/main.b3f416e2.chunk.js",
+    "main.js.map": "/control-payment-front/static/js/main.b3f416e2.chunk.js.map",
+    "runtime-main.js": "/control-payment-front/static/js/runtime-main.cbde22fe.js",
+    "runtime-main.js.map": "/control-payment-front/static/js/runtime-main.cbde22fe.js.map",
+    "static/js/2.bba6a9ec.chunk.js": "/control-payment-front/static/js/2.bba6a9ec.chunk.js",
+    "static/js/2.bba6a9ec.chunk.js.map": "/control-payment-front/static/js/2.bba6a9ec.chunk.js.map",
+    "index.html": "/control-payment-front/index.html",
+    "precache-manifest.a6c18dd8b5667652ea458141e9270120.js": "/control-payment-front/precache-manifest.a6c18dd8b5667652ea458141e9270120.js",
+    "service-worker.js": "/control-payment-front/service-worker.js",
+    "static/css/main.94e44302.chunk.css.map": "/control-payment-front/static/css/main.94e44302.chunk.css.map",
+    "static/media/cashregister_in.png": "/control-payment-front/static/media/cashregister_in.9c8c5848.png",
+    "static/media/cashregister_out.png": "/control-payment-front/static/media/cashregister_out.24eb8f1a.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.cbde22fe.js",
+    "static/js/2.bba6a9ec.chunk.js",
+    "static/css/main.94e44302.chunk.css",
+    "static/js/main.b3f416e2.chunk.js"
+  ]
+}
