@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "4f62eac6dae54de803fe340a410ddf1b",
+    "revision": "87f674d2b878d161862553b672156868",
     "url": "/control-payment-front/index.html"
   },
   {
-    "revision": "9c999a048c0ae0775919",
+    "revision": "683403cd790014da60f6",
     "url": "/control-payment-front/static/css/main.310bc586.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/control-payment-front/static/js/2.7dc4c0dc.chunk.js"
   },
   {
-    "revision": "9c999a048c0ae0775919",
-    "url": "/control-payment-front/static/js/main.a42a4d84.chunk.js"
+    "revision": "683403cd790014da60f6",
+    "url": "/control-payment-front/static/js/main.4fd73008.chunk.js"
   },
   {
     "revision": "581688175e8fba6085ce",
