@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/control-payment-front/static/css/main.310bc586.chunk.css",
-    "main.js": "/control-payment-front/static/js/main.4fd73008.chunk.js",
-    "main.js.map": "/control-payment-front/static/js/main.4fd73008.chunk.js.map",
+    "main.js": "/control-payment-front/static/js/main.b221509f.chunk.js",
+    "main.js.map": "/control-payment-front/static/js/main.b221509f.chunk.js.map",
     "runtime-main.js": "/control-payment-front/static/js/runtime-main.cbde22fe.js",
     "runtime-main.js.map": "/control-payment-front/static/js/runtime-main.cbde22fe.js.map",
-    "static/js/2.7dc4c0dc.chunk.js": "/control-payment-front/static/js/2.7dc4c0dc.chunk.js",
-    "static/js/2.7dc4c0dc.chunk.js.map": "/control-payment-front/static/js/2.7dc4c0dc.chunk.js.map",
+    "static/js/2.e0cc18b4.chunk.js": "/control-payment-front/static/js/2.e0cc18b4.chunk.js",
+    "static/js/2.e0cc18b4.chunk.js.map": "/control-payment-front/static/js/2.e0cc18b4.chunk.js.map",
     "index.html": "/control-payment-front/index.html",
-    "precache-manifest.ea47d13e792a390e1a67b1a66380799b.js": "/control-payment-front/precache-manifest.ea47d13e792a390e1a67b1a66380799b.js",
+    "precache-manifest.53a3e6ddcaec348097a55e57e5526742.js": "/control-payment-front/precache-manifest.53a3e6ddcaec348097a55e57e5526742.js",
     "service-worker.js": "/control-payment-front/service-worker.js",
     "static/css/main.310bc586.chunk.css.map": "/control-payment-front/static/css/main.310bc586.chunk.css.map",
     "static/media/cashregister_in.png": "/control-payment-front/static/media/cashregister_in.9c8c5848.png",
@@ -16,8 +16,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.cbde22fe.js",
-    "static/js/2.7dc4c0dc.chunk.js",
+    "static/js/2.e0cc18b4.chunk.js",
     "static/css/main.310bc586.chunk.css",
-    "static/js/main.4fd73008.chunk.js"
+    "static/js/main.b221509f.chunk.js"
   ]
 }
